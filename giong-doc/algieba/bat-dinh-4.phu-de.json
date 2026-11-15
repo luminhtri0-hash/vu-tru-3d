@@ -1,0 +1,14 @@
+[
+{"t0": 0.0, "t1": 1.76, "chu": "Bây giờ dời cả trạng thái sang phải."},
+{"t0": 2.24, "t1": 4.84, "chu": "Đường xanh trượt theo,\ntâm của nó dịch đi một nanomét."},
+{"t0": 4.87, "t1": 6.6, "chu": "Còn đường vàng phía\ntrước vẫn đứng nguyên chỗ cũ,"},
+{"t0": 6.96, "t1": 8.18, "chu": "giữ nguyên hình dạng và giữ nguyên tâm."},
+{"t0": 8.82, "t1": 12.0, "chu": "Để kiểm cho chắc, ta so độ rộng động lượng\ntrước và sau khi dời."},
+{"t0": 12.04, "t1": 12.92, "chu": "Hai con số như nhau."},
+{"t0": 13.7, "t1": 16.0, "chu": "Các chấm mới được đo lại\nnên không trùng chỗ với chấm cũ,"},
+{"t0": 16.29, "t1": 17.64, "chu": "nhưng hình dạng phân bố thì không đổi."},
+{"t0": 18.46, "t1": 19.96, "chu": "Về mặt toán học, dời hàm sóng"},
+{"t0": 19.96, "t1": 22.42, "chu": "trong không gian chỉ nhân biên\nđộ động lượng với một thừa số pha."},
+{"t0": 22.91, "t1": 26.6, "chu": "Mật độ động lượng lấy bình phương độ lớn\ncủa biên độ, nên thừa số pha đó biến mất."},
+{"t0": 27.1, "t1": 30.28, "chu": "Biết electron ở đâu không cho ta biết gì\nthêm về việc nó đang chạy nhanh hay chậm."}
+]

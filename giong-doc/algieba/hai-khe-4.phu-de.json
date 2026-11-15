@@ -1,0 +1,14 @@
+[
+{"t0": 0.0, "t1": 2.08, "chu": "Vì sao có những chỗ trên màn gần\nnhư không hứng được hạt?"},
+{"t0": 2.55, "t1": 5.42, "chu": "Tại mỗi điểm trên màn,\nmỗi khe góp một biên độ xác suất."},
+{"t0": 5.64, "t1": 7.28, "chu": "Khi không phân biệt\nđược electron đi khe nào,"},
+{"t0": 7.48, "t1": 11.1, "chu": "ta cộng hai biên độ trước,\nrồi mới bình phương độ lớn để ra xác suất."},
+{"t0": 11.13, "t1": 13.14, "chu": "Hai biên độ bằng nhau\nvà cùng pha thì cộng lại thành lớn."},
+{"t0": 13.71, "t1": 15.86, "chu": "Lệch nhau nửa vòng thì triệt tiêu,\nvà chỗ đó tối."},
+{"t0": 16.83, "t1": 19.66, "chu": "Với cấu hình này, các vân sáng cách\nnhau không phẩy hai lăm mi-li-mét."},
+{"t0": 19.91, "t1": 23.66, "chu": "Đi từ tâm sang phải nửa khoảng đó,\ntức không phẩy một hai lăm mi-li-mét,"},
+{"t0": 23.78, "t1": 24.84, "chu": "ta tới nút tối đầu tiên."},
+{"t0": 25.33, "t1": 28.36, "chu": "Ở đó hiệu đường đi bằng nửa bước sóng,\nđộ lệch pha bằng pi."},
+{"t0": 29.0, "t1": 31.7, "chu": "Đầu đọc màu vàng đi dọc màn\ncho biết mật độ ở từng chỗ."},
+{"t0": 32.16, "t1": 35.56, "chu": "Lưu ý, nếu chỉ mở riêng một khe,\nđiểm này vẫn nhận được electron."}
+]

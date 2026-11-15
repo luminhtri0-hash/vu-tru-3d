@@ -1,0 +1,14 @@
+[
+{"t0": 0.0, "t1": 1.3, "chu": "Lần này ta đẩy phổ động lượng."},
+{"t0": 1.84, "t1": 4.2, "chu": "Nhân hàm sóng vị trí\nvới một pha tăng đều theo khoảng cách,"},
+{"t0": 4.54, "t1": 5.64, "chu": "cả đường vàng trượt sang bên."},
+{"t0": 6.1, "t1": 8.36, "chu": "Bề rộng vị trí không đổi,\nđường xanh nằm yên."},
+{"t0": 9.27, "t1": 12.78, "chu": "Khi tâm phổ động lượng dời đi,\ncả đường vàng dời theo: đỉnh đổi chỗ,"},
+{"t0": 13.11, "t1": 15.52, "chu": "còn hai mốc vàng đi\ntheo đỉnh mà không xa nhau thêm."},
+{"t0": 16.46, "t1": 19.84, "chu": "Đường xanh không đổi chút nào, vì mật độ\nvị trí không nhìn thấy pha tăng đều này."},
+{"t0": 20.37, "t1": 21.62, "chu": "Nhưng pha ấy vẫn có hậu quả thật."},
+{"t0": 22.32, "t1": 24.78, "chu": "Nó cho gói một vận tốc trung bình,\nbằng động lượng trung bình chia"},
+{"t0": 25.61, "t1": 27.96, "chu": "cho khối lượng, và gói sẽ trôi đi\nkhi ta cho thời gian chạy ở bước cuối."},
+{"t0": 28.91, "t1": 31.76, "chu": "Cũng lưu ý: tăng động lượng trung bình\nkhông làm tăng độ bất định động lượng."},
+{"t0": 32.24, "t1": 34.08, "chu": "Độ bất định chỉ đo độ lệch quanh tâm mới."}
+]

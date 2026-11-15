@@ -1,0 +1,19 @@
+[
+{"t0": 0.0, "t1": 1.88, "chu": "Giờ ta nhìn thẳng vào\nmặt phẳng chứa chùm tia."},
+{"t0": 2.36, "t1": 4.08, "chu": "Tia xanh sáng là tia đang xét."},
+{"t0": 4.33, "t1": 5.9, "chu": "Đường xám đứt nét là đường Newton tính,"},
+{"t0": 6.2, "t1": 8.34, "chu": "nếu coi ánh sáng\nlà viên đạn bay với tốc độ ánh sáng."},
+{"t0": 9.1, "t1": 11.36, "chu": "Đường mờ thẳng là đường đi\nnếu không có khối lượng."},
+{"t0": 11.92, "t1": 13.6, "chu": "Khi tia đi xa khối lượng, Einstein"},
+{"t0": 13.6, "t1": 16.38, "chu": "cho góc lệch bằng hai lần bán kính\nSchwarzschild chia cho khoảng ngắm."},
+{"t0": 16.83, "t1": 19.02, "chu": "Khoảng ngắm là khoảng cách\ntừ tâm tới đường bay ban đầu."},
+{"t0": 19.72, "t1": 21.0, "chu": "Newton chỉ cho đúng một nửa."},
+{"t0": 21.58, "t1": 24.94, "chu": "Với khoảng ngắm tám lần bán kính\nSchwarzschild, công thức cho mười bốn độ,"},
+{"t0": 25.25, "t1": 28.42, "chu": "mô hình tính chính xác được gần\nmười tám độ, còn Newton chỉ bảy độ."},
+{"t0": 28.95, "t1": 29.7, "chu": "Vì sao gấp đôi?"},
+{"t0": 30.15, "t1": 33.32, "chu": "Một nửa góc lệch đến từ thời gian cong,\nphần mà Newton cũng thấy."},
+{"t0": 33.86, "t1": 37.06, "chu": "Nửa kia đến từ không gian cong,\nthước đo dài ra gần khối lượng."},
+{"t0": 37.48, "t1": 38.94, "chu": "Vật chậm gần như không thấy nửa sau."},
+{"t0": 39.44, "t1": 41.82, "chu": "Ánh sáng thì đi trong không gian\nnhiều đúng bằng trong thời gian,"},
+{"t0": 42.21, "t1": 43.16, "chu": "nên nhận đủ cả hai."}
+]

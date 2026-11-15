@@ -1,0 +1,18 @@
+[
+{"t0": 0.0, "t1": 3.04, "chu": "Mỗi hạt rơi tự do đi theo một đường\ntrắc địa của không-thời gian."},
+{"t0": 3.56, "t1": 6.98, "chu": "Hai hạt cạnh nhau lúc đầu đứng yên\nvới nhau, nên hai đường trắc địa"},
+{"t0": 7.0, "t1": 8.04, "chu": "của chúng xuất phát song song."},
+{"t0": 8.6, "t1": 11.44, "chu": "Trong không-thời gian phẳng, hai đường\nthẳng song song giữ mãi khoảng cách."},
+{"t0": 11.98, "t1": 12.52, "chu": "Ở đây thì không."},
+{"t0": 13.29, "t1": 15.12, "chu": "Cặp ngang chụm lại, cặp dọc tách ra."},
+{"t0": 15.75, "t1": 17.14, "chu": "Đó đúng là dấu hiệu của độ cong,"},
+{"t0": 17.66, "t1": 20.64, "chu": "giống như hai kinh tuyến song song\nở xích đạo lại gặp nhau ở Bắc Cực."},
+{"t0": 20.97, "t1": 23.66, "chu": "Thuyết tương đối rộng viết điều này\nthành phương trình độ lệch trắc địa."},
+{"t0": 24.0, "t1": 27.48, "chu": "Gia tốc của véc-tơ nối hai hạt gần nhau\nđược quyết định bởi tenxơ Riemann,"},
+{"t0": 27.74, "t1": 28.56, "chu": "thứ đo độ cong."},
+{"t0": 28.96, "t1": 32.4, "chu": "Và phần tenxơ Riemann ấy chính\nlà ma trận kéo ép ta vừa thấy."},
+{"t0": 33.07, "t1": 36.52, "chu": "Nhiều người nghĩ rằng đổi sang khung rơi\ntự do thì mọi hiệu ứng trọng lực biến mất."},
+{"t0": 37.19, "t1": 38.28, "chu": "Chỉ phần đều biến mất thôi."},
+{"t0": 39.29, "t1": 41.34, "chu": "Phần chênh lệch giữa hai điểm\nthì không khung nào xoá được."},
+{"t0": 42.02, "t1": 44.24, "chu": "Trọng lực đều là do chọn khung,\ncòn độ cong là thật."}
+]

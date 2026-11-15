@@ -1,0 +1,15 @@
+[
+{"t0": 0.0, "t1": 0.84, "chu": "Ở giữa bàn là nguồn."},
+{"t0": 1.43, "t1": 3.8, "chu": "Mỗi lần phát,\nnó gửi hai hạt bay ngược chiều nhau,"},
+{"t0": 4.08, "t1": 7.0, "chu": "một về trạm Alice bên trái,\nmột về trạm Bob bên phải."},
+{"t0": 7.53, "t1": 10.42, "chu": "Hai hạt của cùng một cặp mang\ncùng một màu, để mắt dễ theo."},
+{"t0": 11.16, "t1": 14.66, "chu": "Cặp hạt ở trạng thái singlet:\ntổng spin của hai hạt bằng không."},
+{"t0": 14.68, "t1": 17.24, "chu": "Mỗi trạm là một nam châm Stern Gerlach."},
+{"t0": 17.49, "t1": 21.32, "chu": "Hạt đi qua lệch lên hoặc lệch xuống,\nlàm sáng đèn đỏ cam nếu ghi cộng một,"},
+{"t0": 21.32, "t1": 23.06, "chu": "đèn xanh nếu ghi trừ một."},
+{"t0": 23.32, "t1": 24.16, "chu": "Phía sau là sổ ghi."},
+{"t0": 25.09, "t1": 29.84, "chu": "Mỗi dòng là một lần phát, ghi trục và dấu\ncủa cả hai trạm, ghép theo số thứ tự."},
+{"t0": 31.06, "t1": 31.92, "chu": "Phải giữ số thứ tự này."},
+{"t0": 32.74, "t1": 33.66, "chu": "Nếu xáo trộn một cột,"},
+{"t0": 34.02, "t1": 37.66, "chu": "tỉ lệ dấu cộng mỗi bên vẫn y nguyên,\nnhưng sự ăn khớp theo từng cặp thì mất."}
+]

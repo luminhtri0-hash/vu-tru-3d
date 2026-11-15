@@ -1,0 +1,7 @@
+node_modules
+dist/
+Dữ liệu làm việc/
+Bản cũ/
+.DS_Store
+*.log
+.ban-xuat-cong-khai

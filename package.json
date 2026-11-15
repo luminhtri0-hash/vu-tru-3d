@@ -1,0 +1,31 @@
+{
+  "name": "vu-tru-3d",
+  "version": "3.7.0",
+  "description": "Vũ trụ 3D: khoá học vật lý bằng mô hình 3D tương tác (thuyết tương đối, vũ trụ học, lượng tử)",
+  "scripts": {
+    "build": "node build.mjs",
+    "kiem": "for f in kiem-tra/kiem-*.mjs; do node \"$f\" || exit 1; done",
+    "web": "node cong-cu/dung-web.mjs"
+  },
+  "keywords": [],
+  "author": "Trí Lữ",
+  "license": "MIT AND CC-BY-NC-SA-4.0",
+  "type": "module",
+  "devDependencies": {
+    "d3-celestial": "^0.7.35",
+    "esbuild": "^0.28.2",
+    "katex": "^0.16.11",
+    "three": "^0.187.0",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2"
+  },
+  "private": true,
+  "homepage": "https://trilu.edu.vn/vu-tru-3d/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luminhtri0-hash/vu-tru-3d.git"
+  },
+  "bugs": {
+    "url": "https://github.com/luminhtri0-hash/vu-tru-3d/issues"
+  }
+}

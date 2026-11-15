@@ -1,0 +1,15 @@
+[
+{"t0": 0.0, "t1": 1.14, "chu": "Bước cuối là một thí nghiệm mù."},
+{"t0": 1.75, "t1": 2.52, "chu": "Ta ẩn đường lý thuyết,"},
+{"t0": 2.83, "t1": 5.74, "chu": "chỉ nhìn các chấm xanh trên màn,\nvà thử đoán vị trí các đỉnh."},
+{"t0": 6.21, "t1": 9.26, "chu": "Khoảng cách giữa các dải cho biết tỉ\nsố giữa bước sóng và khoảng cách hai khe,"},
+{"t0": 9.63, "t1": 10.88, "chu": "khi đã biết khoảng cách tới màn."},
+{"t0": 11.41, "t1": 14.44, "chu": "Độ rõ của các dải cho biết hai đường đi\ncòn giao thoa được đến mức nào."},
+{"t0": 14.88, "t1": 16.6, "chu": "Sau đó bật lại đường lý thuyết\nđể đối chiếu."},
+{"t0": 17.14, "t1": 19.88, "chu": "Đường xanh là mật độ dự đoán,\nđường nét đứt là bao một khe."},
+{"t0": 20.28, "t1": 22.38, "chu": "Trong mô hình này,\nta điều khiển riêng từng tham số."},
+{"t0": 22.96, "t1": 26.18, "chu": "Trong phòng thí nghiệm thật, vân mờ\ncòn có thể do nguồn gồm nhiều bước sóng,"},
+{"t0": 26.51, "t1": 27.52, "chu": "hoặc do máy rung."},
+{"t0": 27.7, "t1": 31.28, "chu": "Muốn nói vân mờ là do đánh dấu đường đi,\nphải giữ ổn định mọi điều kiện khác,"},
+{"t0": 31.53, "t1": 33.12, "chu": "và so sánh trên thật nhiều lượt phát hiện."}
+]

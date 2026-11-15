@@ -1,0 +1,15 @@
+[
+{"t0": 0.0, "t1": 2.02, "chu": "Đường xanh có thể nằm dưới trục,\nnghĩa là biên độ âm."},
+{"t0": 2.53, "t1": 5.52, "chu": "Lấy bình phương độ lớn của nó,\nta được đường vàng, luôn không âm."},
+{"t0": 5.91, "t1": 7.24, "chu": "Đó là mật độ xác suất."},
+{"t0": 7.46, "t1": 9.14, "chu": "Ở mức hai, chính giữa hộp là một nút."},
+{"t0": 9.69, "t1": 11.36, "chu": "Tại nút, mật độ bằng không."},
+{"t0": 11.49, "t1": 14.46, "chu": "Dù đo rất nhiều lần, ta vẫn không\nbắt gặp electron ở đúng điểm ấy."},
+{"t0": 15.09, "t1": 17.52, "chu": "So một điểm giữa bụng dương\nvới điểm đối xứng giữa bụng âm."},
+{"t0": 18.3, "t1": 21.38, "chu": "Hai máy đo đặt ở hai vùng nhỏ cùng bề rộng\nsẽ ghi được số lần gần bằng nhau."},
+{"t0": 21.99, "t1": 23.6, "chu": "Bụng âm không hề có ít hạt hơn."},
+{"t0": 24.38, "t1": 28.68, "chu": "Nếu chỉ nhìn đường xanh mà nghĩ vậy, hãy\nkiểm lại bằng đường vàng và các chấm đếm."},
+{"t0": 29.09, "t1": 31.88, "chu": "Hai thùy có dấu ngược nhau,\nnhưng mật độ đối xứng qua giữa hộp."},
+{"t0": 32.61, "t1": 34.16, "chu": "Đặt đầu đọc màu cam ở đúng nút giữa,"},
+{"t0": 34.39, "t1": 36.84, "chu": "ở một nửa chiều rộng hộp:\nmật độ ở đó bằng không."}
+]

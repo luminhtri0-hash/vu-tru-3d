@@ -1,0 +1,32 @@
+import { kiem,kiemTiLe,kiemDung,tongKet } from './khung-kiem.mjs';
+import { C,G,M_MAT_TROI,NAM_GIAY } from '../src/vat-ly/hang-so.js';
+import { HBAR,KB,R_H,T_H,T_NEN,M_CAN_BANG,pho,DINH_X,P_LY_TUONG,THOI_GIAN_LY_TUONG,phoBe,M_TRAI_DAT } from '../src/vat-ly/buc-xa-hawking.js';
+kiemTiLe('Bán kính cho M Mặt Trời',R_H(M_MAT_TROI)/1e3,2.953,.001);
+kiemTiLe('Nhiệt độ cho M Mặt Trời',T_H(M_MAT_TROI),6.17e-8,.003);
+kiemTiLe('Khối lượng cân bằng nền',M_CAN_BANG(T_NEN),4.5e22,.004);
+kiemTiLe('Nhiệt độ 10^12 kg',T_H(1e12),1.23e11,.004);
+kiem('Hai độ cong có T cùng tỷ số',T_H(2e22)/T_H(1e22),.5,1e-12);
+kiem('Gấp đôi khối lượng, r gấp đôi',R_H(2e22)/R_H(1e22),2,1e-12);
+kiem('Công suất đổi theo bình phương khối lượng',P_LY_TUONG(2e22)/P_LY_TUONG(1e22),.25,1e-12);
+kiem('Thời gian đổi theo lập phương',THOI_GIAN_LY_TUONG(2e22)/THOI_GIAN_LY_TUONG(1e22),8,1e-12);
+const sigma=Math.PI**2*KB**4/(60*HBAR**3*C**2),m=1e17;
+kiemTiLe('Công suất khớp định luật Stefan–Boltzmann',P_LY_TUONG(m),4*Math.PI*R_H(m)**2*sigma*T_H(m)**4,1e-14);
+kiemTiLe('Tích phân dM/dt',THOI_GIAN_LY_TUONG(m),m*C**2/(3*P_LY_TUONG(m)),1e-14);
+kiem('Đỉnh phổ theo tần số',3*(1-Math.exp(-DINH_X)),DINH_X,1e-11);
+kiem('Giới hạn phổ khi x tiến về 0',pho(0),0,0);
+kiemDung('Cực đại cục bộ',pho(DINH_X-.01)<pho(DINH_X)&&pho(DINH_X+.01)<pho(DINH_X));
+kiemTiLe('Đảo nhiệt độ theo khối lượng',M_CAN_BANG(T_H(m)),m,1e-13);
+// Con số thêm ở Bước 6 và Bước 7.
+kiemTiLe('Khối lượng cân bằng / khối lượng Mặt Trăng (7,346 × 10²² kg) ≈ 0,6',M_CAN_BANG(T_NEN)/7.346e22,.61,.01);
+kiemTiLe('Bán kính chân trời ở khối lượng cân bằng ≈ 0,067 mm',R_H(M_CAN_BANG(T_NEN)),6.69e-5,.01);
+kiemTiLe('Công suất lý tưởng cho M Mặt Trời ≈ 9 × 10⁻²⁹ W',P_LY_TUONG(M_MAT_TROI),9.0e-29,.01);
+kiemTiLe('Tuổi thọ lý tưởng cho M Mặt Trời ≈ 2,1 × 10⁶⁷ năm',THOI_GIAN_LY_TUONG(M_MAT_TROI)/NAM_GIAY,2.1e67,.01);
+kiemDung('Hơn 10⁵⁷ lần tuổi vũ trụ',THOI_GIAN_LY_TUONG(M_MAT_TROI)/NAM_GIAY/1.38e10>1e57);
+{const t=13.8e9*NAM_GIAY,M=Math.cbrt(t*HBAR*C**4/(5120*Math.PI*G**2));
+ kiemTiLe('Khối lượng bốc hơi hết trong 13,8 tỉ năm (lý tưởng) ≈ 1,7 × 10¹¹ kg',M,1.73e11,.01);
+ kiemTiLe('Kiểm ngược tuổi thọ',THOI_GIAN_LY_TUONG(M),t,1e-12);}
+kiem('Chia năng lượng cho công suất đầu dài gấp ba',m*C**2/P_LY_TUONG(m)/THOI_GIAN_LY_TUONG(m),3,1e-12);
+kiem('Phổ bể trùng phổ lỗ đen khi cùng nhiệt độ',phoBe(2.3,1),pho(2.3),1e-15);
+kiemTiLe('Đỉnh phổ bể dời theo r',phoBe(DINH_X*3,3),27*pho(DINH_X),1e-12);
+kiemTiLe('Khối lượng Trái Đất',M_TRAI_DAT,5.972e24,.001);
+tongKet();

@@ -1,0 +1,13 @@
+[
+{"t0": 0.0, "t1": 1.26, "chu": "Vì sao phía sau rào có hạt?"},
+{"t0": 1.76, "t1": 5.0, "chu": "Bên phải chỉ có một sóng đi ra,\nvì ta chỉ chiếu chùm từ bên trái."},
+{"t0": 5.54, "t1": 8.28, "chu": "Khi nối hàm sóng và độ dốc\ncủa nó cho trơn ở cả hai mặt rào,"},
+{"t0": 8.6, "t1": 10.62, "chu": "biên độ của sóng đi ra\nđược xác định và khác không."},
+{"t0": 11.13, "t1": 12.68, "chu": "Nhưng mỗi electron không bị xẻ làm đôi."},
+{"t0": 13.16, "t1": 15.74, "chu": "Mỗi lần thử, nó hiện ra nguyên\nvẹn ở đúng một trong hai khay."},
+{"t0": 16.11, "t1": 19.44, "chu": "Dải chấm xanh phía sau là nhiều kết\nquả có thể xảy ra, theo hệ số truyền."},
+{"t0": 19.83, "t1": 23.1, "chu": "Ghi thêm một trăm lượt tới, số đếm hai\nbên thường không giống hệt lượt trước."},
+{"t0": 23.66, "t1": 27.44, "chu": "Điều cần so với lý thuyết là tần suất:\nsố hạt truyền chia cho tổng số hạt tới."},
+{"t0": 28.11, "t1": 30.54, "chu": "Hệ số truyền chính\nlà tỉ số giữa dòng truyền và dòng tới,"},
+{"t0": 30.86, "t1": 32.5, "chu": "bằng bình phương độ lớn\ncủa biên độ truyền."}
+]

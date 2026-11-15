@@ -1,0 +1,836 @@
+[
+  {
+    "vi": "sự kiện",
+    "en": "event",
+    "zh-CN": "事件",
+    "ja": "事象"
+  },
+  {
+    "vi": "không-thời gian",
+    "en": "spacetime",
+    "zh-CN": "时空",
+    "ja": "時空"
+  },
+  {
+    "vi": "đường thế giới",
+    "en": "world line",
+    "zh-CN": "世界线",
+    "ja": "世界線"
+  },
+  {
+    "vi": "nón ánh sáng",
+    "en": "light cone",
+    "zh-CN": "光锥",
+    "ja": "光円錐"
+  },
+  {
+    "vi": "khoảng không-thời gian",
+    "en": "spacetime interval",
+    "zh-CN": "时空间隔",
+    "ja": "時空間隔"
+  },
+  {
+    "vi": "thời gian riêng",
+    "en": "proper time",
+    "zh-CN": "固有时",
+    "ja": "固有時"
+  },
+  {
+    "vi": "khung quán tính",
+    "en": "inertial frame",
+    "zh-CN": "惯性参考系",
+    "ja": "慣性系"
+  },
+  {
+    "vi": "hệ số Lorentz",
+    "en": "Lorentz factor",
+    "zh-CN": "洛伦兹因子",
+    "ja": "ローレンツ因子"
+  },
+  {
+    "vi": "phép biến đổi Lorentz",
+    "en": "Lorentz transformation",
+    "zh-CN": "洛伦兹变换",
+    "ja": "ローレンツ変換"
+  },
+  {
+    "vi": "giãn thời gian",
+    "en": "time dilation",
+    "zh-CN": "时间膨胀",
+    "ja": "時間の遅れ"
+  },
+  {
+    "vi": "co độ dài",
+    "en": "length contraction",
+    "zh-CN": "长度收缩",
+    "ja": "長さの収縮"
+  },
+  {
+    "vi": "đồng thời tương đối",
+    "en": "relativity of simultaneity",
+    "zh-CN": "同时性的相对性",
+    "ja": "同時性の相対性"
+  },
+  {
+    "vi": "vận tốc bốn chiều",
+    "en": "four-velocity",
+    "zh-CN": "四维速度",
+    "ja": "四元速度"
+  },
+  {
+    "vi": "nguyên lý tương đương",
+    "en": "equivalence principle",
+    "zh-CN": "等效原理",
+    "ja": "等価原理"
+  },
+  {
+    "vi": "rơi tự do",
+    "en": "free fall",
+    "zh-CN": "自由落体",
+    "ja": "自由落下"
+  },
+  {
+    "vi": "đường trắc địa",
+    "en": "geodesic",
+    "zh-CN": "测地线",
+    "ja": "測地線"
+  },
+  {
+    "vi": "metric",
+    "en": "metric",
+    "zh-CN": "度规",
+    "ja": "計量"
+  },
+  {
+    "vi": "độ cong",
+    "en": "curvature",
+    "zh-CN": "曲率",
+    "ja": "曲率"
+  },
+  {
+    "vi": "lực thủy triều",
+    "en": "tidal force",
+    "zh-CN": "潮汐力",
+    "ja": "潮汐力"
+  },
+  {
+    "vi": "phương trình Einstein",
+    "en": "Einstein field equations",
+    "zh-CN": "爱因斯坦场方程",
+    "ja": "アインシュタイン方程式"
+  },
+  {
+    "vi": "tenxơ năng-xung lượng",
+    "en": "stress–energy tensor",
+    "zh-CN": "能量动量张量",
+    "ja": "エネルギー運動量テンソル"
+  },
+  {
+    "vi": "bán kính Schwarzschild",
+    "en": "Schwarzschild radius",
+    "zh-CN": "施瓦西半径",
+    "ja": "シュヴァルツシルト半径"
+  },
+  {
+    "vi": "metric Schwarzschild",
+    "en": "Schwarzschild metric",
+    "zh-CN": "施瓦西度规",
+    "ja": "シュヴァルツシルト計量"
+  },
+  {
+    "vi": "chân trời sự kiện",
+    "en": "event horizon",
+    "zh-CN": "事件视界",
+    "ja": "事象の地平面"
+  },
+  {
+    "vi": "kỳ dị",
+    "en": "singularity",
+    "zh-CN": "奇点",
+    "ja": "特異点"
+  },
+  {
+    "vi": "dịch chuyển đỏ hấp dẫn",
+    "en": "gravitational redshift",
+    "zh-CN": "引力红移",
+    "ja": "重力赤方偏移"
+  },
+  {
+    "vi": "tiến động cận điểm",
+    "en": "perihelion precession",
+    "zh-CN": "近心点进动",
+    "ja": "近点移動"
+  },
+  {
+    "vi": "mặt cầu photon",
+    "en": "photon sphere",
+    "zh-CN": "光子球",
+    "ja": "光子球"
+  },
+  {
+    "vi": "quỹ đạo tròn ổn định trong cùng",
+    "en": "innermost stable circular orbit (ISCO)",
+    "zh-CN": "最内稳定圆轨道（ISCO）",
+    "ja": "最内安定円軌道（ISCO）"
+  },
+  {
+    "vi": "thấu kính hấp dẫn",
+    "en": "gravitational lensing",
+    "zh-CN": "引力透镜效应",
+    "ja": "重力レンズ効果"
+  },
+  {
+    "vi": "sóng hấp dẫn",
+    "en": "gravitational wave",
+    "zh-CN": "引力波",
+    "ja": "重力波"
+  },
+  {
+    "vi": "hệ số tỉ lệ",
+    "en": "scale factor",
+    "zh-CN": "尺度因子",
+    "ja": "スケール因子"
+  },
+  {
+    "vi": "hằng số Hubble",
+    "en": "Hubble constant",
+    "zh-CN": "哈勃常数",
+    "ja": "ハッブル定数"
+  },
+  {
+    "vi": "dịch chuyển đỏ vũ trụ học",
+    "en": "cosmological redshift",
+    "zh-CN": "宇宙学红移",
+    "ja": "宇宙論的赤方偏移"
+  },
+  {
+    "vi": "khoảng cách đồng chuyển",
+    "en": "comoving distance",
+    "zh-CN": "共动距离",
+    "ja": "共動距離"
+  },
+  {
+    "vi": "chân trời hạt",
+    "en": "particle horizon",
+    "zh-CN": "粒子视界",
+    "ja": "粒子地平線"
+  },
+  {
+    "vi": "mặt cầu Hubble",
+    "en": "Hubble sphere",
+    "zh-CN": "哈勃球",
+    "ja": "ハッブル球"
+  },
+  {
+    "vi": "năng lượng tối",
+    "en": "dark energy",
+    "zh-CN": "暗能量",
+    "ja": "ダークエネルギー"
+  },
+  {
+    "vi": "hằng số vũ trụ",
+    "en": "cosmological constant",
+    "zh-CN": "宇宙学常数",
+    "ja": "宇宙定数"
+  },
+  {
+    "vi": "bức xạ nền vi sóng vũ trụ",
+    "en": "cosmic microwave background (CMB)",
+    "zh-CN": "宇宙微波背景辐射（CMB）",
+    "ja": "宇宙マイクロ波背景放射（CMB）"
+  },
+  {
+    "vi": "siêu lập phương",
+    "en": "tesseract, hypercube",
+    "zh-CN": "超立方体（此处为四维）",
+    "ja": "超立方体（ここでは四次元）"
+  },
+  {
+    "vi": "tọa độ",
+    "en": "coordinates",
+    "zh-CN": "坐标",
+    "ja": "座標"
+  },
+  {
+    "vi": "năm ánh sáng",
+    "en": "light-year",
+    "zh-CN": "光年",
+    "ja": "光年"
+  },
+  {
+    "vi": "đơn vị thiên văn",
+    "en": "astronomical unit (AU)",
+    "zh-CN": "天文单位（AU）",
+    "ja": "天文単位（AU）"
+  },
+  {
+    "vi": "bán trục lớn",
+    "en": "semi-major axis",
+    "zh-CN": "半长轴",
+    "ja": "軌道長半径"
+  },
+  {
+    "vi": "định luật Kepler",
+    "en": "Kepler's laws",
+    "zh-CN": "开普勒定律",
+    "ja": "ケプラーの法則"
+  },
+  {
+    "vi": "nhật quyển",
+    "en": "heliosphere",
+    "zh-CN": "日球层",
+    "ja": "太陽圏"
+  },
+  {
+    "vi": "năm thiên hà",
+    "en": "galactic year",
+    "zh-CN": "银河年",
+    "ja": "銀河年"
+  },
+  {
+    "vi": "hệ quy chiếu",
+    "en": "reference frame",
+    "zh-CN": "参考系",
+    "ja": "基準系"
+  },
+  {
+    "vi": "thiên hà xoắn ốc có thanh",
+    "en": "barred spiral galaxy",
+    "zh-CN": "棒旋星系",
+    "ja": "棒渦巻銀河"
+  },
+  {
+    "vi": "sóng mật độ",
+    "en": "density wave",
+    "zh-CN": "密度波",
+    "ja": "密度波"
+  },
+  {
+    "vi": "đường cong quay",
+    "en": "rotation curve",
+    "zh-CN": "旋转曲线",
+    "ja": "回転曲線"
+  },
+  {
+    "vi": "vật chất tối",
+    "en": "dark matter",
+    "zh-CN": "暗物质",
+    "ja": "ダークマター"
+  },
+  {
+    "vi": "lỗ đen siêu nặng",
+    "en": "supermassive black hole",
+    "zh-CN": "超大质量黑洞",
+    "ja": "超大質量ブラックホール"
+  },
+  {
+    "vi": "Nhóm Địa phương",
+    "en": "Local Group",
+    "zh-CN": "本星系群",
+    "ja": "局所銀河群"
+  },
+  {
+    "vi": "bóng lỗ đen",
+    "en": "black hole shadow",
+    "zh-CN": "黑洞阴影",
+    "ja": "ブラックホールシャドウ"
+  },
+  {
+    "vi": "vành photon",
+    "en": "photon ring",
+    "zh-CN": "光子环",
+    "ja": "光子リング"
+  },
+  {
+    "vi": "đĩa bồi tụ",
+    "en": "accretion disk",
+    "zh-CN": "吸积盘",
+    "ja": "降着円盤"
+  },
+  {
+    "vi": "dò tia ngược",
+    "en": "backward ray tracing",
+    "zh-CN": "反向光线追踪",
+    "ja": "逆光線追跡"
+  },
+  {
+    "vi": "lỗ đen Kerr",
+    "en": "Kerr black hole",
+    "zh-CN": "克尔黑洞",
+    "ja": "カー・ブラックホール"
+  },
+  {
+    "vi": "biến dạng h",
+    "en": "strain",
+    "zh-CN": "应变 h",
+    "ja": "ひずみ h"
+  },
+  {
+    "vi": "phân cực sóng hấp dẫn",
+    "en": "polarization (+, ×)",
+    "zh-CN": "引力波偏振（+、×）",
+    "ja": "重力波の偏極（+、×）"
+  },
+  {
+    "vi": "phân cực tròn",
+    "en": "circular polarization",
+    "zh-CN": "圆偏振",
+    "ja": "円偏極"
+  },
+  {
+    "vi": "lưỡng cực",
+    "en": "dipole",
+    "zh-CN": "偶极子",
+    "ja": "双極子"
+  },
+  {
+    "vi": "bức xạ tứ cực",
+    "en": "quadrupole radiation",
+    "zh-CN": "四极辐射",
+    "ja": "四重極放射"
+  },
+  {
+    "vi": "khối lượng chirp",
+    "en": "chirp mass",
+    "zh-CN": "啁啾质量",
+    "ja": "チャープ質量"
+  },
+  {
+    "vi": "giao thoa kế",
+    "en": "interferometer",
+    "zh-CN": "干涉仪",
+    "ja": "干渉計"
+  },
+  {
+    "vi": "chiều",
+    "en": "dimension",
+    "zh-CN": "维度",
+    "ja": "次元"
+  },
+  {
+    "vi": "hình chiếu",
+    "en": "projection",
+    "zh-CN": "投影",
+    "ja": "射影"
+  },
+  {
+    "vi": "lát cắt",
+    "en": "cross-section, slice",
+    "zh-CN": "截面",
+    "ja": "断面"
+  },
+  {
+    "vi": "siêu phẳng",
+    "en": "hyperplane",
+    "zh-CN": "超平面",
+    "ja": "超平面"
+  },
+  {
+    "vi": "siêu cầu",
+    "en": "hypersphere, 3-sphere",
+    "zh-CN": "超球面（三维球面）",
+    "ja": "超球面（三次元球面）"
+  },
+  {
+    "vi": "ô",
+    "en": "cell",
+    "zh-CN": "胞腔",
+    "ja": "胞体"
+  },
+  {
+    "vi": "sơ đồ không-thời gian",
+    "en": "spacetime diagram",
+    "zh-CN": "时空图",
+    "ja": "時空図"
+  },
+  {
+    "vi": "lát cắt đồng thời",
+    "en": "surface of simultaneity",
+    "zh-CN": "同时面",
+    "ja": "同時面"
+  },
+  {
+    "vi": "nón tương lai",
+    "en": "future light cone",
+    "zh-CN": "未来光锥",
+    "ja": "未来光円錐"
+  },
+  {
+    "vi": "nón quá khứ",
+    "en": "past light cone",
+    "zh-CN": "过去光锥",
+    "ja": "過去光円錐"
+  },
+  {
+    "vi": "ở nơi khác",
+    "en": "elsewhere",
+    "zh-CN": "光锥之外",
+    "ja": "光円錐の外部"
+  },
+  {
+    "vi": "kiểu thời gian",
+    "en": "timelike",
+    "zh-CN": "类时",
+    "ja": "時間的"
+  },
+  {
+    "vi": "kiểu ánh sáng",
+    "en": "lightlike, null",
+    "zh-CN": "类光",
+    "ja": "光的"
+  },
+  {
+    "vi": "kiểu không gian",
+    "en": "spacelike",
+    "zh-CN": "类空",
+    "ja": "空間的"
+  },
+  {
+    "vi": "khoảng cách riêng",
+    "en": "proper distance",
+    "zh-CN": "固有距离",
+    "ja": "固有距離"
+  },
+  {
+    "vi": "tiên đề",
+    "en": "postulate",
+    "zh-CN": "公设",
+    "ja": "公準"
+  },
+  {
+    "vi": "đồng hồ ánh sáng",
+    "en": "light clock",
+    "zh-CN": "光钟",
+    "ja": "光時計"
+  },
+  {
+    "vi": "độ nhanh",
+    "en": "rapidity",
+    "zh-CN": "快度",
+    "ja": "ラピディティ"
+  },
+  {
+    "vi": "nghịch lý anh em sinh đôi",
+    "en": "twin paradox",
+    "zh-CN": "双生子佯谬",
+    "ja": "双子のパラドックス"
+  },
+  {
+    "vi": "xung lượng bốn chiều",
+    "en": "four-momentum",
+    "zh-CN": "四维动量",
+    "ja": "四元運動量"
+  },
+  {
+    "vi": "khối lượng quán tính",
+    "en": "inertial mass",
+    "zh-CN": "惯性质量",
+    "ja": "慣性質量"
+  },
+  {
+    "vi": "khối lượng hấp dẫn",
+    "en": "gravitational mass",
+    "zh-CN": "引力质量",
+    "ja": "重力質量"
+  },
+  {
+    "vi": "khung quán tính cục bộ",
+    "en": "local inertial frame",
+    "zh-CN": "局部惯性参考系",
+    "ja": "局所慣性系"
+  },
+  {
+    "vi": "tham số Eötvös",
+    "en": "Eötvös parameter",
+    "zh-CN": "厄缶参数",
+    "ja": "エトヴェシュ・パラメータ"
+  },
+  {
+    "vi": "gia tốc riêng",
+    "en": "proper acceleration",
+    "zh-CN": "固有加速度",
+    "ja": "固有加速度"
+  },
+  {
+    "vi": "chuyển động hyperbol",
+    "en": "hyperbolic motion",
+    "zh-CN": "双曲运动",
+    "ja": "双曲線運動"
+  },
+  {
+    "vi": "tọa độ Rindler",
+    "en": "Rindler coordinates",
+    "zh-CN": "林德勒坐标",
+    "ja": "リンドラー座標"
+  },
+  {
+    "vi": "chân trời Rindler",
+    "en": "Rindler horizon",
+    "zh-CN": "林德勒视界",
+    "ja": "リンドラー地平面"
+  },
+  {
+    "vi": "giãn thời gian do hấp dẫn",
+    "en": "gravitational time dilation",
+    "zh-CN": "引力时间膨胀",
+    "ja": "重力による時間の遅れ"
+  },
+  {
+    "vi": "đồng hồ quang học",
+    "en": "optical clock",
+    "zh-CN": "光钟（光学原子钟）",
+    "ja": "光原子時計"
+  },
+  {
+    "vi": "nguyên lý thời gian riêng cực đại",
+    "en": "principle of maximal aging",
+    "zh-CN": "固有时极大原理",
+    "ja": "固有時最大の原理"
+  },
+  {
+    "vi": "hiệu ứng Mössbauer",
+    "en": "Mössbauer effect",
+    "zh-CN": "穆斯堡尔效应",
+    "ja": "メスバウアー効果"
+  },
+  {
+    "vi": "mặt nhúng",
+    "en": "embedding diagram",
+    "zh-CN": "嵌入图",
+    "ja": "埋め込み図"
+  },
+  {
+    "vi": "tốc độ thoát",
+    "en": "escape velocity",
+    "zh-CN": "逃逸速度",
+    "ja": "脱出速度"
+  },
+  {
+    "vi": "định lý Clairaut",
+    "en": "Clairaut’s relation",
+    "zh-CN": "克莱罗关系式",
+    "ja": "クレローの関係式"
+  },
+  {
+    "vi": "bán kính chu vi",
+    "en": "reduced circumference",
+    "zh-CN": "周向半径",
+    "ja": "円周半径"
+  },
+  {
+    "vi": "mặt Flamm",
+    "en": "Flamm’s paraboloid",
+    "zh-CN": "弗拉姆抛物面",
+    "ja": "フラムの放物面"
+  },
+  {
+    "vi": "độ lệch trắc địa",
+    "en": "geodesic deviation",
+    "zh-CN": "测地线偏离",
+    "ja": "測地線偏差"
+  },
+  {
+    "vi": "tenxơ Riemann",
+    "en": "Riemann curvature tensor",
+    "zh-CN": "黎曼曲率张量",
+    "ja": "リーマン曲率テンソル"
+  },
+  {
+    "vi": "tenxơ thủy triều",
+    "en": "tidal tensor",
+    "zh-CN": "潮汐张量",
+    "ja": "潮汐テンソル"
+  },
+  {
+    "vi": "tenxơ Einstein",
+    "en": "Einstein tensor",
+    "zh-CN": "爱因斯坦张量",
+    "ja": "アインシュタインテンソル"
+  },
+  {
+    "vi": "thủy triều cân bằng",
+    "en": "equilibrium tide",
+    "zh-CN": "平衡潮",
+    "ja": "平衡潮汐"
+  },
+  {
+    "vi": "thế hiệu dụng",
+    "en": "effective potential",
+    "zh-CN": "有效势",
+    "ja": "有効ポテンシャル"
+  },
+  {
+    "vi": "năng lượng riêng",
+    "en": "specific energy",
+    "zh-CN": "比能",
+    "ja": "比エネルギー"
+  },
+  {
+    "vi": "mô-men động lượng riêng",
+    "en": "specific angular momentum",
+    "zh-CN": "比角动量",
+    "ja": "比角運動量"
+  },
+  {
+    "vi": "quỹ đạo lượn sát",
+    "en": "zoom-whirl orbit",
+    "zh-CN": "近心回旋轨道（zoom-whirl 轨道）",
+    "ja": "ズーム・ワール軌道"
+  },
+  {
+    "vi": "đường trắc địa kiểu ánh sáng",
+    "en": "null geodesic",
+    "zh-CN": "类光测地线",
+    "ja": "光的測地線"
+  },
+  {
+    "vi": "khoảng ngắm",
+    "en": "impact parameter",
+    "zh-CN": "碰撞参数",
+    "ja": "衝突径数"
+  },
+  {
+    "vi": "trễ Shapiro",
+    "en": "Shapiro time delay",
+    "zh-CN": "夏皮罗时延",
+    "ja": "シャピロ遅延"
+  },
+  {
+    "vi": "vòng Einstein",
+    "en": "Einstein ring",
+    "zh-CN": "爱因斯坦环",
+    "ja": "アインシュタインリング"
+  },
+  {
+    "vi": "tọa độ Eddington–Finkelstein",
+    "en": "Eddington–Finkelstein coordinates",
+    "zh-CN": "爱丁顿–芬克尔斯坦坐标",
+    "ja": "エディントン＝フィンケルシュタイン座標"
+  },
+  {
+    "vi": "kỳ dị tọa độ",
+    "en": "coordinate singularity",
+    "zh-CN": "坐标奇点",
+    "ja": "座標特異点"
+  },
+  {
+    "vi": "bất biến Kretschmann",
+    "en": "Kretschmann scalar",
+    "zh-CN": "克雷奇曼标量",
+    "ja": "クレッチマン・スカラー"
+  },
+  {
+    "vi": "mặt kiểu ánh sáng",
+    "en": "null surface",
+    "zh-CN": "类光曲面",
+    "ja": "光的曲面"
+  },
+  {
+    "vi": "định luật Hubble–Lemaître",
+    "en": "Hubble–Lemaître law",
+    "zh-CN": "哈勃–勒梅特定律",
+    "ja": "ハッブル＝ルメートルの法則"
+  },
+  {
+    "vi": "phương trình Friedmann",
+    "en": "Friedmann equation",
+    "zh-CN": "弗里德曼方程",
+    "ja": "フリードマン方程式"
+  },
+  {
+    "vi": "mật độ tới hạn",
+    "en": "critical density",
+    "zh-CN": "临界密度",
+    "ja": "臨界密度"
+  },
+  {
+    "vi": "tham số mật độ",
+    "en": "density parameter Ω",
+    "zh-CN": "密度参数 Ω",
+    "ja": "密度パラメータ Ω"
+  },
+  {
+    "vi": "phương trình gia tốc",
+    "en": "acceleration equation",
+    "zh-CN": "宇宙膨胀加速度方程",
+    "ja": "宇宙の加速度方程式"
+  },
+  {
+    "vi": "siêu tân tinh loại Ia",
+    "en": "type Ia supernova",
+    "zh-CN": "Ia 型超新星",
+    "ja": "Ia型超新星"
+  },
+  {
+    "vi": "căng thẳng Hubble",
+    "en": "Hubble tension",
+    "zh-CN": "哈勃张力",
+    "ja": "ハッブルテンション"
+  },
+  {
+    "vi": "thời gian vũ trụ",
+    "en": "cosmic time",
+    "zh-CN": "宇宙时",
+    "ja": "宇宙時"
+  },
+  {
+    "vi": "thời gian bảo giác",
+    "en": "conformal time",
+    "zh-CN": "共形时间",
+    "ja": "共形時間"
+  },
+  {
+    "vi": "khoảng cách thật",
+    "en": "proper distance",
+    "zh-CN": "固有距离",
+    "ja": "固有距離"
+  },
+  {
+    "vi": "nón ánh sáng quá khứ",
+    "en": "past light cone",
+    "zh-CN": "过去光锥",
+    "ja": "過去光円錐"
+  },
+  {
+    "vi": "biên độ xác suất",
+    "en": "probability amplitude",
+    "zh-CN": "概率幅",
+    "ja": "確率振幅"
+  },
+  {
+    "vi": "giao thoa lượng tử",
+    "en": "quantum interference",
+    "zh-CN": "量子干涉",
+    "ja": "量子干渉"
+  },
+  {
+    "vi": "bước sóng de Broglie",
+    "en": "de Broglie wavelength",
+    "zh-CN": "德布罗意波长",
+    "ja": "ド・ブロイ波長"
+  },
+  {
+    "vi": "thông tin đường đi",
+    "en": "which-path information",
+    "zh-CN": "路径信息",
+    "ja": "経路情報"
+  },
+  {
+    "vi": "spin",
+    "en": "spin",
+    "zh-CN": "自旋",
+    "ja": "スピン"
+  },
+  {
+    "vi": "trạng thái singlet",
+    "en": "singlet state",
+    "zh-CN": "单态",
+    "ja": "一重項状態"
+  },
+  {
+    "vi": "nhiệt độ Hawking",
+    "en": "Hawking temperature",
+    "zh-CN": "霍金温度",
+    "ja": "ホーキング温度"
+  }
+]

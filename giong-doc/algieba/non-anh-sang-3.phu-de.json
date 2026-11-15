@@ -1,0 +1,18 @@
+[
+{"t0": 0.0, "t1": 3.22, "chu": "Hai sự kiện O và P cách nhau một khoảng\nthời gian và một khoảng không gian."},
+{"t0": 3.8, "t1": 6.34, "chu": "Ta gộp hai số đó thành một đại lượng gọi\nlà khoảng không-thời gian,"},
+{"t0": 6.63, "t1": 7.5, "chu": "viết là s bình phương."},
+{"t0": 8.37, "t1": 9.5, "chu": "Nó bằng bình phương khoảng cách,"},
+{"t0": 9.82, "t1": 11.92, "chu": "trừ đi bình phương\ncủa tốc độ ánh sáng nhân thời gian."},
+{"t0": 12.68, "t1": 14.84, "chu": "Dấu của nó\ncho biết P nằm đâu so với nón của O."},
+{"t0": 15.64, "t1": 17.46, "chu": "Âm là kiểu thời gian, P nằm trong nón."},
+{"t0": 18.29, "t1": 20.46, "chu": "Bằng không là kiểu ánh sáng,\nP nằm trên mặt nón."},
+{"t0": 21.18, "t1": 23.2, "chu": "Dương là kiểu không gian, P nằm ngoài nón."},
+{"t0": 24.02, "t1": 28.28, "chu": "Ví dụ P cách ba năm ánh sáng và năm năm,\nthì s bình phương bằng âm mười sáu."},
+{"t0": 28.48, "t1": 29.12, "chu": "Điều quan trọng nhất:"},
+{"t0": 29.58, "t1": 32.1, "chu": "hai người quan sát chuyển động\nkhác nhau đo ra thời gian khác nhau,"},
+{"t0": 32.33, "t1": 34.24, "chu": "khoảng cách khác nhau,\nnhưng cùng một s bình phương."},
+{"t0": 35.15, "t1": 38.38, "chu": "Hai số mà một người quan sát đang bay đo\ncho P đổi theo vận tốc của người ấy,"},
+{"t0": 38.71, "t1": 39.72, "chu": "còn s bình phương thì không."},
+{"t0": 39.93, "t1": 43.62, "chu": "Vì thế P nằm trong, trên hay ngoài nón\nlà sự thật chung cho mọi người."}
+]

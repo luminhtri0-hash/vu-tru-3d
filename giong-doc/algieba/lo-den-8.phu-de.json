@@ -1,0 +1,15 @@
+[
+{"t0": 0.0, "t1": 3.74, "chu": "Máy tính dựng hình này bằng cách dò tia\nngược: đi từ mắt ra, ngược chiều ánh sáng."},
+{"t0": 4.13, "t1": 7.08, "chu": "Với mỗi điểm ảnh, nó lấy hướng nhìn,\nrồi giải phương trình đường đi"},
+{"t0": 7.08, "t1": 9.12, "chu": "của ánh sáng từng bước nhỏ,\ntới ba trăm bước."},
+{"t0": 9.55, "t1": 12.18, "chu": "Mỗi lần tia cắt mặt phẳng đĩa,\nnó cộng màu của khí ở đó."},
+{"t0": 12.62, "t1": 14.22, "chu": "Tia rơi vào chân trời thì điểm ảnh tối."},
+{"t0": 14.73, "t1": 17.38, "chu": "Tia thoát ra xa\nthì lấy màu bầu trời theo hướng cuối cùng."},
+{"t0": 17.88, "t1": 20.28, "chu": "Mỗi khung hình có thể\ntới bốn trăm tám mươi triệu bước,"},
+{"t0": 20.73, "t1": 22.62, "chu": "và card đồ hoạ làm song song tất cả."},
+{"t0": 23.2, "t1": 26.88, "chu": "Đi ngược là vì trong vô số tia khí phát\nra, chỉ một phần cực nhỏ tới đúng mắt ta."},
+{"t0": 27.62, "t1": 29.16, "chu": "Mô hình là lỗ đen không quay."},
+{"t0": 29.56, "t1": 33.2, "chu": "Lỗ đen thật hầu như đều quay,\nvà kéo không-thời gian quanh nó quay theo."},
+{"t0": 33.78, "t1": 35.08, "chu": "Khi đó mép trong của đĩa dời đi,"},
+{"t0": 35.44, "t1": 37.92, "chu": "cái bóng lệch sang một bên,\nnhưng cỡ chỉ đổi vài phần trăm."}
+]

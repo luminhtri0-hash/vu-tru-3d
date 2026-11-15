@@ -1,0 +1,14 @@
+[
+{"t0": 0.03, "t1": 3.26, "chu": "Hai cái mốc nhỏ hai bên tâm mỗi đường\ncong cách tâm đúng một độ lệch chuẩn."},
+{"t0": 3.95, "t1": 6.96, "chu": "Trên đường xanh,\nđó là độ rộng vị trí, gọi là xích ma x."},
+{"t0": 7.46, "t1": 9.9, "chu": "Một kết quả riêng lẻ vẫn có thể\nrơi ra ngoài hai mốc này."},
+{"t0": 10.34, "t1": 12.08, "chu": "Vì sao không đo bề rộng\nbằng hai chấm ngoài cùng?"},
+{"t0": 12.76, "t1": 16.28, "chu": "Vì để máy chạy càng lâu, càng có cơ hội\nxuất hiện một chấm hiếm nằm rất xa tâm,"},
+{"t0": 16.76, "t1": 18.18, "chu": "và khoảng cách đó cứ thế tăng lên."},
+{"t0": 18.74, "t1": 20.44, "chu": "Độ lệch chuẩn dùng toàn bộ phân bố,"},
+{"t0": 20.78, "t1": 23.94, "chu": "nên nó đặc trưng cho chính cách chuẩn\nbị chứ không phụ thuộc vài chấm hiếm."},
+{"t0": 24.36, "t1": 27.72, "chu": "Độ lệch chuẩn là căn bậc hai của trung\nbình bình phương độ lệch khỏi tâm."},
+{"t0": 28.22, "t1": 28.8, "chu": "Phải bình phương,"},
+{"t0": 29.12, "t1": 32.54, "chu": "vì lệch sang trái và lệch sang phải\nsẽ triệt nhau nếu chỉ lấy trung bình."},
+{"t0": 32.96, "t1": 35.4, "chu": "Gói đang thấy có độ rộng\nvị trí đúng một nanomét."}
+]

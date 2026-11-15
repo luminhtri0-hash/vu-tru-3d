@@ -1,0 +1,15 @@
+[
+{"t0": 0.0, "t1": 1.54, "chu": "Màn bên phải là phổ của bức xạ."},
+{"t0": 2.03, "t1": 4.28, "chu": "Mỗi cột xanh cho biết công suất\ntrong một dải tần số hẹp."},
+{"t0": 4.78, "t1": 8.44, "chu": "Trục ngang không đo tần số trực tiếp\nmà đo x, tức năng lượng một photon chia"},
+{"t0": 8.44, "t1": 9.88, "chu": "cho hằng số Boltzmann nhân nhiệt độ."},
+{"t0": 10.75, "t1": 14.68, "chu": "Nhờ chia như vậy, mọi vật đen lý tưởng,\nnóng hay lạnh, đều cho cùng một hình phổ:"},
+{"t0": 15.44, "t1": 17.74, "chu": "x lập phương chia cho e mũ x trừ một."},
+{"t0": 17.78, "t1": 20.52, "chu": "Đỉnh phổ theo tần số nằm\nở x khoảng hai phẩy tám hai."},
+{"t0": 20.71, "t1": 21.97, "chu": "Chấm đỏ là đầu dò."},
+{"t0": 22.4, "t1": 25.02, "chu": "Dời nó qua hai phía của đỉnh,\nđộ cao giảm ở cả hai bên."},
+{"t0": 25.89, "t1": 26.74, "chu": "Khi khối lượng giảm,"},
+{"t0": 26.93, "t1": 30.82, "chu": "lỗ đen nóng lên, tần số ở đỉnh tăng,\nnhưng trên trục x đỉnh vẫn đứng yên."},
+{"t0": 31.72, "t1": 33.62, "chu": "Nếu vẽ theo bước sóng\nthì đỉnh nằm ở chỗ khác,"},
+{"t0": 33.95, "t1": 35.8, "chu": "vì cả trục lẫn bề rộng mỗi dải đều đổi."}
+]

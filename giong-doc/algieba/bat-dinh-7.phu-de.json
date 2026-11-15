@@ -1,0 +1,14 @@
+[
+{"t0": 0.0, "t1": 2.66, "chu": "Bây giờ thêm một pha bậc hai,\ngọi là hệ số C."},
+{"t0": 3.32, "t1": 5.1, "chu": "Pha này đổi nhanh dần khi ra xa tâm."},
+{"t0": 5.54, "t1": 7.56, "chu": "Nhìn đường xanh: nó vẫn y nguyên như cũ."},
+{"t0": 7.74, "t1": 9.32, "chu": "Nhưng đường vàng phía\ntrước thì bè rộng ra."},
+{"t0": 9.93, "t1": 13.3, "chu": "Đây là hai trạng thái có ảnh mật độ vị trí\ngiống hệt nhau mà khác nhau về vật lý."},
+{"t0": 13.89, "t1": 15.76, "chu": "Pha mang thông tin mà ảnh vị trí đã bỏ đi."},
+{"t0": 16.53, "t1": 20.64, "chu": "Khi C bằng một, tích bất định bằng một nửa\nhằng số Planck rút gọn nhân căn hai,"},
+{"t0": 20.71, "t1": 22.84, "chu": "tức khoảng không phẩy bảy mốt,\nlớn hơn giới hạn."},
+{"t0": 23.66, "t1": 27.38, "chu": "C dương hay C âm cho cùng một tích,\nvì tích phụ thuộc vào C bình phương."},
+{"t0": 28.31, "t1": 29.62, "chu": "Nhưng hai dấu có ý nghĩa khác nhau:"},
+{"t0": 30.0, "t1": 33.12, "chu": "C dương là gói đang loang ra,\nC âm là gói đang hội tụ lại."},
+{"t0": 33.86, "t1": 36.22, "chu": "Ta sẽ thấy điều này ở bước cuối,\nkhi cho thời gian chạy."}
+]

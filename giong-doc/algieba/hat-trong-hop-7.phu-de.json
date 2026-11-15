@@ -1,0 +1,13 @@
+[
+{"t0": 0.03, "t1": 2.0, "chu": "Các chấm vàng trên bàn\nlà những lần đo vị trí,"},
+{"t0": 2.41, "t1": 4.6, "chu": "mỗi lần trên một bản chuẩn\nbị độc lập của cùng một trạng thái."},
+{"t0": 5.54, "t1": 8.32, "chu": "Sau nhiều lượt, các chấm dồn dày\nở chỗ bụng mật độ, và thưa ở chỗ nút."},
+{"t0": 8.66, "t1": 12.34, "chu": "Tiếng tách đánh dấu một lần phát hiện; khi\nđo nhanh, mô hình chỉ giữ một phần tiếng."},
+{"t0": 12.83, "t1": 14.22, "chu": "Nếu hai người cùng bắt đầu với bàn sạch,"},
+{"t0": 14.54, "t1": 16.54, "chu": "vài chấm đầu\ncủa họ thường rơi ở những chỗ khác nhau."},
+{"t0": 17.3, "t1": 19.56, "chu": "Điều họ có thể so\nlà tỉ lệ số chấm trong cùng một khoảng."},
+{"t0": 19.92, "t1": 22.2, "chu": "Tần suất bằng số chấm\ntrong khoảng chia cho tổng số lần đo."},
+{"t0": 23.01, "t1": 25.52, "chu": "Khi số lần đo tăng, tần suất thường\ntiến gần diện tích lý thuyết."},
+{"t0": 26.31, "t1": 28.62, "chu": "Các chấm nằm ở độ sâu khác nhau\nchỉ để khỏi chồng lên nhau."},
+{"t0": 29.56, "t1": 31.88, "chu": "Chỉ tọa độ dọc\ntheo chiều dài hộp mới là kết quả đo."}
+]

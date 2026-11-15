@@ -1,0 +1,15 @@
+[
+{"t0": 0.0, "t1": 1.14, "chu": "Giờ bật lại hiệu ứng Doppler."},
+{"t0": 1.82, "t1": 3.92, "chu": "Một bên đĩa sáng bừng, bên kia mờ hẳn."},
+{"t0": 4.4, "t1": 7.1, "chu": "Ở mép trong, khí quay\nvới tốc độ bằng nửa tốc độ ánh sáng."},
+{"t0": 7.7, "t1": 11.7, "chu": "Bên khí lao về phía ta,\nánh sáng bị dồn lại: sáng hơn, xanh hơn."},
+{"t0": 12.15, "t1": 13.66, "chu": "Bên khí chạy ra xa thì ngược lại."},
+{"t0": 14.68, "t1": 18.66, "chu": "Ở mép trong, bên khí lao tới có tần số\nnhận gấp một phẩy bốn mốt lần tần số phát,"},
+{"t0": 19.06, "t1": 19.96, "chu": "nên sáng gấp bốn."},
+{"t0": 20.09, "t1": 22.64, "chu": "Bên chạy ra xa,\ntần số chỉ còn không phẩy bốn bảy lần."},
+{"t0": 23.18, "t1": 25.14, "chu": "Độ sáng hai phía chênh nhau\ntới tám mươi mốt lần."},
+{"t0": 25.39, "t1": 28.5, "chu": "Ngay cả khi không có Doppler,\nánh sáng từ mép trong vẫn bị đỏ đi."},
+{"t0": 29.18, "t1": 32.74, "chu": "Lý do là đồng hồ của khí ở đó chỉ chạy\nbằng bảy mươi mốt phần trăm đồng hồ ở xa."},
+{"t0": 33.05, "t1": 34.2, "chu": "Đó là dịch chuyển đỏ hấp dẫn."},
+{"t0": 35.01, "t1": 38.4, "chu": "Vì thế mép trong của đĩa tối đi,\ndù khí nóng nhất nằm xa hơn một chút."}
+]

@@ -1,0 +1,14 @@
+[
+{"t0": 0.02, "t1": 1.56, "chu": "Hai nam châm đặt cùng một trục."},
+{"t0": 1.68, "t1": 5.54, "chu": "Nhìn sổ ghi: mỗi bên lúc ghi cộng,\nlúc ghi trừ, không đoán trước được."},
+{"t0": 6.18, "t1": 8.28, "chu": "Nhưng trong từng dòng,\nhai dấu luôn ngược nhau."},
+{"t0": 8.69, "t1": 10.06, "chu": "Cột tích ở cuối toàn là trừ một."},
+{"t0": 10.54, "t1": 12.58, "chu": "Biết Alice ghi cộng\nlà biết chắc Bob ghi trừ."},
+{"t0": 13.34, "t1": 15.94, "chu": "Tương quan, tức trung bình\ncủa tích hai dấu, bằng trừ một."},
+{"t0": 16.59, "t1": 18.74, "chu": "Đó là vì tổng spin\ncủa cặp singlet bằng không."},
+{"t0": 19.52, "t1": 21.14, "chu": "Nếu đảo một nam châm cho ngược hướng,"},
+{"t0": 21.52, "t1": 24.4, "chu": "quy ước dấu của một bên đổi,\nvà hai dấu luôn giống nhau."},
+{"t0": 24.91, "t1": 26.12, "chu": "Điều này chưa có gì kỳ lạ."},
+{"t0": 27.05, "t1": 30.7, "chu": "Hai phong bì bỏ sẵn hai lá bài ngược màu\nlà đủ giải thích riêng trường hợp này."},
+{"t0": 31.28, "t1": 34.18, "chu": "Phép thử Bell đòi một cách giải thích\nphải đúng cho nhiều cặp trục cùng lúc."}
+]

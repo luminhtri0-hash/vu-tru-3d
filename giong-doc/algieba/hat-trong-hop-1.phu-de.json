@@ -1,0 +1,14 @@
+[
+{"t0": 0.03, "t1": 1.16, "chu": "Đây là một chiếc hộp một chiều."},
+{"t0": 1.66, "t1": 5.18, "chu": "Hai tấm vách là hai bức tường cao vô hạn,\nvà electron chuyển động tự do ở giữa."},
+{"t0": 5.61, "t1": 7.02, "chu": "Đường xanh lam phía sau là hàm sóng."},
+{"t0": 7.58, "t1": 9.62, "chu": "Đường vàng phía trước là mật độ xác suất."},
+{"t0": 9.62, "t1": 11.72, "chu": "Vách vô hạn buộc hàm sóng\nbằng không ở cả hai đầu."},
+{"t0": 12.55, "t1": 15.62, "chu": "Một sóng chạm vách với biên độ khác không\nthì không thỏa điều kiện của mô hình."},
+{"t0": 15.98, "t1": 18.0, "chu": "Có thể hình dung hộp\nnhư một sợi dây cố định hai đầu."},
+{"t0": 18.81, "t1": 20.64, "chu": "Nhưng sợi dây thật rung lên xuống\ntrong không gian,"},
+{"t0": 20.97, "t1": 23.44, "chu": "còn electron chỉ được mô tả\nbằng một biên độ tại mỗi vị trí."},
+{"t0": 24.5, "t1": 26.92, "chu": "Đường cong ở đây là đồ thị\nđược dựng nổi để dễ xoay và đọc,"},
+{"t0": 27.2, "t1": 28.24, "chu": "không phải hình dạng của hạt."},
+{"t0": 28.7, "t1": 32.3, "chu": "Khi vách phải dời đi, hãy để ý chỗ đường\nxanh chạm trục, và chỗ nó lên cao nhất."}
+]

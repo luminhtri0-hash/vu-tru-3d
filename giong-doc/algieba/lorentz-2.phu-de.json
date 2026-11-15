@@ -1,0 +1,19 @@
+[
+{"t0": 0.0, "t1": 1.96, "chu": "Đây là hai chiếc đồng hồ ánh sáng\ngiống hệt nhau."},
+{"t0": 2.72, "t1": 3.98, "chu": "Mỗi chiếc có hai gương song song."},
+{"t0": 4.88, "t1": 8.42, "chu": "Một tia sáng nảy qua lại giữa hai gương,\nmỗi lần về tới gương dưới là một tích."},
+{"t0": 9.33, "t1": 11.38, "chu": "Đường vàng gấp khúc\nlà đường thế giới của tia sáng."},
+{"t0": 12.36, "t1": 14.1, "chu": "Chiếc màu trắng đứng yên\ntrong phòng thí nghiệm:"},
+{"t0": 14.44, "t1": 16.12, "chu": "tia sáng đi thẳng lên, thẳng xuống."},
+{"t0": 17.2, "t1": 18.34, "chu": "Chiếc xanh lam gắn trên tàu."},
+{"t0": 18.62, "t1": 19.52, "chu": "Nhìn từ phòng thí nghiệm,"},
+{"t0": 19.81, "t1": 23.58, "chu": "tia sáng của nó phải đi đường chéo,\ndài hơn, mà vẫn với tốc độ ánh sáng."},
+{"t0": 24.35, "t1": 26.72, "chu": "Vậy mỗi tích của nó lâu hơn,\nlâu hơn gamma lần."},
+{"t0": 26.92, "t1": 29.04, "chu": "Gamma là hệ số Lorentz, bằng một chia"},
+{"t0": 29.04, "t1": 32.02, "chu": "cho căn của một trừ bình phương tỉ\nsố giữa vận tốc và tốc độ ánh sáng."},
+{"t0": 32.71, "t1": 36.4, "chu": "Ở sáu phần mười tốc độ ánh sáng,\ngamma bằng một phẩy hai lăm."},
+{"t0": 36.63, "t1": 39.56, "chu": "Đồng hồ trên tàu tích bốn lần\nthì đồng hồ phòng thí nghiệm tích năm lần."},
+{"t0": 40.14, "t1": 40.96, "chu": "Đó là giãn thời gian."},
+{"t0": 41.94, "t1": 44.98, "chu": "Đổi sang khung con tàu, giờ chính\nđồng hồ phòng thí nghiệm chạy chậm."},
+{"t0": 45.4, "t1": 46.64, "chu": "Giãn thời gian là đối xứng."}
+]

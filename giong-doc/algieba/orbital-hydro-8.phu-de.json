@@ -1,0 +1,16 @@
+[
+{"t0": 0.0, "t1": 3.3, "chu": "Trước khi so hai hình orbital,\nhãy đọc quy ước: màu nghĩa là gì,"},
+{"t0": 3.62, "t1": 6.94, "chu": "trục hướng nào, hình vẽ bằng mặt\nmật độ không đổi hay bằng mây chấm."},
+{"t0": 7.54, "t1": 10.62, "chu": "Ảnh chỉ vẽ một mặt bao\nsẽ trông khác hẳn mây chấm đo nhiều lần."},
+{"t0": 10.99, "t1": 12.92, "chu": "Mỗi orbital được gắn các số lượng tử."},
+{"t0": 13.36, "t1": 14.36, "chu": "Số lượng tử chính là n."},
+{"t0": 15.27, "t1": 19.54, "chu": "Số lượng tử quỹ đạo là l,\nvới ét là l bằng không, pê là l bằng một."},
+{"t0": 19.66, "t1": 21.82, "chu": "Số mặt nút hình cầu bằng n trừ l trừ một,"},
+{"t0": 21.82, "t1": 24.38, "chu": "số mặt nút góc bằng l,\ntổng cộng là n trừ một."},
+{"t0": 24.92, "t1": 25.56, "chu": "Vậy một ét không có nút nào."},
+{"t0": 26.43, "t1": 27.56, "chu": "Hai ét có một mặt cầu nút."},
+{"t0": 27.56, "t1": 30.56, "chu": "Hai pê có một mặt phẳng nút."},
+{"t0": 30.8, "t1": 32.96, "chu": "Khi chuyển\ntừ mây ba chiều sang đường vàng một chiều,"},
+{"t0": 33.3, "t1": 36.06, "chu": "ta bỏ đi toàn bộ thông tin về hướng,\nchỉ còn giữ khoảng cách."},
+{"t0": 36.86, "t1": 38.84, "chu": "Mỗi cách gộp trả lời\nmột câu hỏi khác nhau."}
+]

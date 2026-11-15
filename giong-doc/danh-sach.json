@@ -1,0 +1,1937 @@
+{
+ "algieba": {
+  "bai": {
+   "he-mat-troi": {
+    "soBuoc": 8,
+    "tongGiay": 319.2,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/he-mat-troi-1.mp3",
+      "giay": 38.57,
+      "soChu": 166,
+      "bam": "424d47a4f389b5f0",
+      "choKhac": 6
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/he-mat-troi-2.mp3",
+      "giay": 41.81,
+      "soChu": 166,
+      "bam": "2f4f97abbb8fd752",
+      "choKhac": 12
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/he-mat-troi-3.mp3",
+      "giay": 37.73,
+      "soChu": 158,
+      "bam": "0132f01426fbb546",
+      "choKhac": 15
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/he-mat-troi-4.mp3",
+      "giay": 41.81,
+      "soChu": 167,
+      "bam": "f9dfe2162ac32976",
+      "choKhac": 10
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/he-mat-troi-5.mp3",
+      "giay": 41.27,
+      "soChu": 170,
+      "bam": "2c9fcf872b8e5f2a",
+      "choKhac": 11
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/he-mat-troi-6.mp3",
+      "giay": 35.45,
+      "soChu": 156,
+      "bam": "171bfe3ee408aad1",
+      "choKhac": 13
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/he-mat-troi-7.mp3",
+      "giay": 42.83,
+      "soChu": 169,
+      "bam": "50a3a02387ed5171",
+      "choKhac": 17
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/he-mat-troi-8.mp3",
+      "giay": 39.77,
+      "soChu": 166,
+      "bam": "e5f8d3fbfc20e2ec",
+      "choKhac": 11
+     }
+    ]
+   },
+   "ngan-ha": {
+    "soBuoc": 7,
+    "tongGiay": 278.3,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/ngan-ha-1.mp3",
+      "giay": 41.51,
+      "soChu": 163,
+      "bam": "a02a7d9d2b1934e5",
+      "choKhac": 11
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/ngan-ha-2.mp3",
+      "giay": 40.13,
+      "soChu": 169,
+      "bam": "0b6a70eee07cd4d4",
+      "choKhac": 5
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/ngan-ha-3.mp3",
+      "giay": 36.59,
+      "soChu": 155,
+      "bam": "0b543d670788bf4e",
+      "choKhac": 5
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/ngan-ha-4.mp3",
+      "giay": 40.61,
+      "soChu": 167,
+      "bam": "ef9caea66fb528b6",
+      "choKhac": 13
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/ngan-ha-5.mp3",
+      "giay": 38.21,
+      "soChu": 160,
+      "bam": "07b7336d7e6ba1ea",
+      "choKhac": 15
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/ngan-ha-6.mp3",
+      "giay": 40.97,
+      "soChu": 165,
+      "bam": "ef3da8b3f30468a2",
+      "choKhac": 7
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/ngan-ha-7.mp3",
+      "giay": 40.31,
+      "soChu": 164,
+      "bam": "f8f774566ba7c2d1",
+      "choKhac": 10
+     }
+    ]
+   },
+   "lo-den": {
+    "soBuoc": 8,
+    "tongGiay": 306.7,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/lo-den-1.mp3",
+      "giay": 37.49,
+      "soChu": 161,
+      "bam": "5a8e648a4e7e91cd",
+      "choKhac": 10
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/lo-den-2.mp3",
+      "giay": 44.09,
+      "soChu": 185,
+      "bam": "e9c3397c70398ae0",
+      "choKhac": 9
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/lo-den-3.mp3",
+      "giay": 37.25,
+      "soChu": 152,
+      "bam": "b91c1cec3c52d901",
+      "choKhac": 7
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/lo-den-4.mp3",
+      "giay": 36.17,
+      "soChu": 147,
+      "bam": "02c010bdb77a21da",
+      "choKhac": 9
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/lo-den-5.mp3",
+      "giay": 33.29,
+      "soChu": 145,
+      "bam": "ef0db7212a9fe22f",
+      "choKhac": 6
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/lo-den-6.mp3",
+      "giay": 38.51,
+      "soChu": 160,
+      "bam": "996f1ec7ba43225a",
+      "choKhac": 7
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/lo-den-7.mp3",
+      "giay": 41.81,
+      "soChu": 171,
+      "bam": "76efd81f3cfbb378",
+      "choKhac": 10
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/lo-den-8.mp3",
+      "giay": 38.09,
+      "soChu": 162,
+      "bam": "e8dfb66bec7bf917",
+      "choKhac": 8
+     }
+    ]
+   },
+   "song-hap-dan": {
+    "soBuoc": 8,
+    "tongGiay": 322.2,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/song-hap-dan-1.mp3",
+      "giay": 37.01,
+      "soChu": 165,
+      "bam": "6b60a2b4be7d0b6d",
+      "choKhac": 7
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/song-hap-dan-2.mp3",
+      "giay": 40.97,
+      "soChu": 172,
+      "bam": "ca2b6086dff28255",
+      "choKhac": 9
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/song-hap-dan-3.mp3",
+      "giay": 43.37,
+      "soChu": 176,
+      "bam": "3d449bd228ff05b6",
+      "choKhac": 10
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/song-hap-dan-4.mp3",
+      "giay": 36.35,
+      "soChu": 156,
+      "bam": "dec38b714d34dc69",
+      "choKhac": 7
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/song-hap-dan-5.mp3",
+      "giay": 40.73,
+      "soChu": 180,
+      "bam": "b2251c2184a38386",
+      "choKhac": 12
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/song-hap-dan-6.mp3",
+      "giay": 41.03,
+      "soChu": 169,
+      "bam": "811952ab937c852a",
+      "choKhac": 19
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/song-hap-dan-7.mp3",
+      "giay": 39.77,
+      "soChu": 168,
+      "bam": "e6fd6e301ecdcf99",
+      "choKhac": 13
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/song-hap-dan-8.mp3",
+      "giay": 43.01,
+      "soChu": 168,
+      "bam": "2e468673f9d6d213",
+      "choKhac": 16
+     }
+    ]
+   },
+   "quang-dien": {
+    "soBuoc": 8,
+    "tongGiay": 313.9,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/quang-dien-1.mp3",
+      "giay": 44.21,
+      "soChu": 155,
+      "bam": "b4b500c5dca7d451",
+      "choKhac": 11
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/quang-dien-2.mp3",
+      "giay": 38.39,
+      "soChu": 152,
+      "bam": "7d2f562b40337261",
+      "choKhac": 10
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/quang-dien-3.mp3",
+      "giay": 40.43,
+      "soChu": 148,
+      "bam": "bf9cfccea7365d81",
+      "choKhac": 12
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/quang-dien-4.mp3",
+      "giay": 36.47,
+      "soChu": 148,
+      "bam": "986b3ef8ceca032b",
+      "choKhac": 10
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/quang-dien-5.mp3",
+      "giay": 38.03,
+      "soChu": 147,
+      "bam": "2471d106bb0260be",
+      "choKhac": 12
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/quang-dien-6.mp3",
+      "giay": 37.49,
+      "soChu": 148,
+      "bam": "2b5ed4c3d59531e9",
+      "choKhac": 7
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/quang-dien-7.mp3",
+      "giay": 37.43,
+      "soChu": 148,
+      "bam": "e74bdb0d9c1a4b04",
+      "choKhac": 18
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/quang-dien-8.mp3",
+      "giay": 41.45,
+      "soChu": 160,
+      "bam": "7102d64d0c7ba002",
+      "choKhac": 12
+     }
+    ]
+   },
+   "hai-khe": {
+    "soBuoc": 8,
+    "tongGiay": 288.1,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/hai-khe-1.mp3",
+      "giay": 35.45,
+      "soChu": 153,
+      "bam": "3165ed4b1b832f81",
+      "choKhac": 7
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/hai-khe-2.mp3",
+      "giay": 34.55,
+      "soChu": 153,
+      "bam": "37d1537f0f8ba6ed",
+      "choKhac": 13
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/hai-khe-3.mp3",
+      "giay": 37.37,
+      "soChu": 151,
+      "bam": "655e2070bc289a9f",
+      "choKhac": 7
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/hai-khe-4.mp3",
+      "giay": 35.93,
+      "soChu": 152,
+      "bam": "275aa2bfc0b8eaf0",
+      "choKhac": 4
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/hai-khe-5.mp3",
+      "giay": 37.49,
+      "soChu": 140,
+      "bam": "9bb8b96881eb6c0e",
+      "choKhac": 17
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/hai-khe-6.mp3",
+      "giay": 34.91,
+      "soChu": 143,
+      "bam": "b0509e474c7c84d6",
+      "choKhac": 14
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/hai-khe-7.mp3",
+      "giay": 39.17,
+      "soChu": 157,
+      "bam": "16e87cbfed39bfd2",
+      "choKhac": 12
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/hai-khe-8.mp3",
+      "giay": 33.23,
+      "soChu": 149,
+      "bam": "0e268bbc3f8c67d1",
+      "choKhac": 7
+     }
+    ]
+   },
+   "hat-trong-hop": {
+    "soBuoc": 8,
+    "tongGiay": 277.7,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/hat-trong-hop-1.mp3",
+      "giay": 32.45,
+      "soChu": 148,
+      "bam": "fb46e7fa8495c575",
+      "choKhac": 3
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/hat-trong-hop-2.mp3",
+      "giay": 32.87,
+      "soChu": 142,
+      "bam": "20f30a684eebb80e",
+      "choKhac": 4
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/hat-trong-hop-3.mp3",
+      "giay": 36.95,
+      "soChu": 155,
+      "bam": "725c85df370e423b",
+      "choKhac": 6
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/hat-trong-hop-4.mp3",
+      "giay": 35.03,
+      "soChu": 147,
+      "bam": "d7517abb4818c1a1",
+      "choKhac": 7
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/hat-trong-hop-5.mp3",
+      "giay": 34.73,
+      "soChu": 150,
+      "bam": "01328e37ceeba787",
+      "choKhac": 18
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/hat-trong-hop-6.mp3",
+      "giay": 35.93,
+      "soChu": 154,
+      "bam": "cfbf158b4aa9907a",
+      "choKhac": 14
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/hat-trong-hop-7.mp3",
+      "giay": 32.03,
+      "soChu": 149,
+      "bam": "8bc90bfa28714ea7",
+      "choKhac": 3
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/hat-trong-hop-8.mp3",
+      "giay": 37.73,
+      "soChu": 171,
+      "bam": "2306aff64dde489d",
+      "choKhac": 4
+     }
+    ]
+   },
+   "bat-dinh": {
+    "soBuoc": 9,
+    "tongGiay": 324.1,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/bat-dinh-1.mp3",
+      "giay": 38.75,
+      "soChu": 154,
+      "bam": "e8d74273b3254f0b",
+      "choKhac": 5
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/bat-dinh-2.mp3",
+      "giay": 35.57,
+      "soChu": 153,
+      "bam": "b6a930b5e97a4e51",
+      "choKhac": 5
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/bat-dinh-3.mp3",
+      "giay": 38.21,
+      "soChu": 150,
+      "bam": "ce5c9879961a0086",
+      "choKhac": 9
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/bat-dinh-4.mp3",
+      "giay": 30.41,
+      "soChu": 136,
+      "bam": "e44996f97ef0d6ce",
+      "choKhac": 6
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/bat-dinh-5.mp3",
+      "giay": 34.31,
+      "soChu": 146,
+      "bam": "ead2eee72c83c6b0",
+      "choKhac": 2
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/bat-dinh-6.mp3",
+      "giay": 35.63,
+      "soChu": 157,
+      "bam": "19b34c3d75ad1235",
+      "choKhac": 8
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/bat-dinh-7.mp3",
+      "giay": 36.35,
+      "soChu": 151,
+      "bam": "0a277e047eacf592",
+      "choKhac": 7
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/bat-dinh-8.mp3",
+      "giay": 36.53,
+      "soChu": 148,
+      "bam": "e00eb84afce35a98",
+      "choKhac": 14
+     },
+     {
+      "buoc": 9,
+      "tep": "algieba/bat-dinh-9.mp3",
+      "giay": 38.33,
+      "soChu": 160,
+      "bam": "b626ef4f33e51dda",
+      "choKhac": 6
+     }
+    ]
+   },
+   "orbital-hydro": {
+    "soBuoc": 8,
+    "tongGiay": 288.4,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/orbital-hydro-1.mp3",
+      "giay": 33.65,
+      "soChu": 142,
+      "bam": "e79de84513a15572",
+      "choKhac": 1
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/orbital-hydro-2.mp3",
+      "giay": 34.73,
+      "soChu": 139,
+      "bam": "41a194d8b4b0c7b2",
+      "choKhac": 5
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/orbital-hydro-3.mp3",
+      "giay": 36.11,
+      "soChu": 150,
+      "bam": "64a2fabbe3fc7656",
+      "choKhac": 9
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/orbital-hydro-4.mp3",
+      "giay": 36.17,
+      "soChu": 144,
+      "bam": "3f3d48dc2a176dc9",
+      "choKhac": 3
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/orbital-hydro-5.mp3",
+      "giay": 36.47,
+      "soChu": 144,
+      "bam": "51a31aa687dc7b0e",
+      "choKhac": 11
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/orbital-hydro-6.mp3",
+      "giay": 37.31,
+      "soChu": 154,
+      "bam": "029f4f0015875ee8",
+      "choKhac": 18
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/orbital-hydro-7.mp3",
+      "giay": 34.97,
+      "soChu": 142,
+      "bam": "894f541938282850",
+      "choKhac": 10
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/orbital-hydro-8.mp3",
+      "giay": 38.99,
+      "soChu": 155,
+      "bam": "095b20396505ae1b",
+      "choKhac": 13
+     }
+    ]
+   },
+   "chui-ham": {
+    "soBuoc": 8,
+    "tongGiay": 285.0,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/chui-ham-1.mp3",
+      "giay": 36.59,
+      "soChu": 141,
+      "bam": "d73b484080542691",
+      "choKhac": 6
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/chui-ham-2.mp3",
+      "giay": 37.49,
+      "soChu": 151,
+      "bam": "cd44d2272e09605c",
+      "choKhac": 12
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/chui-ham-3.mp3",
+      "giay": 32.63,
+      "soChu": 146,
+      "bam": "8598eddfcd95bcd4",
+      "choKhac": 7
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/chui-ham-4.mp3",
+      "giay": 37.25,
+      "soChu": 144,
+      "bam": "e58945887afa26e0",
+      "choKhac": 9
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/chui-ham-5.mp3",
+      "giay": 35.51,
+      "soChu": 142,
+      "bam": "7412c82fc8b8dcbd",
+      "choKhac": 1
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/chui-ham-6.mp3",
+      "giay": 38.33,
+      "soChu": 152,
+      "bam": "bb4417f13cf11b21",
+      "choKhac": 13
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/chui-ham-7.mp3",
+      "giay": 30.71,
+      "soChu": 142,
+      "bam": "d5dbbbe764c8f47d",
+      "choKhac": 3
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/chui-ham-8.mp3",
+      "giay": 36.53,
+      "soChu": 155,
+      "bam": "45c76139833bdee9",
+      "choKhac": 12
+     }
+    ]
+   },
+   "spin-stern-gerlach": {
+    "soBuoc": 8,
+    "tongGiay": 275.9,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/spin-stern-gerlach-1.mp3",
+      "giay": 39.17,
+      "soChu": 154,
+      "bam": "457619b0afcb90e0",
+      "choKhac": 10
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/spin-stern-gerlach-2.mp3",
+      "giay": 32.09,
+      "soChu": 141,
+      "bam": "e3d08972c729b46d",
+      "choKhac": 2
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/spin-stern-gerlach-3.mp3",
+      "giay": 35.81,
+      "soChu": 156,
+      "bam": "68caa1ebcf079b93",
+      "choKhac": 12
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/spin-stern-gerlach-4.mp3",
+      "giay": 34.31,
+      "soChu": 150,
+      "bam": "6716267f3e6336e5",
+      "choKhac": 11
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/spin-stern-gerlach-5.mp3",
+      "giay": 31.67,
+      "soChu": 138,
+      "bam": "ae18845fcc16174f",
+      "choKhac": 7
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/spin-stern-gerlach-6.mp3",
+      "giay": 31.91,
+      "soChu": 136,
+      "bam": "3cb115ce678ce6e7",
+      "choKhac": 8
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/spin-stern-gerlach-7.mp3",
+      "giay": 37.25,
+      "soChu": 141,
+      "bam": "4da3c995f20fd840",
+      "choKhac": 6
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/spin-stern-gerlach-8.mp3",
+      "giay": 33.65,
+      "soChu": 147,
+      "bam": "699d0dcd8999279c",
+      "choKhac": 12
+     }
+    ]
+   },
+   "vuong-viu-bell": {
+    "soBuoc": 8,
+    "tongGiay": 289.1,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/vuong-viu-bell-1.mp3",
+      "giay": 37.79,
+      "soChu": 139,
+      "bam": "c8e74579da6ade87",
+      "choKhac": 22
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/vuong-viu-bell-2.mp3",
+      "giay": 34.31,
+      "soChu": 133,
+      "bam": "a1c3bda2d86e5376",
+      "choKhac": 4
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/vuong-viu-bell-3.mp3",
+      "giay": 32.45,
+      "soChu": 139,
+      "bam": "00129d191a08df35",
+      "choKhac": 14
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/vuong-viu-bell-4.mp3",
+      "giay": 32.75,
+      "soChu": 144,
+      "bam": "bcd2b1bf94af8cc0",
+      "choKhac": 3
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/vuong-viu-bell-5.mp3",
+      "giay": 40.31,
+      "soChu": 151,
+      "bam": "a21477507df95290",
+      "choKhac": 18
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/vuong-viu-bell-6.mp3",
+      "giay": 32.93,
+      "soChu": 139,
+      "bam": "7aeb998be6709075",
+      "choKhac": 10
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/vuong-viu-bell-7.mp3",
+      "giay": 41.27,
+      "soChu": 161,
+      "bam": "d80846adfadabc18",
+      "choKhac": 18
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/vuong-viu-bell-8.mp3",
+      "giay": 37.31,
+      "soChu": 147,
+      "bam": "a143777cb03d534e",
+      "choKhac": 14
+     }
+    ]
+   },
+   "buc-xa-hawking": {
+    "soBuoc": 8,
+    "tongGiay": 282.6,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/buc-xa-hawking-1.mp3",
+      "giay": 35.87,
+      "soChu": 148,
+      "bam": "249e97334b197f7f",
+      "choKhac": 4
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/buc-xa-hawking-2.mp3",
+      "giay": 32.93,
+      "soChu": 143,
+      "bam": "0e7171489bfdc2db",
+      "choKhac": 12
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/buc-xa-hawking-3.mp3",
+      "giay": 32.87,
+      "soChu": 141,
+      "bam": "ca0e3a61e278a34e",
+      "choKhac": 15
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/buc-xa-hawking-4.mp3",
+      "giay": 35.93,
+      "soChu": 147,
+      "bam": "fc29e83dad809002",
+      "choKhac": 10
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/buc-xa-hawking-5.mp3",
+      "giay": 36.53,
+      "soChu": 146,
+      "bam": "c6fa4883a95952ec",
+      "choKhac": 15
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/buc-xa-hawking-6.mp3",
+      "giay": 37.85,
+      "soChu": 157,
+      "bam": "40712a937d45290b",
+      "choKhac": 9
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/buc-xa-hawking-7.mp3",
+      "giay": 36.41,
+      "soChu": 150,
+      "bam": "84568bdde04834cb",
+      "choKhac": 10
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/buc-xa-hawking-8.mp3",
+      "giay": 34.25,
+      "soChu": 148,
+      "bam": "ac53e5d8766baa06",
+      "choKhac": 7
+     }
+    ]
+   },
+   "chieu-thu-tu": {
+    "soBuoc": 7,
+    "tongGiay": 307.9,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/chieu-thu-tu-1.mp3",
+      "giay": 48.05,
+      "soChu": 167,
+      "bam": "c3a181fea855022e",
+      "choKhac": 9
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/chieu-thu-tu-2.mp3",
+      "giay": 41.81,
+      "soChu": 178,
+      "bam": "ab31dce376ca9d1c",
+      "choKhac": 10
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/chieu-thu-tu-3.mp3",
+      "giay": 47.15,
+      "soChu": 181,
+      "bam": "396d368cb5caf1d7",
+      "choKhac": 16
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/chieu-thu-tu-4.mp3",
+      "giay": 44.63,
+      "soChu": 178,
+      "bam": "0fc7aa6abe785a1f",
+      "choKhac": 6
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/chieu-thu-tu-5.mp3",
+      "giay": 37.31,
+      "soChu": 158,
+      "bam": "0ea937f65ad4407a",
+      "choKhac": 4
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/chieu-thu-tu-6.mp3",
+      "giay": 46.07,
+      "soChu": 187,
+      "bam": "7c379bb72dce2f8d",
+      "choKhac": 13
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/chieu-thu-tu-7.mp3",
+      "giay": 42.83,
+      "soChu": 175,
+      "bam": "0f8188e13318d2dd",
+      "choKhac": 10
+     }
+    ]
+   },
+   "duong-the-gioi": {
+    "soBuoc": 9,
+    "tongGiay": 384.8,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/duong-the-gioi-1.mp3",
+      "giay": 43.07,
+      "soChu": 183,
+      "bam": "f09dda38554e0697",
+      "choKhac": 2
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/duong-the-gioi-2.mp3",
+      "giay": 46.61,
+      "soChu": 181,
+      "bam": "cebb1707445f1cb4",
+      "choKhac": 4
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/duong-the-gioi-3.mp3",
+      "giay": 39.41,
+      "soChu": 176,
+      "bam": "0e3b004fc90afd55",
+      "choKhac": 6
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/duong-the-gioi-4.mp3",
+      "giay": 42.35,
+      "soChu": 185,
+      "bam": "a00eec38c0ca15fd",
+      "choKhac": 9
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/duong-the-gioi-5.mp3",
+      "giay": 40.25,
+      "soChu": 171,
+      "bam": "a680aa216c9ab1fb",
+      "choKhac": 12
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/duong-the-gioi-6.mp3",
+      "giay": 42.47,
+      "soChu": 184,
+      "bam": "330635cf17f1990b",
+      "choKhac": 12
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/duong-the-gioi-7.mp3",
+      "giay": 43.13,
+      "soChu": 181,
+      "bam": "96893c5640073942",
+      "choKhac": 14
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/duong-the-gioi-8.mp3",
+      "giay": 42.65,
+      "soChu": 172,
+      "bam": "2dcef5a2738ea705",
+      "choKhac": 2
+     },
+     {
+      "buoc": 9,
+      "tep": "algieba/duong-the-gioi-9.mp3",
+      "giay": 44.87,
+      "soChu": 180,
+      "bam": "e57102111e0aa3b5",
+      "choKhac": 6
+     }
+    ]
+   },
+   "non-anh-sang": {
+    "soBuoc": 7,
+    "tongGiay": 321.5,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/non-anh-sang-1.mp3",
+      "giay": 45.77,
+      "soChu": 189,
+      "bam": "ea7156155cc64328",
+      "choKhac": 6
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/non-anh-sang-2.mp3",
+      "giay": 44.63,
+      "soChu": 176,
+      "bam": "211411d411fb004b",
+      "choKhac": 10
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/non-anh-sang-3.mp3",
+      "giay": 43.85,
+      "soChu": 184,
+      "bam": "e04ab2cf8087953e",
+      "choKhac": 6
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/non-anh-sang-4.mp3",
+      "giay": 46.85,
+      "soChu": 182,
+      "bam": "37d6e66abca35cc8",
+      "choKhac": 17
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/non-anh-sang-5.mp3",
+      "giay": 46.67,
+      "soChu": 178,
+      "bam": "82f4c683b9fcdd78",
+      "choKhac": 9
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/non-anh-sang-6.mp3",
+      "giay": 52.85,
+      "soChu": 189,
+      "bam": "6af13c33cb10fc50",
+      "choKhac": 15
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/non-anh-sang-7.mp3",
+      "giay": 40.85,
+      "soChu": 174,
+      "bam": "e4a1800b2fcc5c2e",
+      "choKhac": 3
+     }
+    ]
+   },
+   "lorentz": {
+    "soBuoc": 8,
+    "tongGiay": 356.1,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/lorentz-1.mp3",
+      "giay": 42.71,
+      "soChu": 179,
+      "bam": "ce77429fc77ba65a",
+      "choKhac": 6
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/lorentz-2.mp3",
+      "giay": 46.85,
+      "soChu": 182,
+      "bam": "bd31bb0519bd9598",
+      "choKhac": 8
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/lorentz-3.mp3",
+      "giay": 48.17,
+      "soChu": 184,
+      "bam": "30d09c27b0b8709c",
+      "choKhac": 12
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/lorentz-4.mp3",
+      "giay": 42.59,
+      "soChu": 179,
+      "bam": "551e412fe0fce0c0",
+      "choKhac": 12
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/lorentz-5.mp3",
+      "giay": 44.45,
+      "soChu": 171,
+      "bam": "411044059b63821c",
+      "choKhac": 14
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/lorentz-6.mp3",
+      "giay": 38.81,
+      "soChu": 173,
+      "bam": "caec8a9c024bcd43",
+      "choKhac": 16
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/lorentz-7.mp3",
+      "giay": 45.17,
+      "soChu": 181,
+      "bam": "9708b978cb689518",
+      "choKhac": 7
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/lorentz-8.mp3",
+      "giay": 47.33,
+      "soChu": 185,
+      "bam": "b1523552c889db15",
+      "choKhac": 16
+     }
+    ]
+   },
+   "tuong-duong": {
+    "soBuoc": 8,
+    "tongGiay": 350.7,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/tuong-duong-1.mp3",
+      "giay": 42.41,
+      "soChu": 178,
+      "bam": "2df9cf42c2be82e5",
+      "choKhac": 4
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/tuong-duong-2.mp3",
+      "giay": 46.61,
+      "soChu": 181,
+      "bam": "e1f9fd8a95dec614",
+      "choKhac": 4
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/tuong-duong-3.mp3",
+      "giay": 45.71,
+      "soChu": 174,
+      "bam": "7885c5575ca53e90",
+      "choKhac": 1
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/tuong-duong-4.mp3",
+      "giay": 44.87,
+      "soChu": 183,
+      "bam": "6c89ed0db32d7d23",
+      "choKhac": 10
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/tuong-duong-5.mp3",
+      "giay": 41.81,
+      "soChu": 175,
+      "bam": "4eac13c9e7ccdb2c",
+      "choKhac": 3
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/tuong-duong-6.mp3",
+      "giay": 42.35,
+      "soChu": 177,
+      "bam": "4a06412aa75de19a",
+      "choKhac": 8
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/tuong-duong-7.mp3",
+      "giay": 43.31,
+      "soChu": 178,
+      "bam": "bd77afea98bf6d2f",
+      "choKhac": 12
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/tuong-duong-8.mp3",
+      "giay": 43.61,
+      "soChu": 180,
+      "bam": "a32d7f424fdce364",
+      "choKhac": 13
+     }
+    ]
+   },
+   "rindler": {
+    "soBuoc": 7,
+    "tongGiay": 305.9,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/rindler-1.mp3",
+      "giay": 43.61,
+      "soChu": 181,
+      "bam": "7f199f1ba8b5d7c2",
+      "choKhac": 12
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/rindler-2.mp3",
+      "giay": 45.65,
+      "soChu": 181,
+      "bam": "685111a1e276926b",
+      "choKhac": 9
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/rindler-3.mp3",
+      "giay": 43.97,
+      "soChu": 182,
+      "bam": "c5d322fbad7dd370",
+      "choKhac": 3
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/rindler-4.mp3",
+      "giay": 41.75,
+      "soChu": 185,
+      "bam": "ba825600aecd2236",
+      "choKhac": 11
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/rindler-5.mp3",
+      "giay": 42.11,
+      "soChu": 184,
+      "bam": "89bf657d6518f2f0",
+      "choKhac": 9
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/rindler-6.mp3",
+      "giay": 43.91,
+      "soChu": 178,
+      "bam": "15f4d17e3d27a524",
+      "choKhac": 6
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/rindler-7.mp3",
+      "giay": 44.87,
+      "soChu": 183,
+      "bam": "4096fb9eff39305b",
+      "choKhac": 10
+     }
+    ]
+   },
+   "thoi-gian": {
+    "soBuoc": 8,
+    "tongGiay": 353.9,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/thoi-gian-1.mp3",
+      "giay": 45.83,
+      "soChu": 189,
+      "bam": "b36774c8b48193e9",
+      "choKhac": 12
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/thoi-gian-2.mp3",
+      "giay": 42.35,
+      "soChu": 186,
+      "bam": "6611ba2a28e19e17",
+      "choKhac": 7
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/thoi-gian-3.mp3",
+      "giay": 44.33,
+      "soChu": 187,
+      "bam": "141a28b777583fda",
+      "choKhac": 19
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/thoi-gian-4.mp3",
+      "giay": 44.75,
+      "soChu": 179,
+      "bam": "8a0146981aeb9e75",
+      "choKhac": 20
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/thoi-gian-5.mp3",
+      "giay": 45.41,
+      "soChu": 175,
+      "bam": "350ec14fbceee643",
+      "choKhac": 21
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/thoi-gian-6.mp3",
+      "giay": 41.03,
+      "soChu": 177,
+      "bam": "f40db1fd83df4abe",
+      "choKhac": 13
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/thoi-gian-7.mp3",
+      "giay": 45.05,
+      "soChu": 180,
+      "bam": "246f0114a3bea46f",
+      "choKhac": 18
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/thoi-gian-8.mp3",
+      "giay": 45.11,
+      "soChu": 186,
+      "bam": "878ce15a32827836",
+      "choKhac": 6
+     }
+    ]
+   },
+   "trac-dia": {
+    "soBuoc": 7,
+    "tongGiay": 297.2,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/trac-dia-1.mp3",
+      "giay": 41.15,
+      "soChu": 171,
+      "bam": "7a422cba63a905d7",
+      "choKhac": 3
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/trac-dia-2.mp3",
+      "giay": 41.87,
+      "soChu": 171,
+      "bam": "3135f5cc3b989fca",
+      "choKhac": 12
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/trac-dia-3.mp3",
+      "giay": 40.43,
+      "soChu": 172,
+      "bam": "093a637c88828a29",
+      "choKhac": 7
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/trac-dia-4.mp3",
+      "giay": 42.77,
+      "soChu": 176,
+      "bam": "b2df6e2e29409e58",
+      "choKhac": 7
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/trac-dia-5.mp3",
+      "giay": 45.17,
+      "soChu": 178,
+      "bam": "0dd68a8e0403c29f",
+      "choKhac": 8
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/trac-dia-6.mp3",
+      "giay": 42.47,
+      "soChu": 183,
+      "bam": "c58d5d705813c79f",
+      "choKhac": 16
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/trac-dia-7.mp3",
+      "giay": 43.37,
+      "soChu": 185,
+      "bam": "89e785e1b8e7320d",
+      "choKhac": 14
+     }
+    ]
+   },
+   "khong-thoi-gian": {
+    "soBuoc": 8,
+    "tongGiay": 345.8,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/khong-thoi-gian-1.mp3",
+      "giay": 44.57,
+      "soChu": 168,
+      "bam": "c243bf994ebf7eeb",
+      "choKhac": 8
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/khong-thoi-gian-2.mp3",
+      "giay": 37.67,
+      "soChu": 163,
+      "bam": "f5233557c5f70641",
+      "choKhac": 12
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/khong-thoi-gian-3.mp3",
+      "giay": 43.31,
+      "soChu": 176,
+      "bam": "e3ea8da614f04136",
+      "choKhac": 9
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/khong-thoi-gian-4.mp3",
+      "giay": 44.15,
+      "soChu": 171,
+      "bam": "9053532baf3dae6c",
+      "choKhac": 15
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/khong-thoi-gian-5.mp3",
+      "giay": 43.19,
+      "soChu": 171,
+      "bam": "4c4f896023bf0d0e",
+      "choKhac": 13
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/khong-thoi-gian-6.mp3",
+      "giay": 44.51,
+      "soChu": 180,
+      "bam": "80b6fb8efe022059",
+      "choKhac": 13
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/khong-thoi-gian-7.mp3",
+      "giay": 43.07,
+      "soChu": 178,
+      "bam": "55b90bcc8b45d061",
+      "choKhac": 7
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/khong-thoi-gian-8.mp3",
+      "giay": 45.35,
+      "soChu": 187,
+      "bam": "8669a6540a60819f",
+      "choKhac": 8
+     }
+    ]
+   },
+   "thuy-trieu": {
+    "soBuoc": 7,
+    "tongGiay": 304.7,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/thuy-trieu-1.mp3",
+      "giay": 42.53,
+      "soChu": 177,
+      "bam": "ee3dccf7b222a287",
+      "choKhac": 6
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/thuy-trieu-2.mp3",
+      "giay": 44.21,
+      "soChu": 192,
+      "bam": "8bdfe279625fd291",
+      "choKhac": 15
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/thuy-trieu-3.mp3",
+      "giay": 44.33,
+      "soChu": 179,
+      "bam": "11df4054c3a4b6d6",
+      "choKhac": 11
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/thuy-trieu-4.mp3",
+      "giay": 42.83,
+      "soChu": 178,
+      "bam": "cecf719bb4118029",
+      "choKhac": 6
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/thuy-trieu-5.mp3",
+      "giay": 47.75,
+      "soChu": 183,
+      "bam": "4e9f7b1ef11017f2",
+      "choKhac": 17
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/thuy-trieu-6.mp3",
+      "giay": 42.77,
+      "soChu": 178,
+      "bam": "fe32b1b425656664",
+      "choKhac": 11
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/thuy-trieu-7.mp3",
+      "giay": 40.31,
+      "soChu": 166,
+      "bam": "b5ce1bed4084f895",
+      "choKhac": 17
+     }
+    ]
+   },
+   "quy-dao": {
+    "soBuoc": 8,
+    "tongGiay": 342.5,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/quy-dao-1.mp3",
+      "giay": 45.53,
+      "soChu": 187,
+      "bam": "5f50526cb8cf8996",
+      "choKhac": 8
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/quy-dao-2.mp3",
+      "giay": 40.55,
+      "soChu": 163,
+      "bam": "04e7bb0dc4a5add6",
+      "choKhac": 8
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/quy-dao-3.mp3",
+      "giay": 44.21,
+      "soChu": 171,
+      "bam": "4fa15ef2c5a75828",
+      "choKhac": 9
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/quy-dao-4.mp3",
+      "giay": 46.07,
+      "soChu": 181,
+      "bam": "e7b872de3d69ec3c",
+      "choKhac": 10
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/quy-dao-5.mp3",
+      "giay": 43.01,
+      "soChu": 179,
+      "bam": "1108f04e8259148a",
+      "choKhac": 19
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/quy-dao-6.mp3",
+      "giay": 43.19,
+      "soChu": 181,
+      "bam": "844aafd5c3196942",
+      "choKhac": 12
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/quy-dao-7.mp3",
+      "giay": 39.11,
+      "soChu": 176,
+      "bam": "88efef918b44f783",
+      "choKhac": 12
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/quy-dao-8.mp3",
+      "giay": 40.85,
+      "soChu": 163,
+      "bam": "5156009aeac1b1f1",
+      "choKhac": 7
+     }
+    ]
+   },
+   "anh-sang": {
+    "soBuoc": 8,
+    "tongGiay": 345.5,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/anh-sang-1.mp3",
+      "giay": 43.19,
+      "soChu": 172,
+      "bam": "78130b24c6a40af5",
+      "choKhac": 6
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/anh-sang-2.mp3",
+      "giay": 43.37,
+      "soChu": 174,
+      "bam": "ce2e3e8c2319f0e7",
+      "choKhac": 8
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/anh-sang-3.mp3",
+      "giay": 45.53,
+      "soChu": 179,
+      "bam": "87f6bf623b79bbd6",
+      "choKhac": 12
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/anh-sang-4.mp3",
+      "giay": 44.51,
+      "soChu": 185,
+      "bam": "5634b89d575074ac",
+      "choKhac": 7
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/anh-sang-5.mp3",
+      "giay": 43.97,
+      "soChu": 179,
+      "bam": "bd8541993874b0fb",
+      "choKhac": 6
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/anh-sang-6.mp3",
+      "giay": 43.31,
+      "soChu": 167,
+      "bam": "3b2fb79738eb75df",
+      "choKhac": 11
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/anh-sang-7.mp3",
+      "giay": 40.01,
+      "soChu": 161,
+      "bam": "3552fe55776f2572",
+      "choKhac": 6
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/anh-sang-8.mp3",
+      "giay": 41.57,
+      "soChu": 172,
+      "bam": "75c4eee61478372f",
+      "choKhac": 11
+     }
+    ]
+   },
+   "non-lo-den": {
+    "soBuoc": 8,
+    "tongGiay": 360.5,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/non-lo-den-1.mp3",
+      "giay": 43.79,
+      "soChu": 175,
+      "bam": "faa5d1bb8cdd1091",
+      "choKhac": 10
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/non-lo-den-2.mp3",
+      "giay": 43.61,
+      "soChu": 184,
+      "bam": "0c4f64e8fb57222a",
+      "choKhac": 9
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/non-lo-den-3.mp3",
+      "giay": 51.83,
+      "soChu": 184,
+      "bam": "4c85320a747b39e7",
+      "choKhac": 13
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/non-lo-den-4.mp3",
+      "giay": 50.93,
+      "soChu": 188,
+      "bam": "4e8c717b429de1f6",
+      "choKhac": 10
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/non-lo-den-5.mp3",
+      "giay": 40.07,
+      "soChu": 178,
+      "bam": "6f46c5d865dc31c3",
+      "choKhac": 8
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/non-lo-den-6.mp3",
+      "giay": 45.11,
+      "soChu": 189,
+      "bam": "da61b0791533f6fb",
+      "choKhac": 12
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/non-lo-den-7.mp3",
+      "giay": 42.47,
+      "soChu": 177,
+      "bam": "c760b80ffa4129f3",
+      "choKhac": 7
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/non-lo-den-8.mp3",
+      "giay": 42.71,
+      "soChu": 188,
+      "bam": "9520169439fc48e1",
+      "choKhac": 18
+     }
+    ]
+   },
+   "gian-no": {
+    "soBuoc": 8,
+    "tongGiay": 334.2,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/gian-no-1.mp3",
+      "giay": 43.49,
+      "soChu": 173,
+      "bam": "18d5482267128ac1",
+      "choKhac": 9
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/gian-no-2.mp3",
+      "giay": 37.79,
+      "soChu": 165,
+      "bam": "3facafa2f1acc98d",
+      "choKhac": 7
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/gian-no-3.mp3",
+      "giay": 42.65,
+      "soChu": 178,
+      "bam": "0592ba737b002c63",
+      "choKhac": 12
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/gian-no-4.mp3",
+      "giay": 43.67,
+      "soChu": 171,
+      "bam": "3285c3c80a67d49a",
+      "choKhac": 10
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/gian-no-5.mp3",
+      "giay": 37.67,
+      "soChu": 165,
+      "bam": "ce832d7789f4b3a3",
+      "choKhac": 12
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/gian-no-6.mp3",
+      "giay": 45.11,
+      "soChu": 185,
+      "bam": "76d8e0efa03da9d6",
+      "choKhac": 8
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/gian-no-7.mp3",
+      "giay": 43.61,
+      "soChu": 179,
+      "bam": "b777048e43a2b6b7",
+      "choKhac": 12
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/gian-no-8.mp3",
+      "giay": 40.25,
+      "soChu": 164,
+      "bam": "76683a510606d987",
+      "choKhac": 9
+     }
+    ]
+   },
+   "vu-tru-4c": {
+    "soBuoc": 8,
+    "tongGiay": 314.3,
+    "tep": [
+     {
+      "buoc": 1,
+      "tep": "algieba/vu-tru-4c-1.mp3",
+      "giay": 37.43,
+      "soChu": 159,
+      "bam": "25375aaf97cc136e",
+      "choKhac": 6
+     },
+     {
+      "buoc": 2,
+      "tep": "algieba/vu-tru-4c-2.mp3",
+      "giay": 38.93,
+      "soChu": 166,
+      "bam": "34ad6821b6867ac4",
+      "choKhac": 8
+     },
+     {
+      "buoc": 3,
+      "tep": "algieba/vu-tru-4c-3.mp3",
+      "giay": 41.75,
+      "soChu": 172,
+      "bam": "8e94b7405a1cd990",
+      "choKhac": 8
+     },
+     {
+      "buoc": 4,
+      "tep": "algieba/vu-tru-4c-4.mp3",
+      "giay": 37.43,
+      "soChu": 166,
+      "bam": "6090881af1318d85",
+      "choKhac": 7
+     },
+     {
+      "buoc": 5,
+      "tep": "algieba/vu-tru-4c-5.mp3",
+      "giay": 39.53,
+      "soChu": 172,
+      "bam": "15f266b3dd87c930",
+      "choKhac": 9
+     },
+     {
+      "buoc": 6,
+      "tep": "algieba/vu-tru-4c-6.mp3",
+      "giay": 40.73,
+      "soChu": 173,
+      "bam": "7fe6f2da2082b400",
+      "choKhac": 6
+     },
+     {
+      "buoc": 7,
+      "tep": "algieba/vu-tru-4c-7.mp3",
+      "giay": 39.65,
+      "soChu": 163,
+      "bam": "089b3f54b2cb59e0",
+      "choKhac": 8
+     },
+     {
+      "buoc": 8,
+      "tep": "algieba/vu-tru-4c-8.mp3",
+      "giay": 38.81,
+      "soChu": 167,
+      "bam": "7055dee1ddb1c19a",
+      "choKhac": 14
+     }
+    ]
+   }
+  },
+  "giongMay": "vi-VN-Chirp3-HD-Algieba",
+  "tocDo": 1.2,
+  "ten": "Giọng đọc"
+ }
+}

@@ -1,0 +1,16 @@
+[
+{"t0": 0.02, "t1": 2.84, "chu": "Giữ nguồn cộng z và xoay nam\nchâm phân tích quanh trục chùm."},
+{"t0": 2.98, "t1": 4.34, "chu": "Mũi tên đỏ cam là trục đo mới."},
+{"t0": 4.55, "t1": 7.66, "chu": "Cung vàng giữa hai mũi tên là góc\ntheta giữa trục chuẩn bị và trục đo."},
+{"t0": 8.36, "t1": 11.34, "chu": "Màn ghi quay theo nam châm,\nvà cả hai vệt bắt đầu có nguyên tử."},
+{"t0": 11.62, "t1": 14.58, "chu": "Theo cơ học lượng tử, biên độ ở nhánh cộng\nlà cosin của nửa góc theta."},
+{"t0": 15.44, "t1": 17.62, "chu": "Bình phương biên độ ấy\nlà xác suất vào cửa cộng."},
+{"t0": 18.02, "t1": 21.14, "chu": "Ở bốn mươi lăm độ,\nxác suất đó khoảng tám mươi lăm phần trăm."},
+{"t0": 21.35, "t1": 24.52, "chu": "Ở chín mươi độ, cosin bình phương\ncủa bốn mươi lăm độ bằng một nửa,"},
+{"t0": 24.82, "t1": 25.56, "chu": "hai cửa ngang nhau."},
+{"t0": 25.94, "t1": 26.92, "chu": "Vì sao lại là nửa góc?"},
+{"t0": 27.14, "t1": 29.28, "chu": "Cộng z\nvà trừ z ngược nhau một trăm tám mươi độ"},
+{"t0": 29.39, "t1": 30.12, "chu": "trong không gian thường,"},
+{"t0": 30.53, "t1": 33.72, "chu": "nhưng trong không gian trạng thái chúng\nchỉ vuông góc, tức lệch chín mươi độ."},
+{"t0": 34.46, "t1": 35.62, "chu": "Mọi góc vì thế bị chia đôi."}
+]

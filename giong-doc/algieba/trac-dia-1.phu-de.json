@@ -1,0 +1,18 @@
+[
+{"t0": 0.0, "t1": 1.14, "chu": "Bạn đang nhìn một ống trụ."},
+{"t0": 1.66, "t1": 3.94, "chu": "Nó là một mảnh không-thời gian\nchỉ có hai chiều."},
+{"t0": 4.73, "t1": 6.42, "chu": "Đi dọc ống từ dưới lên là độ cao."},
+{"t0": 6.96, "t1": 8.1, "chu": "Đi vòng quanh ống là thời gian."},
+{"t0": 8.47, "t1": 11.68, "chu": "Mỗi điểm trên ống là một sự kiện:\nở độ cao này, vào lúc này."},
+{"t0": 12.44, "t1": 15.14, "chu": "Đường xanh lục là kinh tuyến bây giờ,\nnó quay đều quanh ống."},
+{"t0": 15.52, "t1": 17.92, "chu": "Cột bên trái là khung nhìn quen thuộc,\nchỉ có độ cao."},
+{"t0": 18.68, "t1": 21.44, "chu": "Quả bóng trên cột nằm đúng chỗ đường\nthế giới của nó cắt kinh tuyến bây giờ."},
+{"t0": 21.7, "t1": 22.56, "chu": "Ở đây chưa có trọng lực."},
+{"t0": 22.56, "t1": 24.9, "chu": "Người đứng yên ở mặt\nđất có độ cao không đổi,"},
+{"t0": 25.15, "t1": 26.94, "chu": "nên đường thế giới\nlà một vòng tròn quanh chân ống."},
+{"t0": 27.78, "t1": 30.86, "chu": "Quả bóng ném lên chín phẩy chín mét\nmỗi giây thì cứ lên đều mãi,"},
+{"t0": 31.12, "t1": 33.5, "chu": "nên đường thế giới của nó\nlà một đường xoắn màu vàng."},
+{"t0": 34.3, "t1": 36.06, "chu": "Cắt ống theo một đường dọc rồi trải phẳng,"},
+{"t0": 36.33, "t1": 39.06, "chu": "đường xoắn thành đường thẳng nghiêng,\nvòng tròn thành đường thẳng ngang."},
+{"t0": 39.92, "t1": 40.96, "chu": "Cả hai đều là đường thẳng."}
+]

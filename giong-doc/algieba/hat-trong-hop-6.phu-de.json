@@ -1,0 +1,15 @@
+[
+{"t0": 0.0, "t1": 1.24, "chu": "Giờ ta dời vách phải ra xa."},
+{"t0": 1.86, "t1": 4.88, "chu": "Hộp rộng hơn cho phép bước sóng dài hơn,\nnên động năng nhỏ hơn."},
+{"t0": 5.58, "t1": 8.48, "chu": "Với cùng một n, năng lượng tỉ lệ nghịch\nvới bình phương chiều rộng."},
+{"t0": 9.19, "t1": 11.42, "chu": "Hộp rộng gấp đôi\nthì năng lượng chỉ còn một phần tư."},
+{"t0": 12.38, "t1": 15.02, "chu": "Hãy giữ đầu đọc ở cùng một tỉ lệ\ncủa chiều dài hộp khi dời vách."},
+{"t0": 15.9, "t1": 18.9, "chu": "Số bụng không đổi, phần xác suất\nbên trái đầu đọc cũng không đổi."},
+{"t0": 19.32, "t1": 20.46, "chu": "Nhưng đỉnh đường vàng thấp xuống,"},
+{"t0": 20.72, "t1": 22.84, "chu": "vì tổng xác suất\nbằng một phải trải trên đoạn dài hơn."},
+{"t0": 23.36, "t1": 25.54, "chu": "Đỉnh thấp hơn không có\nnghĩa là electron biến mất."},
+{"t0": 26.25, "t1": 29.12, "chu": "Mỗi lần đổi vách, mô hình chuẩn\nbị lại trạng thái riêng trong giếng mới."},
+{"t0": 29.42, "t1": 30.76, "chu": "Nếu một vách thật dịch chuyển đột ngột,"},
+{"t0": 31.15, "t1": 32.88, "chu": "trạng thái có thể thành chồng chập\ncủa nhiều mức."},
+{"t0": 33.04, "t1": 35.84, "chu": "Có thể dời vách sao cho mức cơ bản\ncòn một phần tư mức tham chiếu."}
+]
