@@ -22,9 +22,13 @@ export function laChuVuong(s) {
   return tong > 0 && (String(s).match(VUONG_G) || []).length / tong > 0.3;
 }
 
-// Độ dài hiển thị: với chữ vuông, ký tự Latin (số, đơn vị) tính nửa chữ.
+// Chữ rộng một ô vuông: chữ Trung, Nhật và chữ Hàn (Hangul).
+const RONG = new RegExp(`${VUONG.source}|[\u1100-\u11ff\u3130-\u318f\uac00-\ud7af]`);
+// Độ dài hiển thị. Chữ vuông (ngắt được giữa các chữ): mỗi chữ một đơn vị, ký tự Latin (số, đơn vị) nửa đơn vị.
+// Chữ ngắt ở khoảng trắng (Việt, Anh, Hàn): mỗi ký tự Latin một đơn vị, chữ rộng (Hàn, chữ vuông lẫn vào) hai đơn vị,
+// nên 42 đơn vị là 42 chữ Latin hoặc 21 chữ Hàn.
 export function doDai(s, vuong) {
-  if (!vuong) return s.length;
+  if (!vuong) { let n = 0; for (const c of s) n += RONG.test(c) ? 2 : 1; return n; }
   let n = 0;
   for (const c of s) n += VUONG.test(c) ? 1 : 0.5;
   return n;
@@ -84,12 +88,32 @@ function chiPhiNgatVuong(ds, k) {
   return 2.5;
 }
 
+// RANH GIỚI TỪ của chữ Trung, Nhật. Hai thứ chữ này viết liền không có khoảng trắng, nên luật dấu câu, số và trợ từ ở
+// trên không biết đâu là giữa một từ: phụ đề từng ngắt «飞行方 | 向». Trình duyệt (kể cả WebKit của app Mac) và node đời
+// mới có sẵn bộ tách từ Intl.Segmenter; có thì hỏi nó, không có thì trả về null và bộ chia giữ luật cũ.
+// Trả về mảng ranh[k]: giữa phần tử k-1 và k là ranh giới từ.
+const _boTach = {};
+function ranhGioiTu(ds, tieng) {
+  if (typeof Intl === 'undefined' || typeof Intl.Segmenter !== 'function') return null;
+  try {
+    const bo = _boTach[tieng] || (_boTach[tieng] = new Intl.Segmenter(tieng, { granularity: 'word' }));
+    const dau = new Set();                    // vị trí (đơn vị mã UTF-16) mở đầu một từ
+    for (const doan of bo.segment(ds.join(''))) dau.add(doan.index);
+    const ranh = new Array(ds.length).fill(false);
+    let vt = 0;
+    for (let k = 0; k < ds.length; k++) { ranh[k] = dau.has(vt); vt += ds[k].length; }
+    return ranh;
+  } catch { return null; }
+}
+const NGAT_GIUA_TU = 12;                      // chi phí ngắt giữa một từ: chỉ chịu khi không còn chỗ nào khác
+
 // Chia một câu (danh sách phần tử) thành các câu phụ đề tối đa 2 dòng. Quy hoạch động trên chỗ ngắt.
-function chiaMotCau(ds, { noi, dai, vuong }) {
+function chiaMotCau(ds, { noi, dai, vuong, tieng }) {
   const n = ds.length;
   const chiPhi = vuong ? chiPhiNgatVuong : chiPhiNgatLatin;
+  const ranh = vuong ? ranhGioiTu(ds, tieng || (/[぀-ヿ]/.test(ds.join('')) ? 'ja' : 'zh')) : null;
   const ngat = [0];
-  for (let k = 1; k < n; k++) ngat[k] = chiPhi(ds, k);
+  for (let k = 1; k < n; k++) { ngat[k] = chiPhi(ds, k); if (ranh && !ranh[k] && ngat[k] < NGAT_GIUA_TU) ngat[k] = NGAT_GIUA_TU; }
   const ghep = (i, j) => ds.slice(i, j).join(noi).trim();
   const tich = [0];
   for (let k = 0; k < n; k++) tich[k + 1] = tich[k] + doDai(ds[k], vuong);
@@ -159,17 +183,18 @@ function tachCau(loi, vuong) {
 }
 
 // Đoạn lời → danh sách câu phụ đề («dòng 1\ndòng 2»).
-export function chiaPhuDe(loi, { vuong = laChuVuong(loi), dai } = {}) {
+// tieng: mã thứ tiếng (zh-CN, ja…) cho bộ tách từ của chữ vuông; không nêu thì đoán theo chữ (có kana là tiếng Nhật).
+export function chiaPhuDe(loi, { vuong = laChuVuong(loi), dai, tieng } = {}) {
   loi = String(loi || '').replace(/\s+/g, ' ').trim();
   if (!loi) return [];
-  const tuyChon = { noi: vuong ? '' : ' ', dai: dai || (vuong ? DONG_VUONG : DONG_LATIN), vuong };
+  const tuyChon = { noi: vuong ? '' : ' ', dai: dai || (vuong ? DONG_VUONG : DONG_LATIN), vuong, tieng };
   return tachCau(loi, vuong).flatMap((ds) => chiaMotCau(ds, tuyChon));
 }
 
 // Đặt mốc thời gian ước tính cho các câu phụ đề: mỗi câu dài theo số ký tự (chữ vuông chậm hơn), nghỉ ngắn sau mỗi câu.
 // Có tổng thời lượng (tệp tiếng có sẵn nhưng chưa có mốc từng câu) thì dàn đều theo tỉ lệ độ dài trên quãng đó.
-export function datMocUocTinh(dsCau, { vuong = false, tong = null, dau = 0.3 } = {}) {
-  const toc = vuong ? TOC_VUONG : TOC_LATIN;
+export function datMocUocTinh(dsCau, { vuong = false, tong = null, dau = 0.3, toc: tocRieng = null } = {}) {
+  const toc = tocRieng || (vuong ? TOC_VUONG : TOC_LATIN);
   const nghi = 0.25;
   const dai = dsCau.map((c) => Math.max(1.1, doDai(c.replace(/\n/g, vuong ? '' : ' '), vuong) / toc));
   let heSo = 1, batDau = dau;

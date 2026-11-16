@@ -11,7 +11,7 @@ import * as THREE from 'three';
 import { so, soNghia, luyThua, C, GM_TRAI_DAT, R_TRAI_DAT_KM } from '../vat-ly/hang-so.js';
 import { taoMat, quyDao, hDinhNangLuong, thoiGianBayNangLuong, giaTocDungYen, hDinhNewton, psiH } from '../vat-ly/trac-dia.js';
 import { tanSoTheoDoCao, betaChoDinh } from '../vat-ly/nem-bong.js';
-import { taoNhan, taoNenSao, taoDom, DuongDay, huyCanh, kep, lamMuot } from '../khung/ve.js';
+import { taoNhan, taoNenSao, taoDom, DuongDay, huyCanh, kep, lamMuot, goNhanDeNhau } from '../khung/ve.js';
 import { MAU_KTG, muiTen } from '../khung/ktg.js';
 import { mauNhip } from '../khung/mat-cong.js';
 import { taoDenCanh, taoPhiHanhGia, taoBong } from '../khung/do-vat.js';
@@ -38,7 +38,7 @@ const CO = {
     v: { min: 0, max: 14, buoc: 0.1, macDinh: 9.9, doi: (v) => v / C, chu: (v) => `${so(v, 1)} m/s` },
     caoTha: { min: 1, max: 10, macDinh: 5 },
     tocDo: 0.5 * C,                       // đơn vị thời gian mỗi giây thật: chạy chậm 2 lần
-    buocT: 0.25 * C, nhanT: 0.5 * C,      // kinh tuyến mỗi 0,25 s, ghi nhãn mỗi 0,5 s
+    buocT: 0.25 * C, nhanT: 1 * C,        // kinh tuyến mỗi 0,25 s, ghi nhãn mỗi 1 s
     vachH: [0, 2, 4, 6, 8, 10], buocHPhu: 0.5, tauHuong: 0.25 * C,
     tg: (t) => `${so(t / C, 2)} s`, tgNgan: (t) => `${so(t / C, 1)} s`,
     cao: (h) => `${so(h, h < 10 ? 1 : 0)} m`, caoNgan: (h) => (h === 0 ? chuCanh("canh.mat-dat", "mặt đất") : `${so(h, 0)} m`),
@@ -49,7 +49,7 @@ const CO = {
     v: { min: 0, max: 12, buoc: 0.05, macDinh: 7.9, doi: (v) => (v * 1000) / C, chu: (v) => `${so(v, 2)} km/s` },
     caoTha: { min: 1000, max: 19000, macDinh: 6371 },
     tocDo: 700 * C,
-    buocT: 600 * C, nhanT: 1200 * C,
+    buocT: 600 * C, nhanT: 2400 * C,
     vachH: [0, 0.5 * RE, RE, 1.5 * RE, 2 * RE, 3 * RE], buocHPhu: 0.25 * RE, tauHuong: 600 * C,
     tg: (t) => chuCanh("canh.phut", "{0} phút", [so(t / C / 60, 1)]), tgNgan: (t) => chuCanh("canh.phut", "{0} phút", [so(t / C / 60, 0)]),
     cao: (h) => `${so(h / 1000, 0)} km`, caoNgan: (h) => (h === 0 ? chuCanh("canh.mat-dat", "mặt đất") : `r = ${so(1 + h / RE, 1)} R`),
@@ -61,7 +61,7 @@ const CO = {
     v: { min: 0, max: 0.8, buoc: 0.01, macDinh: 0.6, doi: (v) => v, chu: (v) => `${so(v, 2)} c` },
     caoTha: { min: 0.5, max: 6.5, macDinh: 2.5 },
     tocDo: 2.2,
-    buocT: 1, nhanT: 2,
+    buocT: 1, nhanT: 4,
     vachH: [0, 0.5, 1, 1.5, 2.5, 3.5, 4.5, 6.5], buocHPhu: 0.25, tauHuong: 1.5,
     tg: (t) => `${so(t, 1)} rs/c`, tgNgan: (t) => `${so(t, 0)}`,
     cao: (h) => `r = ${so(1.5 + h, 2)} rs`, caoNgan: (h) => `${so(1.5 + h, 1)} rs`,
@@ -232,7 +232,7 @@ export default {
   ten: 'Rơi tự do là đường thẳng nhất',
   moTa: 'Quả bóng ném lên đi «thẳng» trên một không-thời gian cong',
   yChinh: 'Nhúng phần «thời gian × độ cao» của không-thời gian quanh Trái Đất thành một mặt cong, ta thấy đường thế giới của quả bóng ném lên rồi rơi xuống chính là **đường thẳng nhất** (đường trắc địa) trên mặt ấy. Không có lực hấp dẫn nào kéo quả bóng; người đứng trên mặt đất mới là người bị đẩy lệch khỏi đường thẳng nhất. Phần lớn hiệu ứng đến từ việc **thời gian** trôi nhanh chậm khác nhau theo độ cao.',
-  mayAnh: { viTri: [2.6, 5.2, 10.2], dich: [-0.8, 1.45, 0], fov: 40, min: 3, max: 40, gan: 0.2, xa: 400 },
+  mayAnh: { viTri: [2.6, 5.2, 10.2], dich: [-0.8, 1.45, 0], fov: 40, min: 3, max: 40, gan: 0.2, xa: 400, hep: 0.55 },
 
   baiGiang: {
     mucTieu: [
@@ -382,7 +382,9 @@ export default {
 
           Kết quả gọn: gia tốc rơi bằng $c^2/2$ nhân với độ chênh của $A = 1 - r_s/r$ trên mỗi mét:
 
-          $$ g = \frac{c^2}{2}\,\frac{\dd A}{\dd r} = c^2 \times \frac{\dd}{\dd r}\big(\text{nhịp đồng hồ}\big) $$
+          $$ g = \frac{c^2}{2}\,\frac{\dd A}{\dd r} $$
+
+          $$ g = c^2 \times \frac{\dd}{\dd r}\big(\text{nhịp đồng hồ}\big) $$
 
           Thay số: nhịp đồng hồ chênh $1{,}09 \times 10^{-16}$ mỗi mét, nhân $c^2 = 8{,}99 \times 10^{16}$ m²/s², được $g = 9{,}8$ m/s².
 
@@ -394,7 +396,9 @@ export default {
           +++ Đi sâu: suy ra g từ phương trình chuyển động, từng dòng
           Với $c = 1$, đường thế giới thật của vật ném thẳng đứng thoả (xem mục Công thức):
 
-          $$ \frac{\dd^2 r}{\dd t^2} = \frac{A\,A'\,(2W - A)}{2E^2}, \qquad A' = \frac{\dd A}{\dd r} = \frac{r_s}{r^2} $$
+          $$ \frac{\dd^2 r}{\dd t^2} = \frac{A\,A'\,(2W - A)}{2E^2} $$
+
+          $$ A' = \frac{\dd A}{\dd r} = \frac{r_s}{r^2} $$
 
           trong đó $W = E^2 - A$ và $(\dd r/\dd t)^2 = A^2 W/E^2$.
 
@@ -632,7 +636,7 @@ export default {
     const nhanNguoi = taoNhan(chuCanh("canh.nguoi-dung-yen", "người đứng yên"), 'mo');
     const nhanCotVach = Array.from({ length: MAX_VT }, () => { const n = taoNhan('', 'mo tran'); cot.add(n); return n; });
     cot.add(thanCot, dauCot, nguoi.nhom, nhanCot, nhanNguoi);
-    tt.them(nguoi.nhom, {
+    for (const vat of [nguoi.nhom, chamDung]) tt.them(vat, {
       ten: chuCanh("canh.nguoi-dung-yen-tren-mat-dat", "Người đứng yên trên mặt đất"), mau: MAU_DO,
       moTa: () => chuCanh("canh.do-cao-khong-doi-thoi-gian-van-troi", "Độ cao không đổi, thời gian vẫn trôi: đường thế giới là vòng tròn đỏ cam ở chân mặt. Mặt đất đẩy lên <span class=\"so\">{0}</span>.", [S.co === 'ld' ? `${so(giaTocDungYen(M().rs, M().R, 0), 2)} c²/rs` : `${so(giaTocDungYen(M().rs, M().R, 0) * C * C, 2)} m/s²`]),
     });
@@ -774,11 +778,13 @@ export default {
       vienDuoi.xong(NP + 1); vienTren.xong(NP + 1);
 
       // nhãn độ cao
+      // Giữ mọi vạch, nhưng chỉ ghi số ở mỗi hai vạch một (tính từ vạch trên cùng) cho khỏi rối; cột bên trái
+      // chỉ ghi số ở vạch trên cùng (thang đo), các vạch khác để trơn (xem thêm cuối hàm).
       const vach = p.vachH;
       nhanVT.forEach((n, k3) => {
         const h = vach[k3];
-        n.visible = h != null && h > 0;
-        nhanCotVach[k3].visible = h != null;
+        n.visible = h != null && h > 0 && (vach.length - 1 - k3) % 2 === 0;
+        nhanCotVach[k3].visible = h != null && k3 === vach.length - 1;
         vachCot[k3].visible = h != null;
         if (h == null) return;
         diem(h, Math.PI * 0.62, 0.1, q);
@@ -802,6 +808,11 @@ export default {
       chinhNhanTrung();
       ghiNhan();
       datTayNem();
+      // nhãn «người đứng yên» ở cột: chỉ khi mặt chưa có nhãn người đứng yên và cảnh chỉ có một quả bóng
+      nhanNguoi.visible = !S.dungYen && S.bong.length <= 1;
+      // so nhiều cú ném (ba, bốn quả trên cột) thì bỏ cả số ở đỉnh cột: mặt đã ghi đủ thang độ cao
+      const vachTren = nhanCotVach[p.vachH.length - 1];
+      if (vachTren) vachTren.visible = S.bong.length <= 2;
     }
     // Xoay lưới thời gian, nhãn kinh tuyến theo φ₀ (rẻ: không dựng lại mặt).
     function datPhi0() {
@@ -852,7 +863,7 @@ export default {
       const gLoc = giaTocDungYen(M().rs, M().R, 0);
       const chuG = S.co === 'ld' ? `${so(gLoc, 2)} c²/rs` : `${so(gLoc * C * C, 2)} m/s²`;
       nhanDung.datChu(cong
-        ? chuCanh("canh.nguoi-dung-yen-tren-mat-dat-khong-phai", "<span style=\"color:#ff8a73\">Người đứng yên trên mặt đất</span><small>không phải đường thẳng nhất · mặt đất đẩy lên {0}</small>", [chuG])
+        ? chuCanh("canh.nguoi-dung-yen-tren-mat-dat-khong-phai", "<span style=\"color:#ff8a73\">Người đứng yên</span><small>mặt đất đẩy lên {0}</small>", [chuG])
         : chuCanh("canh.nguoi-dung-yen-vong-tron-mot-duong-thang", "Người đứng yên<small>vòng tròn: một đường thẳng trên ống trụ</small>"));
       // mũi tên dọc kinh tuyến, hướng lên
       while (nhomMuiTen.children.length) { const o = nhomMuiTen.children.pop(); huyCanh(o); }
@@ -1040,6 +1051,8 @@ export default {
       dauMui.position.y = Math.max(0.001, L - 0.1) + 0.06;
       nhanNem.position.set(X_BONG - 0.08, y0 + 0.14 + L + 0.12, 0);
       nhanNem.datChu(v > 0 ? chuCanh("canh.nem-2c98f5", "ném {0}", [p.v.chu(v)]) : h0 > 0 ? chuCanh("canh.tha-roi", "thả rơi") : '');
+      // cú ném này đã có quả bóng mang nhãn trên mặt thì không ghi lại lần nữa ở cột
+      nhanNem.visible = !S.bong.some((d) => (d.v ?? 0) === v && (d.h0 ?? 0) === h0);
       cot.updateMatrixWorld();
       if (!tt.dangKeo || tayDangKeo !== 'cao') tayCao.dat(cot.localToWorld(_a.set(X_BONG, y0 + 0.07, 0)));
       if (!tt.dangKeo || tayDangKeo !== 'v') tayV.dat(cot.localToWorld(_a.set(X_BONG, y0 + 0.14 + L, 0)));
@@ -1295,17 +1308,42 @@ export default {
         giong.dat({ tanSo: tanSoTheoDoCao(m, hTieng, { trongLuc: S.trongLuc }), doTo: 0.13, lech: -0.25 });
       } else if (giong) giong.dat({ doTo: 0 }, 0.08);
       nguoi.capNhat?.(dtThuc);
+      // nhãn chạm nhau thì nhãn kém quan trọng dời hoặc ẩn: quả bóng và người đứng yên trước, rồi «bây giờ»,
+      // nhãn của cột, cuối cùng là số trên thước độ cao và thời gian. tat: giữ đúng phần ẩn hiện bài đã đặt (các nhãn
+      // này được bài đặt lại .visible mỗi lần dựng mặt hoặc mỗi khung hình, nên không bị khoá ở trạng thái ẩn).
+      choNhan -= dtThuc;
+      if (choNhan <= 0) {
+        choNhan = 0.15;
+        dsNhan.length = 0;
+        for (const b of dsB) dsNhan.push({ nhan: b.nhan, uuTien: 80, tat: !b.dat });   // nhãn quả bóng: bài không tự ẩn
+        dsNhan.push({ nhan: nhanDung, uuTien: 85, tat: !nhanDung.visible }, { nhan: nhanGiu, uuTien: 75, tat: !nhanGiu.visible });
+        dsNhan.push({ nhan: nhanBayGio, uuTien: 60 }, { nhan: nhanCot, uuTien: 50 }, { nhan: nhanNem, uuTien: 45, tat: !nhanNem.visible });
+        dsNhan.push({ nhan: nhanNguoi, uuTien: 40, tat: !nhanNguoi.visible }, { nhan: nhanTruc, uuTien: 30 });
+        for (const n of nhanVT) dsNhan.push({ nhan: n, uuTien: 20, tat: !n.visible });
+        for (const n of nhanCotVach) dsNhan.push({ nhan: n, uuTien: 15, tat: !n.visible });
+        for (const n of nhanKT) dsNhan.push({ nhan: n, uuTien: 15, tat: !n.visible });
+        goNhanDeNhau(dsNhan, app.camera, app.rong, app.cao);
+      }
     }
+    let choNhan = 0;
+    const dsNhan = [];
 
     function hud() {
       const p = P(), m = M();
-      const d = [[chuCanh("canh.co", "Cỡ"), `${p.ten}${S.trongLuc ? '' : chuCanh("canh.khong-trong-luc", " · không trọng lực")}`], [chuCanh("canh.bay-gio", "Bây giờ"), `t = ${p.tg(S.t)}`]];
+      // Dòng đầu là con số chính của bước (trên điện thoại ô thu gọn chỉ còn dòng đầu): thời gian bay nếu có;
+      // «Bây giờ» và «Cỡ» (đã có ở bảng điều khiển) xếp cuối. Tối đa 5 dòng.
+      const d = [];
+      const cuoi = () => {
+        d.push([chuCanh("canh.bay-gio", "Bây giờ"), `t = ${p.tg(S.t)}`]);
+        if (d.length < 5) d.push([chuCanh("canh.co", "Cỡ"), `${p.ten}${S.trongLuc ? '' : chuCanh("canh.khong-trong-luc", " · không trọng lực")}`]);
+        return d;
+      };
       const b = dsB.find((x) => x.dat && x.qd);
-      if (!b) return d;
+      if (!b) return cuoi();
       const dat = b.dat;
       if (!S.trongLuc) {
         d.push([chuCanh("canh.qua-bong", "Quả bóng"), dat.v > 0 ? chuCanh("canh.len-deu-khong-bao-gio-quay-ve", "lên đều {0}, không bao giờ quay về", [p.v.chu(dat.v)]) : chuCanh("canh.dung-yen-giua-khoang-khong", "đứng yên giữa khoảng không")]);
-        return d;
+        return cuoi();
       }
       const h0 = dat.h0 ?? 0;
       if (b.qd.cham) {
@@ -1317,7 +1355,7 @@ export default {
         const v = dat.v ?? 0;
         if (v > 0 && b.qd.cham && h0 === 0) {
           const hN = (v * v) / (2 * G_CHUAN), tN = (2 * v) / G_CHUAN;
-          d.push([chuCanh("canh.newton-g-9-81-m-s", "Newton (g = 9,81 m/s²)"), chuCanh("canh.bay-s-cao-m-lech", "bay {0} s, cao {1} m · lệch {2}", [so(tN, 3), so(hN, 3), luyThua(Math.abs(b.qd.tBay / C - tN) / tN, 1)])]);
+          d.push([chuCanh("canh.newton-g-9-81-m-s", "Newton (g = 9,81 m/s²)"), chuCanh("canh.bay-s-cao-m-lech", "{0} s, {1} m · lệch {2}", [so(tN, 3), so(hN, 3), luyThua(Math.abs(b.qd.tBay / C - tN) / tN, 1)])]);
         } else if (v === 0 && b.qd.cham) {
           const tN = Math.sqrt((2 * h0) / G_CHUAN);
           d.push([chuCanh("canh.newton-g-9-81-m-s", "Newton (g = 9,81 m/s²)"), chuCanh("canh.roi-s-lech", "rơi {0} s · lệch {1}", [so(tN, 3), luyThua(Math.abs(b.qd.tBay / C - tN) / tN, 1)])]);
@@ -1328,7 +1366,7 @@ export default {
       } else if (S.co === 'ld') {
         d.push([chuCanh("canh.newton", "Newton"), chuCanh("canh.khong-dung-duoc-sat-lo-den", "không dùng được sát lỗ đen")]);
       }
-      return d;
+      return cuoi();
     }
 
     // quả «của bạn» (ném bằng tay nắm, thanh trượt hay nút Ném của bảng điều khiển), cho thử thách

@@ -14,7 +14,7 @@ import {
   giayAnhSangKm, giayAnhSangAU, giayTuNam, khoangCachTraiDatHoa, khoangCachVoyager1,
   R_MAT_TRANG_KM, NAS_ALPHA_CEN, NAS_TAM_NGAN_HA, NAS_ANDROMEDA,
 } from '../vat-ly/khoang-cach-anh-sang.js';
-import { taoNhan, taoNenSao, taoDom, DuongDay, DuongDong, duongDayTinh } from '../khung/ve.js';
+import { taoNhan, taoNenSao, taoDom, DuongDay, DuongDong, duongDayTinh, goNhanDeNhau } from '../khung/ve.js';
 import { MAU_KTG, trucKTG, luoiSan, matHienTai, nonAnhSang, suKien, vongNgang } from '../khung/ktg.js';
 import { taoTraiDat, taoMatTrang, taoMatTroi, taoHanhTinh, taoSao, taoLoDenNho, taoThienHaNho } from '../khung/hanh-tinh.js';
 import { bienDoi } from '../vat-ly/lorentz.js';
@@ -42,6 +42,15 @@ const MO_TA_LOAI = {
   khongGian: [chuCanh("canh.kieu-khong-gian-p-o-noi-khac", "kiểu không gian, P ở nơi khác"), chuCanh("canh.khong-tin-hieu-nao-noi-duoc-khong-co", "không tín hiệu nào nối được; không có quan hệ nhân quả")],
   trung: [chuCanh("canh.p-trung-o", "P trùng O"), ''],
 };
+// Một dòng kết luận cho ô số liệu (gộp «Loại», «Nghĩa là», «Thứ tự O, P»; mỗi dòng dưới 60 ký tự).
+const KET_LUAN = {
+  tuongLai: chuCanh("canh.ket-luan-tuong-lai", "kiểu thời gian: O có thể ảnh hưởng tới P"),
+  quaKhu: chuCanh("canh.ket-luan-qua-khu", "kiểu thời gian: P có thể đã ảnh hưởng tới O"),
+  anhSangTL: chuCanh("canh.ket-luan-anh-sang-tl", "kiểu ánh sáng: chỉ ánh sáng nối O tới P"),
+  anhSangQK: chuCanh("canh.ket-luan-anh-sang-qk", "kiểu ánh sáng: chỉ ánh sáng nối P tới O"),
+  khongGian: chuCanh("canh.ket-luan-khong-gian", "kiểu không gian: không nhân quả, thứ tự tuỳ người"),
+  trung: chuCanh("canh.p-trung-o", "P trùng O"),
+};
 
 // Đổi số giây ánh sáng thành chữ dễ đọc.
 function doiGiay(s) {
@@ -59,7 +68,7 @@ export default {
   ten: 'Nón ánh sáng và nhân quả',
   moTa: 'Ánh sáng chia không-thời gian quanh mỗi sự kiện thành quá khứ, tương lai và «nơi khác»',
   yChinh: 'Ánh sáng phát ra từ một sự kiện vạch nên một **nón** trong không-thời gian. Sự kiện trong nón tương lai có thể chịu ảnh hưởng của nó; sự kiện trong nón quá khứ có thể đã ảnh hưởng tới nó; sự kiện ngoài nón không có quan hệ nhân quả nào với nó. Đại lượng $s^2 = -c^2\\Delta t^2 + \\Delta x^2$ cho biết hai sự kiện thuộc loại nào, và mọi người quan sát đều tính ra cùng một giá trị.',
-  mayAnh: { viTri: [17.5, 6.5, 20.5], dich: [0.3, -0.2, 0], fov: 40, min: 5, max: 70 },
+  mayAnh: { viTri: [17.5, 6.5, 20.5], dich: [0.3, -0.2, 0], fov: 40, min: 5, max: 70, hep: 0.55 },
   hinh: { quang: 0.45, nguong: 0.9 },
 
   baiGiang: {
@@ -170,7 +179,9 @@ export default {
           +++ Đi sâu: vì sao τ² = Δt² − Δx²
           Người bay từ O tới P mang theo đồng hồ. Trong khung của chính người đó, O và P xảy ra **cùng một chỗ** (ngay tại phi hành gia), nên $\Delta x' = 0$ và $\Delta t' = \tau$. Khoảng $s^2$ như nhau cho mọi người quan sát, nên
 
-          $$ -\tau^2 = s^2 = -\Delta t^2 + \Delta x^2 \quad\Rightarrow\quad \tau = \sqrt{\Delta t^2 - \Delta x^2} $$
+          $$ -\tau^2 = s^2 = -\Delta t^2 + \Delta x^2 $$
+
+          $$ \Rightarrow\quad \tau = \sqrt{\Delta t^2 - \Delta x^2} $$
 
           Tương tự, với P kiểu không gian, có một người quan sát thấy O và P cùng lúc ($\Delta t' = 0$); với người đó $s^2 = \sigma^2$. Có người khác lại thấy P xảy ra **trước** O, và có người thấy **sau** O: thứ tự thời gian của hai sự kiện ở nơi khác tuỳ người quan sát. Bài 6 vẽ rõ điều này.
           +++`,
@@ -363,8 +374,10 @@ export default {
     nhomKhung.add(truc);
     const nhomVach = new THREE.Group();
     nhomKhung.add(nhomVach);
+    const dsNhanVach = [];
     for (const t of [-6, -4, -2, 2, 4, 6]) {
       const n = taoNhan(`${t > 0 ? '' : '−'}${Math.abs(t)}`, 'mo tran');
+      dsNhanVach.push({ n, t });
       n.position.set(0.05, t, 0);
       const g = duongDayTinh([-0.14, t, 0, 0.14, t, 0], { mau: MAU_KTG.thoiGian, rong: 1.4, doMo: 0.8, cong: true, sang: 1.2 });
       nhomVach.add(n, g.line);
@@ -400,10 +413,12 @@ export default {
     nhomKhung.add(vongNon.line, vongSan.line, nhanVong);
     const nhomVongXep = new THREE.Group();
     for (let t = 1; t <= 5; t++) nhomVongXep.add(vongNgang(t, t, { mau: MAU_KTG.anhSang, rong: 1.3, doMo: 0.45 }).line);
+    const dsNhanVongXep = [];
     for (let t = 1; t <= 5; t++) {
       const n = taoNhan(`t = ${t}: r = ${t}`, 'vang tran');
       n.position.set(t, t, 0);
       nhomVongXep.add(n);
+      dsNhanVongXep.push({ n, t });
     }
     nhomKhung.add(nhomVongXep);
     // chớp sáng ở O: loé lên khi tấm «bây giờ» đi qua t = 0
@@ -489,6 +504,7 @@ export default {
     };
     const hypA = taoMatHyp(0.07), hypB = taoMatHyp(0.022);
     const nhanHyp = taoNhan('', 'tran');
+    const dsNhanTau = [];   // τ = 1…4 trên đường của tàu, và nhãn «nhanh hơn ánh sáng», «con tàu»
     nhanHyp.center.set(1, 0.5);
     nhomP.add(hypA, hypB, nhanHyp);
 
@@ -535,6 +551,7 @@ export default {
         n.center.set(1, 0.5);
         n.position.set(xTau(a) - 0.12, a, 0);
         nhomTau.add(d, n);
+        dsNhanTau.push(n);
       }
       nhomTau.add(duongDayTinh([0, 0, 0, 0, 2.2, 3.74], { mau: MAU_KTG.do, rong: 2, doMo: 0.9, net: [0.14, 0.1] }).line);
       const nCam = taoNhan(chuCanh("canh.nhanh-hon-anh-sang-ra-ngoai-non-khong", "nhanh hơn ánh sáng<small>ra ngoài nón: không thể</small>"), 'dam');
@@ -543,6 +560,7 @@ export default {
       const nTau = taoNhan(chuCanh("canh.con-tau-toi-da-c-di-nam-anh", "con tàu<small>tối đa {0} c, đi {1} năm ánh sáng</small>", [so(V_TAU, 1), so(viTriTau(T_TAU), 2)]), 'hong dam');
       nTau.position.set(xTau(T_TAU), T_TAU + 0.2, 0);
       nhomTau.add(nCam, nTau);
+      dsNhanTau.push(nCam, nTau);
     }
     const domTau = suKien(MAU_KTG.hong, 0.62);
     const vetTau = new DuongDay(30, { mau: MAU_KTG.hong, rong: 5, moDan: true, sang: 1.8 });
@@ -999,6 +1017,35 @@ export default {
       else if (ten === 'bay-gio') { S.chay = false; dkChay.dat(false); S.T = 3.2; dkT.dat(S.T); S.tTay = true; }
     }
 
+    // Nhãn tránh nhau theo mức ưu tiên (khung xếp chỗ): O và P là vật chính; vật lời giảng nhắc 60–80; vạch số, chú
+    // thích 10–30. Tối đa 12 nhãn: trục thời gian chỉ ghi ±4; các vòng xếp chỉ ghi t = 1, 3, 5; có con tàu thì ẩn chú
+    // thích ô; bước gom bộ khung (có cả vùng nhân quả) ẩn các dấu τ và nhãn «nhanh hơn ánh sáng».
+    const nhanCacTruc = [];
+    truc.traverse((o) => { if (o.isCSS2DObject) nhanCacTruc.push(o); });
+    const [nhanTauTau, nCamTau] = [dsNhanTau[dsNhanTau.length - 1], dsNhanTau[dsNhanTau.length - 2]];
+    const dsNhom = [
+      { nhan: nhanO, uuTien: 90, giu: true }, { nhan: nhanP, uuTien: 85 },
+      { nhan: nhanTT, uuTien: 85, giu: true }, { nhan: nTa, uuTien: 80 }, { nhan: nhanPhat, uuTien: 78 }, { nhan: nhanLucNay, uuTien: 72 },
+      { nhan: nhanKC, uuTien: 66 }, { nhan: nhanTruc, uuTien: 66 },
+      { nhan: nhanTauTau, uuTien: 78 }, { nhan: nhanDongHo, uuTien: 75 }, { nhan: nCamTau, uuTien: 66, an: () => S.hien.vungNhan },
+      { nhan: nhanTL, uuTien: 72 }, { nhan: nhanQK, uuTien: 72 }, { nhan: nhanNK, uuTien: 72 },
+      { nhan: nhanNQS, uuTien: 72 }, { nhan: nhanT2, uuTien: 70 }, { nhan: nhanX2, uuTien: 70 },
+      { nhan: nhanCN, uuTien: 60 }, { nhan: nhanHyp, uuTien: 64, tu: true }, { nhan: nhanVong, uuTien: 64, tu: true },
+      ...dsNhanTau.slice(0, -2).map((n) => ({ nhan: n, uuTien: 62, an: () => S.hien.vungNhan })),
+      ...dsNhanVongXep.map(({ n, t }) => ({ nhan: n, uuTien: 30, an: () => t % 2 === 0 })),
+      ...nhanCacTruc.map((n) => ({ nhan: n, uuTien: 20 })),
+      ...dsNhanVach.map(({ n, t }) => ({ nhan: n, uuTien: 15, an: () => Math.abs(t) !== 4 })),
+      { nhan: nhanO2, uuTien: 10, an: () => S.hien.tau },
+    ];
+    const nhomGo = dsNhom.map((k) => ({ nhan: k.nhan, uuTien: k.uuTien, giu: !!k.giu, tat: false }));
+    function xepNhan() {
+      for (let i = 0; i < dsNhom.length; i++) {
+        const k = dsNhom[i];
+        nhomGo[i].tat = k.tu ? !k.nhan.visible : !!(k.an && k.an());
+      }
+      goNhanDeNhau(nhomGo, app.camera, app.rong, app.cao);
+    }
+
     function capNhat(dt) {
       if (thu) apThu();
       if (thuKeo && S.thoiGian > 2.2) apKeoThat();
@@ -1042,6 +1089,7 @@ export default {
       }
       capNhatTayNam();
       amThanh(dt);
+      xepNhan();
     }
 
     function hud() {
@@ -1057,17 +1105,15 @@ export default {
         const loai = phanLoai(S.dx, S.dt);
         const s2 = binhPhuongKhoang(S.dx, S.dt);
         d.push(['P', `Δx = ${so(S.dx, 2)}, Δt = ${so(S.dt, 2)} · s² = ${so(s2, 2)}`]);
-        d.push([chuCanh("canh.loai", "Loại"), MO_TA_LOAI[loai][0]]);
-        if (MO_TA_LOAI[loai][1]) d.push([chuCanh("canh.nghia-la", "Nghĩa là"), MO_TA_LOAI[loai][1]]);
+        d.push([chuCanh("canh.ket-luan", "Kết luận"), KET_LUAN[loai]]);
         if (loai === 'tuongLai' || loai === 'quaKhu') {
           d.push([chuCanh("canh.di-thang-deu-o-p", "Đi thẳng đều O–P"), chuCanh("canh.v-c-nam", "v = {0} c · τ = {1} năm", [so(S.dx / Math.abs(S.dt), 3), so(thoiGianRieng(S.dx, S.dt), 3)])]);
         } else if (loai === 'khongGian') {
           d.push([chuCanh("canh.khoang-cach-rieng", "Khoảng cách riêng"), chuCanh("canh.nam-anh-sang-aa89b6", "σ = {0} năm ánh sáng", [so(khoangCachRieng(S.dx, S.dt), 3)])]);
-          d.push([chuCanh("canh.thu-tu-o-p", "Thứ tự O, P"), chuCanh("canh.tuy-nguoi-quan-sat-bai-6", "tuỳ người quan sát (Bài 6)")]);
         }
         if (S.hien.nqs) {
           const [tp, xp] = bienDoi(S.dt, S.dx, S.v);
-          d.push([chuCanh("canh.nguoi-quan-sat-2", "Người quan sát 2"), `v = ${so(S.v, 2)} c: Δt′ = ${so(tp, 2)}, Δx′ = ${so(xp, 2)} · s² = ${so(-tp * tp + xp * xp, 2)}`]);
+          d.push([chuCanh("canh.nguoi-quan-sat-2", "Người quan sát 2"), `Δt′ = ${so(tp, 2)}, Δx′ = ${so(xp, 2)} · s² = ${so(-tp * tp + xp * xp, 2)}`]);
         }
       }
       if (S.hien.tau) {

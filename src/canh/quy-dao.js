@@ -11,7 +11,7 @@ import { so, soNghia, R_MAT_TROI_KM, RS_MAT_TROI_M } from '../vat-ly/hang-so.js'
 import { LEtuPE, buocHat, tienDongChinhXac, tienDongXapXi, nhipDongHoQuyDao } from '../vat-ly/schwarzschild.js';
 import { phanLoai, tuVanToc, vanTocNgangTuEL, vanTocTron, vanTocThoat, TT_XOAY_90, TT_ROI_RA, F_GOC, tanSoTocDo } from '../vat-ly/phong-quy-dao.js';
 import { MatCong, vongTrenMat } from '../khung/mat-cong.js';
-import { taoNhan, taoNenSao, taoDom, DuongDay, donViMoiDiemAnh, kep } from '../khung/ve.js';
+import { taoNhan, taoNenSao, taoDom, DuongDay, donViMoiDiemAnh, kep, goNhanDeNhau } from '../khung/ve.js';
 import { khungDoThi, MAU } from '../khung/giao-dien.js';
 import { muiTen } from '../khung/ktg.js';
 import { taoLoDenNho, taoMatTroi, taoSao, taoHanhTinh } from '../khung/hanh-tinh.js';
@@ -51,7 +51,7 @@ export default {
     - Thế hiệu dụng của Einstein có thêm số hạng $-GML^2/(c^2r^3)$. Nó làm elip xoay một góc $\Delta\varphi = 6\pi GM/[c^2a(1-e^2)]$ sau mỗi vòng.
     - Sao Thủy: 42,98″ mỗi thế kỷ (Einstein, tháng 11/1915). Sao S2: khoảng 12′ mỗi vòng (GRAVITY 2020).
     - Quanh lỗ đen không quay, quỹ đạo tròn bền trong cùng ở 3 rs; khí xoáy vào tới đó giải phóng 5,7% khối lượng nghỉ.`,
-  mayAnh: { viTri: [0, 14, 22], dich: [0, -1, 0], fov: 42, min: 1, max: 1e9 },
+  mayAnh: { viTri: [0, 14, 22], dich: [0, -1, 0], fov: 42, min: 1, max: 1e9, hep: 0.5 },
 
   baiGiang: {
     mucTieu: [
@@ -253,7 +253,9 @@ export default {
           +++ Đi sâu: tìm 3 rs và $\sqrt{8/9}$
           Quỹ đạo tròn nằm ở đỉnh hoặc đáy của $V(r)$. Dùng $G = c = 1$, đặt $\dd V/\dd r = 0$:
 
-          $$ \frac{M}{r^2} - \frac{L^2}{r^3} + \frac{3ML^2}{r^4} = 0 \;\Rightarrow\; Mr^2 - L^2r + 3ML^2 = 0 $$
+          $$ \frac{M}{r^2} - \frac{L^2}{r^3} + \frac{3ML^2}{r^4} = 0 $$
+
+          $$ \Rightarrow\; Mr^2 - L^2r + 3ML^2 = 0 $$
 
           $$ r = \frac{L^2}{2M}\Big(1 \pm \sqrt{1 - 12M^2/L^2}\Big) $$
 
@@ -403,6 +405,8 @@ export default {
     }
     scene.add(mc.nhom);
     const phu = new THREE.Group();     // các vòng, nhãn phụ dựng lại theo từng quỹ đạo
+    const nhanVong = [];               // nhãn của ba vòng (chân trời, mặt cầu photon, quỹ đạo tròn bền trong cùng)
+    const dsNhan = [];                 // danh sách đưa cho bộ xếp nhãn mỗi khung hình (dùng lại, không cấp phát)
     scene.add(phu);
 
     // ----- Thiên thể ở tâm -----
@@ -498,6 +502,7 @@ export default {
 
     // Mặt cong, các vòng mốc và elip Newton (phụ thuộc cách xem).
     function dungMat() {
+      nhanVong.length = 0;
       while (phu.children.length) { const o = phu.children.pop(); o.geometry?.dispose(); o.material?.dispose(); o.element?.remove(); }
       // quỹ đạo rất lớn: thưa vòng lưới ra (mặt cong ở đó gần như phẳng, chỉ làm nền)
       const buocVong = rMax <= 16 ? 1 : rMax <= 40 ? 2 : 2.5 * Math.pow(10, Math.floor(Math.log10(rMax / 4)));
@@ -518,11 +523,20 @@ export default {
           const n = taoNhan(chu, lop);
           n.position.set(r * Math.cos(a), mc.y(r) + 0.05, r * Math.sin(a));
           phu.add(n);
+          nhanVong.push(n);
         };
         them(1, chuCanh("canh.chan-troi-su-kien", "Chân trời sự kiện"), 'mo', 0xff7a50, 2.5);
         them(1.5, chuCanh("canh.mat-cau-photon-1-5-r-s", "Mặt cầu photon · 1,5 r<sub>s</sub>"), 'mo', 0xffc65c, -0.9);
         them(3, chuCanh("canh.quy-dao-tron-ben-trong-cung-3-r", "Quỹ đạo tròn bền trong cùng · 3 r<sub>s</sub>"), 'mo', 0x9fe3a8, 0.6);
       }
+      // Bộ xếp nhãn: vật đang bay và tâm giữ chỗ; các vòng, elip Newton, đường thế giới ngang hàng nhau để cùng hiện
+      // (bộ xếp dời chứ không ẩn khi chúng nằm sát nhau, nhất là trên điện thoại).
+      dsNhan.length = 0;
+      dsNhan.push({ nhan: nhanVat, uuTien: 92, giu: true, tat: false }, { nhan: nhanTam, uuTien: 84, tat: false },
+        { nhan: nhanCan, uuTien: 76, tat: false }, { nhan: nhanPhong, uuTien: 74, tat: false },
+        { nhan: nhanNewton, uuTien: 70, tat: false }, { nhan: nhanTG, uuTien: 72, tat: false },
+        { nhan: nhanOng, uuTien: 62, tat: false }, { nhan: nhanNay, uuTien: 28, tat: false });
+      nhanVong.forEach((n, i) => dsNhan.push({ nhan: n, uuTien: [64, 60, 62][i] ?? 60, tat: false }));
       loDen.nhom.visible = gan || laS2();
       matTroi.nhom.visible = laThuy();
       nhanTam.visible = !gan;
@@ -810,7 +824,7 @@ export default {
           return [phongDat.r0 * UR[0] + vx * K_V, y, phongDat.r0 * UR[1] + vz * K_V];
         },
       },
-      nhan: chuCanh("canh.keo-mui-ten-van-toc-roi-buong-tay", "Kéo mũi tên vận tốc rồi buông tay để phóng"),
+      nhan: chuCanh("canh.keo-mui-ten-van-toc-roi-buong-tay", "Kéo mũi tên rồi buông tay"),
       khiNam: () => batDauKeo('vt'),
       khiKeo: (q) => {
         const vx = (q.x - phongDat.r0 * UR[0]) / K_V, vz = (q.z - phongDat.r0 * UR[1]) / K_V;
@@ -1055,6 +1069,9 @@ export default {
       capNhatTieng(dt, v, vRef);
       doThiCho -= dt > 0 ? dt : 0.016;
       if (doThiCho <= 0) { doThiCho = 0.1; ve.veLai(); }
+      // giữ nguyên ẩn/hiện mà bài đã đặt ở trên, chỉ nhờ bộ xếp nhãn cho chúng tránh nhau
+      for (let i = 0; i < dsNhan.length; i++) dsNhan[i].tat = !dsNhan[i].nhan.visible;
+      goNhanDeNhau(dsNhan, camera, app.rong, app.cao);
       if (thu && !daThu) { daThu = true; datThu(); }
     }
 
@@ -1066,7 +1083,7 @@ export default {
           [chuCanh("canh.da-quay", "Đã quay"), chuCanh("canh.vong", "{0} vòng{1}", [so(soVongTua, 0), nam ? ` = ${nam >= 1e6 ? chuCanh("canh.trieu-nam", "{0} triệu năm", [so(nam / 1e6, 2)]) : chuCanh("canh.nam", "{0} năm", [so(nam, 0)])}` : ''])],
           [chuCanh("canh.can-diem-da-xoay", "Cận điểm đã xoay"), `${goc(psi)}${psi > 2 * Math.PI ? chuCanh("canh.vong-3d5ea1", " ({0} vòng)", [so(psi / (2 * Math.PI), 2)]) : ''}`],
           [chuCanh("canh.moi-vong-xoay", "Mỗi vòng xoay"), goc(tdChinhXac)],
-          [chuCanh("canh.hinh-ve", "Hình vẽ"), chuCanh("canh.elip-einstein-sang-xoay-dan-so-voi-elip", "elip Einstein (sáng) xoay dần so với elip Newton (xám); vệt mờ: các vị trí elip vừa đi qua")],
+          [chuCanh("canh.hinh-ve", "Hình vẽ"), chuCanh("canh.elip-einstein-sang-xoay-dan-so-voi-elip", "sáng: Einstein · xám: Newton")],
         ];
       }
       const f = 1 - 1 / Math.max(1.0001, s.r);
@@ -1074,11 +1091,11 @@ export default {
       const dong = [
         [chuCanh("canh.cach-tam", "Cách tâm"), `${so(s.r, 2)} r<sub>s</sub>`],
         [chuCanh("canh.toc-do-nguoi-dung-yen-tai-cho-do", "Tốc độ (người đứng yên tại chỗ đo)"), chuCanh("canh.toc-do-anh-sang", "{0}% tốc độ ánh sáng", [so(v * 100, 1)])],
-        [chuCanh("canh.dong-ho-cua-vat", "Đồng hồ của vật"), chuCanh("canh.dong-ho-o-xa-don-vi-r-s", "{0} · đồng hồ ở xa: {1} (đơn vị r<sub>s</sub>/c)", [so(s.tau, 0), daRoi > 0 ? chuCanh("canh.tang-mai-khong-dung", "tăng mãi không dừng") : so(s.t, 0)])],
+        [chuCanh("canh.dong-ho-cua-vat", "Đồng hồ của vật"), chuCanh("canh.dong-ho-o-xa-don-vi-r-s", "{0} · ở xa: {1} (r<sub>s</sub>/c)", [so(s.tau, 0), daRoi > 0 ? chuCanh("canh.tang-mai-khong-dung", "tăng mãi không dừng") : so(s.t, 0)])],
       ];
-      if (cheDo === 'mo-phong' && e >= 0.01 && coNewton) dong.push([chuCanh("canh.can-diem-xoay-moi-vong", "Cận điểm xoay mỗi vòng"), chuCanh("canh.do-trong-mo-phong-ly-thuyet", "đo trong mô phỏng {0} · lý thuyết {1}", [tdDo == null ? chuCanh("canh.cho-du-mot-vong", "(chờ đủ một vòng)") : goc(tdDo), goc(tdChinhXac)])]);
+      if (cheDo === 'mo-phong' && e >= 0.01 && coNewton) dong.push([chuCanh("canh.can-diem-xoay-moi-vong", "Cận điểm xoay mỗi vòng"), chuCanh("canh.do-trong-mo-phong-ly-thuyet", "đo {0} · lý thuyết {1}", [tdDo == null ? chuCanh("canh.cho-du-mot-vong", "(chờ đủ một vòng)") : goc(tdDo), goc(tdChinhXac)])]);
       else dong.push([chuCanh("canh.trang-thai", "Trạng thái"), daRoi > 0 ? chuCanh("canh.da-di-qua-chan-troi-su-kien", "đã đi qua chân trời sự kiện") : daThoat > 0 ? chuCanh("canh.da-bay-ra-xa", "đã bay ra xa") : cheDo === 'roi' ? chuCanh("canh.dang-xoay-vao", "đang xoáy vào") : mau.phong && !coNewton ? TEN_LOAI[kqPhong?.loai] || '' : chuCanh("canh.quay-tron", "quay tròn")]);
-      if (ktgDung()) dong.push([chuCanh("canh.hinh-ve", "Hình vẽ"), chuCanh("canh.chieu-dung-la-thoi-gian-cua-dong-ho", "chiều đứng là thời gian của đồng hồ ở xa (đã nén), không gian bị dẹt phẳng")]);
+      if (ktgDung()) dong.push([chuCanh("canh.hinh-ve", "Hình vẽ"), chuCanh("canh.chieu-dung-la-thoi-gian-cua-dong-ho", "trục đứng là thời gian ở xa (đã nén)")]);
       return dong;
     }
 

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { banVe, chuCuaBai } from './ban-do-luong-tu.js';
-import { kep } from '../khung/ve.js';
+import { kep, goNhanDeNhau } from '../khung/ve.js';
 import { domSang } from '../khung/do-vat-chung.js';
 import { so } from '../vat-ly/hang-so.js';
 import { khungDoThi } from '../khung/giao-dien.js';
@@ -40,10 +40,13 @@ export function mauBuocSong(nm, c = new THREE.Color()) {
 
 export default {
   ...baiQuangDien, id, baiGiang: { ...baiQuangDien.baiGiang, buoc },
-  mayAnh: { viTri: [4.4, 5.0, 12.6], dich: [-0.4, 0.95, 0.45], fov: 37, min: 5, max: 20 },
+  mayAnh: { viTri: [4.4, 5.0, 12.6], dich: [-0.4, 0.95, 0.45], fov: 37, min: 5, max: 20, hep: 0.5 },
   hinh: { quang: 0.32, nguong: 1.0 }, nhacNen: null,
   tao(app) {
     const { scene, hop, kim, nhan, dong, xam } = banVe(app);
+    // Nhãn tránh nhau (trên điện thoại cảnh thu nhỏ nên nhãn hai đầu ray và nhãn điểm quay đầu dễ chạm nhau):
+    // tên dụng cụ và điểm quay đầu ngang hàng nhau, số đếm, điện áp, ngưỡng ở giữa, nhãn hai đầu ray thấp nhất.
+    const nhomNhan = [];
     const kimToi = kim(0x233844);
     const bac = new THREE.MeshStandardMaterial({ color: 0xc9d3dc, metalness: 1, roughness: 0.22 });
     const thepToi = new THREE.MeshStandardMaterial({ color: 0x4d6372, metalness: 0.8, roughness: 0.35 });
@@ -100,10 +103,11 @@ export default {
     moc.rotation.y = Math.PI / 2; moc.position.set(X1, Y, 0); moc.visible = false; scene.add(moc);
     const nhanMoc = nhan(chu('diem-quay'), X1, Y + 0.68, 0, 'hong'); nhanMoc.hien(false);
 
-    nhan(chu('nguon'), XS, 2.2, 0, 'mo');
-    nhan(chu('catot'), X0, 2.35, 0, 'vang');
-    nhan(chu('ban-thu'), X1, 2.45, 0, 'xanh');
     const demNguon = nhan('', XS, 0.78, 0.72, 'tran'), demThu = nhan('', X1 + 0.35, 0.78, 0.9, 'tran');
+    const nhanQuay = { nhan: nhanMoc, uuTien: 70, tat: true };
+    nhomNhan.push({ nhan: nhan(chu('nguon'), XS, 2.2, 0, 'mo'), uuTien: 70 }, { nhan: nhan(chu('catot'), X0, 2.35, 0, 'vang'), uuTien: 70 },
+      { nhan: nhan(chu('ban-thu'), X1, 2.45, 0, 'xanh'), uuTien: 70 }, nhanQuay,
+      { nhan: demNguon, uuTien: 50 }, { nhan: demThu, uuTien: 50 }, { nhan: nhanU, uuTien: 50 });
     app.tt.them(than, { ten: chu('nguon'), moTa: chu('nguon-tip') });
     app.tt.them(catot, { ten: chu('catot'), moTa: chu('catot-tip') });
     app.tt.them(thu, { ten: chu('ban-thu'), moTa: chu('thu-tip') });
@@ -134,14 +138,15 @@ export default {
       hop(D, 0.012, 0.16, XN + D / 2, YR - 0.03, z, kimToi);
       for (const v of vach) hop(0.014, 0.07, 0.014, v, YR + 0.05, z - 0.08, vachVl);
       for (const x of [XN, XN + D]) hop(0.05, 0.16, 0.14, x, YR, z, dong);
-      nhan(nhanTrai, XN - 0.55, YR + 0.02, z, 'tran');
-      nhan(nhanPhai, XN + D + 0.6, YR + 0.02, z, 'tran');
+      nhomNhan.push({ nhan: nhan(nhanTrai, XN - 0.55, YR + 0.02, z, 'tran'), uuTien: 20 },
+        { nhan: nhan(nhanPhai, XN + D + 0.6, YR + 0.02, z, 'tran'), uuTien: 20 });
     }
     ray(ZF, '350 THz', '1000 THz', [400, 500, 600, 700, 800, 900].map(Xf));
     ray(ZU, '0 V', '2 V', [0.5, 1, 1.5].map(Xu));
     // Vạch ngưỡng trên ray tần số: sáng xanh lục, dời theo công thoát đang chọn.
     const vachNguong = hop(0.03, 0.2, 0.2, Xf(tanSoNguong(2)), YR + 0.06, ZF, new THREE.MeshBasicMaterial({ color: new THREE.Color(0x8fe3a8).multiplyScalar(1.8) }));
     const nhanNguong = nhan(chu('nguong'), Xf(tanSoNguong(2)), YR + 0.32, ZF - 0.32, 'tran');
+    nhomNhan.push({ nhan: nhanNguong, uuTien: 50 });
     function tay(z, khoa, mau, x, doiGiaTri) {
       return app.tt.tayNam({ viTri: [x, YR, z], mau, co: 0.17, ten: chu(khoa), nhan: chu(khoa),
         rangBuoc: { kieu: 'duong', qua: [0, YR, z], huong: [1, 0, 0] },
@@ -182,7 +187,7 @@ export default {
       vachNguong.position.x = xNg; nhanNguong.position.x = xNg;
       // Điểm quay đầu chỉ có nghĩa khi electron không tới được bản thu.
       const quay = hieuUng.coHat && ts.U > 0 && !hieuUng.thuDuoc;
-      moc.visible = quay; nhanMoc.hien(quay);
+      moc.visible = quay; nhanMoc.hien(quay); nhanQuay.tat = !quay;
       if (quay) { const x = X0 + 0.06 + (X1 - X0 - 0.12) * hieuUng.diemQuay; moc.position.x = x; nhanMoc.position.x = x; }
       nhanU.datChu('U = ' + so(ts.U, 2) + ' V');
       for (const h of hat) h.p.visible = h.e.visible = false;
@@ -198,6 +203,7 @@ export default {
       const c = chop[chopI++ % chop.length]; c.t = 0; c.s.visible = true; c.s.position.set(X0 - 0.07, y, z);
     }
     function capNhat(dt) {
+      goNhanDeNhau(nhomNhan);
       if (dt <= 0) return;
       t += dt; du += chay ? dt * ts.luong * 2 : 0;
       while (du >= 1) { du--; phat(); }
@@ -232,7 +238,13 @@ export default {
         demThu.datChu(chu('electron') + ': <b>' + so(daThu, 0) + '</b>');
       }
     }
+    // Ô số liệu theo bước (tối đa 5 dòng): dòng đầu là số chính của bước. Số photon tới đã có nhãn đếm cạnh nguồn
+    // nên không lặp lại ở đây. Chỉ số trỏ vào mảng dòng trong hud():
+    // 0 photon tới · 1 electron đã thu · 2 bước sóng · 3 năng lượng photon · 4 động năng cực đại · 5 điện áp hãm
+    const HUD_BUOC = [[3, 1, 4, 2, 5], [3, 2, 4, 1, 5], [4, 3, 2, 1, 5], [1, 4, 3, 2, 5], [4, 3, 2, 1, 5], [5, 4, 3, 1, 2], [4, 3, 2, 1, 5], [5, 4, 3, 2, 1]];
+    let buocNay = 0;
     function moBuoc(i) {
+      buocNay = i;
       chay = true; keoF = false; keoU = false;
       dat({ f: [600, 500, 400, 600, 600, 600, 800, 600][i], W: i === 6 ? 3 : 2, U: i === 5 ? 0.70 : 0, luong: 1 });
       phat();
@@ -243,7 +255,10 @@ export default {
         if (i === 5) return keoU && ts.U > 0 && hieuUng.diemQuay >= 0.75 && hieuUng.diemQuay <= 0.85;
         return i === 6 && keoF && ts.W === 3 && hieuUng.K >= 0.45 && hieuUng.K <= 0.55;
       },
-      hud: () => [[chu('photon'), so(dem, 0)], [chu('electron'), so(daThu, 0)], [chu('buoc-song'), so(C_NM_THZ / ts.f, 0) + ' nm'], [chu('nang-luong'), so(nangLuongPhoton(ts.f), 2) + ' eV'], [chu('dong-nang'), so(hieuUng.K, 2) + ' eV'], [chu('dien-ap'), so(ts.U, 2) + ' V']],
+      hud() {
+        const ds = [[chu('photon'), so(dem, 0)], [chu('electron'), so(daThu, 0)], [chu('buoc-song'), so(C_NM_THZ / ts.f, 0) + ' nm'], [chu('nang-luong'), so(nangLuongPhoton(ts.f), 2) + ' eV'], [chu('dong-nang'), so(hieuUng.K, 2) + ' eV'], [chu('dien-ap'), so(ts.U, 2) + ' V']];
+        return (HUD_BUOC[buocNay] || HUD_BUOC[0]).map((k) => ds[k]);
+      },
     };
   },
 };

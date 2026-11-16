@@ -14,7 +14,9 @@ final class UngDung: NSObject, NSApplicationDelegate, WKScriptMessageHandler, WK
     var ngonNgu = Locale.preferredLanguages.first ?? "vi"
     var tuDienMac: [String: [String: String]] = [:]
     func chuMac(_ khoa: String, _ goc: String) -> String {
-        let ma = ngonNgu.lowercased().hasPrefix("zh") ? "zh-CN" : String(ngonNgu.prefix(2))
+        // Thứ tiếng nào có trong thuc-don.json (đóng gói từ src/ngon-ngu/danh-sach.json) thì dùng; khớp cả mã lẫn phần đầu của mã.
+        let thuong = ngonNgu.lowercased()
+        let ma = tuDienMac.keys.first { $0.lowercased() == thuong } ?? tuDienMac.keys.first { $0.lowercased().hasPrefix(String(thuong.prefix(2))) } ?? ngonNgu
         return tuDienMac[ma]?["mac." + khoa] ?? goc
     }
     var cuaSo: NSWindow!
@@ -178,7 +180,7 @@ final class UngDung: NSObject, NSApplicationDelegate, WKScriptMessageHandler, WK
         guard let lenh = message.body as? String else { return }
         if lenh.hasPrefix("ngon-ngu:") {
             let ma = String(lenh.dropFirst("ngon-ngu:".count))
-            guard ["vi", "en", "zh-CN", "ja"].contains(ma) else { return }
+            guard tuDienMac[ma] != nil else { return }
             ngonNgu = ma
             cuaSo.title = chuMac("ten", "Vũ trụ 3D")
             if !chayAn { dungThucDon() }
@@ -247,8 +249,10 @@ final class UngDung: NSObject, NSApplicationDelegate, WKScriptMessageHandler, WK
         let xem = NSMenu(title: chuMac("xem", "Xem"))
         let luongTu = xem.addItem(withTitle: chuMac("luong-tu", "Vật lý lượng tử"), action: #selector(moLuongTu), keyEquivalent: "")
         luongTu.target = self
-        let xemVideo = xem.addItem(withTitle: chuMac("xem-video", "Xem như video"), action: #selector(xemNhuVideo), keyEquivalent: "")
-        xemVideo.target = self
+        let ngheGiang = xem.addItem(withTitle: chuMac("nghe-giang", "Nghe giảng, tự sang bước"), action: #selector(ngheGiangTuSang), keyEquivalent: "")
+        ngheGiang.target = self
+        let anBang = xem.addItem(withTitle: chuMac("an-bang", "Ẩn hoặc hiện bảng bài giảng"), action: #selector(anHienBang), keyEquivalent: "")
+        anBang.target = self
         xem.addItem(.separator())
         let toan = xem.addItem(withTitle: chuMac("toan-man-hinh", "Toàn màn hình"), action: #selector(NSWindow.toggleFullScreen(_:)), keyEquivalent: "f")
         toan.keyEquivalentModifierMask = [.control, .command]
@@ -269,10 +273,14 @@ final class UngDung: NSObject, NSApplicationDelegate, WKScriptMessageHandler, WK
         duong.queryItems = [URLQueryItem(name: "canh", value: "hai-khe")]
         if let url = duong.url { web.loadFileURL(url, allowingReadAccessTo: tep.deletingLastPathComponent()) }
     }
-    // Vào hoặc thoát chế độ «Xem như video» của trang (như phím V). Đang ở màn hình chào thì bấm nút của màn hình chào,
-    // để lần bấm đó cũng đóng màn hình chào và khởi động âm thanh.
-    @objc func xemNhuVideo() {
-        chay("(function(){var a=window.__vt;if(!a||!a.xemVideo)return 'chua-san-sang';if(a.xemVideo.mo){a.xemVideo.ra();return 'ra';}var n=document.getElementById('nut-chao-video');if(n&&document.body.classList.contains('dang-chao')){n.click();}else{a.xemVideo.vao();}return 'vao';})()") { _ in }
+    // Nghe giảng có phụ đề, tự sang bước (như nút «Bắt đầu học có giọng đọc»); đang nghe thì tạm dừng. Đang ở màn hình chào
+    // thì bấm nút của màn hình chào, để lần bấm đó cũng đóng màn hình chào và khởi động âm thanh.
+    @objc func ngheGiangTuSang() {
+        chay("(function(){var a=window.__vt;if(!a||!a.nghe)return 'chua-san-sang';var n=document.getElementById('nut-chao-nghe');if(n&&document.body.classList.contains('dang-chao')){n.click();return 'vao';}if(a.nghe.dangPhat){a.nghe.phatDung(false);return 'dung';}a.nghe.batDau();return 'nghe';})()") { _ in }
+    }
+    // Ẩn hoặc hiện bảng bài giảng (như phím V): bảng ẩn thì mô hình chiếm cả cửa sổ, lời đang nghe và phụ đề giữ nguyên.
+    @objc func anHienBang() {
+        chay("(function(){var a=window.__vt;if(!a||a.dangChao||a.chiSo<0)return 'chua-san-sang';a.anHienBang();return 'xong';})()") { _ in }
     }
     @objc func napLai() { web.reload() }
 

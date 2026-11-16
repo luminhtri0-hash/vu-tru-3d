@@ -1,6 +1,6 @@
 {
   "name": "vu-tru-3d",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Vũ trụ 3D: khoá học vật lý bằng mô hình 3D tương tác (thuyết tương đối, vũ trụ học, lượng tử)",
   "scripts": {
     "build": "node build.mjs",

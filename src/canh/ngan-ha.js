@@ -534,7 +534,7 @@ export default {
           +++ Đi sâu: cân Ngân Hà bằng tốc độ của Mặt Trời
           Lực hấp dẫn đóng vai trò lực hướng tâm: $GM/R^2 = v^2/R$, nên khối lượng bên trong quỹ đạo là
 
-          $$ M = \frac{v^2 R}{G} = \frac{(2{,}3 \times 10^{5})^2 \times 2{,}53 \times 10^{20}}{6{,}67 \times 10^{-11}} \approx 2{,}0 \times 10^{41}\ \text{kg} \approx 1{,}0 \times 10^{11}\ M_\odot $$
+          $$ \begin{aligned} M = \frac{v^2 R}{G} &= \frac{(2{,}3 \times 10^{5})^2 \times 2{,}53 \times 10^{20}}{6{,}67 \times 10^{-11}} \\ &\approx 2{,}0 \times 10^{41}\ \text{kg} \approx 1{,}0 \times 10^{11}\ M_\odot \end{aligned} $$
 
           (công thức này đúng cho phân bố khối lượng cầu; với đĩa phẳng, kết quả lệch vài chục phần trăm). Nếu $v$ không đổi thì $M = v^2R/G$ tăng tỉ lệ với $R$: ra xa gấp đôi, khối lượng bên trong cũng gấp đôi, dù ánh sáng ở đó đã thưa thớt. Toàn bộ sao và khí của Ngân Hà chỉ khoảng $6 \times 10^{10}\ M_\odot$, còn tổng khối lượng tính cả vùng xa khoảng $10^{12}\ M_\odot$: phần lớn là vật chất tối.
           +++
@@ -557,7 +557,7 @@ export default {
 
           Người ta cân nó bằng chính định luật Kepler của Bài 1. Sao **S2** quay quanh Sgr A* mỗi vòng **16 năm**, trên một elip rất dẹt; lúc gần nhất chỉ cách 120 AU và lao đi khoảng 7 650 km/s. Với khối lượng tâm $M$ (tính bằng khối lượng Mặt Trời):
 
-          $$ T^2 = \frac{a^3}{M} \quad\Longrightarrow\quad a = (M T^2)^{1/3} = (4{,}3 \times 10^{6} \times 16^2)^{1/3} \approx 1\,030\ \text{AU} $$
+          $$ \begin{aligned} T^2 = \frac{a^3}{M} \;\Longrightarrow\; a &= (M T^2)^{1/3} \\ &= (4{,}3 \times 10^{6} \times 16^2)^{1/3} \approx 1\,030\ \text{AU} \end{aligned} $$
 
           Kích thước quỹ đạo đo được khớp với con số này. Không có vật nào khác nặng chừng ấy mà gọn trong chừng ấy chỗ, ngoài một lỗ đen.
 
@@ -701,7 +701,7 @@ export default {
     const loDen = taoLoDenNho({ banKinh: BK_LO_DEN, dia: true, doSang: 1 });
     loDen.nhom.rotation.set(0.35, 0, 0.18);
     scene.add(loDen.nhom);
-    const nhanLoDen = taoNhan(chuCanh("canh.sagittarius-a-lo-den-4-3-trieu-khoi", "Sagittarius A*<small>lỗ đen 4,3 triệu khối lượng Mặt Trời · hình phóng to hàng trăm triệu lần</small>"), 'vang dam');
+    const nhanLoDen = taoNhan(chuCanh("canh.sagittarius-a-lo-den-4-3-trieu-khoi", "Sagittarius A*<small>lỗ đen 4,3 triệu M☉</small>"), 'vang dam');
     scene.add(nhanLoDen);
 
     // ----- Quỹ đạo «sao thử» quanh Sgr A* (bước 5): kéo để đổi bán trục lớn, chu kỳ theo Kepler -----
@@ -713,7 +713,7 @@ export default {
     nhomS2.add(vongS2.line, saoS2.nhom);
     nhomS2.visible = false;
     scene.add(nhomS2);
-    const nhanS2 = taoNhan(chuCanh("canh.sao-thu", "Sao thử"), 'xanh tran');
+    const nhanS2 = taoNhan(chuCanh("canh.sao-thu", "Sao thử"), 'dam xanh');   // nền đậm: chữ đọc được trên quầng sáng của sao
     scene.add(nhanS2);
     const viTriS2 = (E, out) => {
       const a = s2.a * S2_DON_VI, b = a * Math.sqrt(1 - E_S2 * E_S2);
@@ -730,7 +730,7 @@ export default {
     // ----- Bong bóng Fermi và eROSITA -----
     const bongFermi = taoBongBong(26, 9.5, new THREE.Color(0xff4a86), 0.55);
     const bongEro = taoBongBong(46, 21, new THREE.Color(0xff8a3c), 0.22);
-    const nhanFermi = taoNhan(chuCanh("canh.bong-bong-fermi-tia-gamma-cao-25-000", "Bong bóng Fermi<small>tia gamma · cao 25 000 năm ánh sáng mỗi bên</small>"), 'hong dam');
+    const nhanFermi = taoNhan(chuCanh("canh.bong-bong-fermi-tia-gamma-cao-25-000", "Bong bóng Fermi<small>tia gamma · cao 25 000 năm ánh sáng</small>"), 'hong dam');
     nhanFermi.position.set(7.6, 17, 0);
     const nhanEro = taoNhan(chuCanh("canh.bong-bong-erosita-tia-x-cao-45-000", "Bong bóng eROSITA<small>tia X · cao 45 000 năm ánh sáng</small>"), 'mo');
     nhanEro.position.set(17, 34, 0);
@@ -791,7 +791,7 @@ export default {
     const hangXom = [
       [taoNhan(chuCanh("canh.may-magellan-lon-160-000-nam-anh-sang", "Mây Magellan Lớn<small>160 000 năm ánh sáng</small>"), ''), [-1.8, -88.5, 134.6], 130, 20, chuCanh("canh.thien-ha-nho-di-kem-ngan-ha-thay", "Thiên hà nhỏ đi kèm Ngân Hà, thấy được bằng mắt thường ở bầu trời phương nam.")],
       [taoNhan(chuCanh("canh.may-magellan-nho-200-000-nam-anh-sang", "Mây Magellan Nhỏ<small>200 000 năm ánh sáng</small>"), ''), [50.8, -139.7, 120.3], 130, 12, chuCanh("canh.thien-ha-nho-di-kem-thu-hai-cung", "Thiên hà nhỏ đi kèm thứ hai, cũng thấy được ở bầu trời phương nam.")],
-      [taoNhan(chuCanh("canh.thien-ha-tien-nu-m31-2-5-trieu", "Thiên hà Tiên Nữ (M31)<small>2,5 triệu năm ánh sáng · khoảng 1 000 tỉ sao</small>"), 'dam'), [-1250, -935, -2020], 600, 120, chuCanh("canh.thien-ha-xoan-oc-lon-co-ngan-ha", "Thiên hà xoắn ốc lớn cỡ Ngân Hà, đang lại gần tâm Ngân Hà khoảng 110 km/s.")],
+      [taoNhan(chuCanh("canh.thien-ha-tien-nu-m31-2-5-trieu", "Thiên hà Tiên Nữ (M31)<small>2,5 triệu năm ánh sáng</small>"), 'dam'), [-1250, -935, -2020], 600, 120, chuCanh("canh.thien-ha-xoan-oc-lon-co-ngan-ha", "Thiên hà xoắn ốc lớn cỡ Ngân Hà, khoảng 1 000 tỉ sao, đang lại gần tâm Ngân Hà khoảng 110 km/s.")],
       [taoNhan(chuCanh("canh.thien-ha-tam-giac-m33-2-7-trieu", "Thiên hà Tam Giác (M33)<small>2,7 triệu năm ánh sáng</small>"), ''), [-1636, -1418, -1689], 600, 40, chuCanh("canh.thien-ha-xoan-oc-nho-trong-nhom-dia", "Thiên hà xoắn ốc nhỏ trong Nhóm Địa phương.")],
     ];
     for (const [n, p, , lech] of hangXom) { n.position.set(p[0] + lech, p[1], p[2]); scene.add(n); }
@@ -928,8 +928,13 @@ export default {
       bong: () => [[-6, 18, 118], [0, 12, 0]],
       mt: () => { tinhMT(t, viTriMT); return [[viTriMT.x - 9, 7, viTriMT.z + 13], viTriMT.toArray()]; },
       tam: () => [[1.62, 1.28, 3.32], [-0.18, 0, 0]],
-      // nhìn vuông góc với đường Ngân Hà – Tiên Nữ (góc cũ nhìn gần dọc đường ấy nên hai thiên hà chồng lên nhau, nhãn bị ẩn)
-      xom: () => [[-4080, 950, 1130], [-625, -470, -1010]],
+      // đứng sau lưng Ngân Hà, chếch khỏi đường Ngân Hà – Tiên Nữ: Ngân Hà ở gần nên hai Mây Magellan tách nhau rõ, Tiên Nữ
+      // và Tam Giác ở xa phía dưới bên trái, cả năm thiên hà nằm trong phần trống bên trái bảng bài giảng.
+      // Cửa sổ hẹp (điện thoại cầm dọc) thì lùi xa thêm tới 1,9 lần để cả cụm vừa khung.
+      xom: () => {
+        const k = 1 + 0.9 * THREE.MathUtils.clamp((700 - app.rong) / 300, 0, 1);
+        return [[-375 + 865 * k, -340 + 144 * k, -606 + 2105 * k], [-375, -340, -606]];
+      },
       quay: () => [[-10, 120, 40], [-6, 0, 0]],
     };
     const goc = (ten, giay) => app.bayToi(...GOC[ten](), giay ?? (ten === 'xom' ? 3.2 : 1.8));
@@ -1022,12 +1027,13 @@ export default {
       s2.hien = k.s2;
       if (k.s2) { s2.a = 600; s2.gio = 0; s2.vong = 0; veVongS2(); }
       tayS2.an(!k.s2);
+      gocBuoc = k.mayAnh || null;
       if (k.mayAnh) goc(k.mayAnh);
     }
 
     const dsNhan = [];
     const huong = new THREE.Vector3(), q3 = new THREE.Vector3(), vW = new THREE.Vector3();
-    let doMoBong = 1, doMoLoDen = 0, doiGocBong = false;
+    let doMoBong = 1, doMoLoDen = 0, doiGocBong = false, gocBuoc = null;
     let gioThuc = 0;
     function capNhat(dt, dtThuc) {
       gioThuc += dtThuc;
@@ -1115,7 +1121,7 @@ export default {
             giongKep.dat({ tanSo: HZ_MOI_KM_S * vKepler(thu.R), doTo: 0.06 * im, lech });
           }
         } else {
-          nhanThu.datChu(chuCanh("canh.sao-thu-mot-vong-trieu-nam-nhanh-trieu", "Sao thử<small>một vòng {0} triệu năm · nhánh {1} triệu năm</small>", [so((2 * Math.PI) / omegaSao(thu.R), 0), so((2 * Math.PI) / OM_NHANH, 0)]));
+          nhanThu.datChu(chuCanh("canh.sao-thu-mot-vong-trieu-nam-nhanh-trieu", "Sao thử<small>vòng {0} · nhánh {1} triệu năm</small>", [so((2 * Math.PI) / omegaSao(thu.R), 0), so((2 * Math.PI) / OM_NHANH, 0)]));
           // băng qua một nhánh: tiếng «tinh» ngắn
           const pha = phaThu();
           if (pha !== thu.pha) {
@@ -1186,13 +1192,16 @@ export default {
       const xa = dCam > 420, ratXa = dCam > 1500;
       dsNhan.length = 0;
       dsNhan.push({ nhan: nhanMT, uuTien: 100, tat: ratXa });
-      dsNhan.push({ nhan: nhanLoDen, uuTien: 90, tat: xa });
+      // Sgr A* không thuộc ý bước «Mặt Trời ở đâu» (nằm dưới bảng) và bước đường cong quay (nhãn vắt ngang đĩa)
+      dsNhan.push({ nhan: nhanLoDen, uuTien: 90, tat: xa || gocBuoc === 'mt' || thu.cheDo === 'kepler' });
       dsNhan.push({ nhan: nhanS2, uuTien: 92, tat: !nhomS2.visible });
       dsNhan.push({ nhan: nhanThu, uuTien: 94, tat: !thu.cheDo || xa }, { nhan: nhanKepThu, uuTien: 93, tat: thu.cheDo !== 'kepler' || xa });
       dsNhan.push({ nhan: nhanFermi, uuTien: 80, tat: !hien.bong || xa }, { nhan: nhanEro, uuTien: 60, tat: !hien.bong || xa });
-      for (const n of dsNhanNhanh) dsNhan.push({ nhan: n, uuTien: 50, tat: !hien.nhanh || dCam > 330 });
+      // bước «Mặt Trời ở đâu» chỉ nhắc nhánh Orion, Sagittarius, Perseus: tắt Scutum–Centaurus, Norma (nằm dưới bảng)
+      dsNhanNhanh.forEach((n, i) => dsNhan.push({ nhan: n, uuTien: 50, tat: !hien.nhanh || dCam > 330 || (gocBuoc === 'mt' && (i === 2 || i === 3)) }));
       for (const n of dsNhanLuoi) dsNhan.push({ nhan: n, uuTien: 20, tat: !hien.luoi || dCam > 330 });
-      hangXom.forEach(([n, , nguong], i) => dsNhan.push({ nhan: n, uuTien: 70 - i, tat: dCam < nguong }));
+      // năm thiên hà của bước «Hàng xóm» cùng một dải ưu tiên để nằm sát nhau thì khung dời chứ không ẩn
+      hangXom.forEach(([n, , nguong], i) => dsNhan.push({ nhan: n, uuTien: 74 - (i >> 1), tat: dCam < nguong }));
       dsNhan.push({ nhan: nhanNH, uuTien: 95, tat: !xa });
       dsMau.forEach((m, i) => dsNhan.push({ nhan: m.nThat, uuTien: 85 - i, tat: !nhomMau.visible || xa }, { nhan: m.nKep, uuTien: 84 - i, tat: !nhomMau.visible || xa || i === 0 }));
       goNhanDeNhau(dsNhan, camera, app.rong, app.cao);

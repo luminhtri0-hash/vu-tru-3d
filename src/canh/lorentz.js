@@ -13,7 +13,7 @@ import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
 import { so } from '../vat-ly/hang-so.js';
 import { gamma, congVanToc, sinhDoi, muon, TAU_MUON_S } from '../vat-ly/lorentz.js';
 import { TOC_NAY, NHIP_DONG_HO, dtDongThoi, chenhTuoi, THU_THACH_B6, datThuThach, vanTocBan } from '../vat-ly/lorentz-thu-thach.js';
-import { taoNhan, taoNenSao, taoDom, DuongDay, kep } from '../khung/ve.js';
+import { taoNhan, taoNenSao, taoDom, DuongDay, goNhanDeNhau, kep } from '../khung/ve.js';
 import { MAU_KTG, nonAnhSang, suKien } from '../khung/ktg.js';
 import { taoDenCanh, vlKimLoai, vlSang, vlSon, hopBo, dat, ghep, domSang, taoKetCau } from '../khung/do-vat-chung.js';
 import { taoTenLua } from '../khung/do-vat-ten-lua.js';
@@ -213,6 +213,8 @@ class BoNhan {
     o.datChu(html);
     o.position.set(x, t, y);
     o.visible = true;
+    // mức ưu tiên cho goNhanDeNhau: nhãn đậm (vật, sự kiện lời giảng nhắc) 70; số vạch, chữ mờ 15; còn lại 40
+    o.userData.uuTien = lop.includes('dam') ? 70 : (lop.includes('mo') || /^[0-9,.]+$/.test(html)) ? 15 : 40;
     return o;
   }
   lab(html, lop, t, x, y = 0, phai = false) { hien(t, x); return this.them(html, lop, H_[1], H_[0], y, phai); }
@@ -513,7 +515,7 @@ export default {
   ten: 'Thuyết tương đối hẹp: phép biến đổi Lorentz',
   moTa: 'Khi tốc độ lớn, chính tấm «bây giờ» cũng nghiêng',
   yChinh: 'Tốc độ ánh sáng như nhau với mọi người quan sát. Muốn thế, thời gian và không gian phải đổi lẫn cho nhau khi đổi khung: đồng hồ chuyển động chạy chậm, thước chuyển động ngắn lại, và hai người chuyển động với nhau không đồng ý thế nào là «cùng lúc». Trên sơ đồ không-thời gian, đổi khung là một phép «quay hyperbol»: tia sáng đứng yên, các sự kiện trượt dọc những hyperbol bất biến.',
-  mayAnh: { viTri: [6, 5, 23.5], dich: [0, 0, 0], fov: 40, min: 5, max: 60 },
+  mayAnh: { viTri: [6, 5, 23.5], dich: [0, 0, 0], fov: 40, min: 5, max: 60, hep: 0.55 },
 
   baiGiang: {
     mucTieu: [
@@ -640,7 +642,9 @@ export default {
           +++ Đi sâu: tính L = L₀/γ từ sơ đồ
           Đặt $c = 1$. Hai đầu thước có $x' = 0$ và $x' = L_0$ với mọi $t'$. Dùng phép biến đổi Lorentz $x' = \gamma(x - \beta t)$ cho từng đầu, ở cùng một lúc $t$ của phòng thí nghiệm:
 
-          $$ L_0 = x'_2 - x'_1 = \gamma\big[(x_2 - \beta t) - (x_1 - \beta t)\big] = \gamma\,(x_2 - x_1) = \gamma L $$
+          $$ L_0 = x'_2 - x'_1 = \gamma\big[(x_2 - \beta t) - (x_1 - \beta t)\big] $$
+
+          $$ = \gamma\,(x_2 - x_1) = \gamma L $$
 
           Chữ $t$ triệt tiêu vì hai đầu được đo **cùng lúc** trong phòng thí nghiệm. Vậy $L = L_0/\gamma$. Làm ngược lại (đo một thước đứng yên trong phòng thí nghiệm từ trên tàu) cũng được $L_0/\gamma$: co độ dài cũng đối xứng.
           +++`,
@@ -657,7 +661,11 @@ export default {
         noiDung: R`
           Bây giờ gom tất cả vào một hình. Lưới trắng mờ là lưới tọa độ của phòng thí nghiệm, lưới xanh lam là của con tàu. Mỗi ô của tàu là một hình thoi: trục ct′ nghiêng về phía tia sáng, trục x′ nghiêng lên phía tia sáng. Đổi tọa độ từ khung này sang khung kia là {{phép biến đổi Lorentz}}:
 
-          $$ ct' = \gamma\,(ct - \beta x), \qquad x' = \gamma\,(x - \beta\,ct), \qquad y' = y, \qquad \beta = \frac{v}{c} $$
+          $$ ct' = \gamma\,(ct - \beta x) $$
+
+          $$ x' = \gamma\,(x - \beta\,ct) $$
+
+          $$ y' = y, \qquad \beta = \frac{v}{c} $$
 
           Đường cong tím mờ là các hyperbol $-c^2t^2 + x^2 = $ −9, −4, −1, 1, 4, 9. Phép biến đổi giữ nguyên **khoảng không-thời gian**:
 
@@ -738,7 +746,11 @@ export default {
           +++ Đi sâu: thời gian riêng của từng chặng
           Đặt $c = 1$, đơn vị năm. Chặng đi kéo dài $\Delta t = L/\beta = 5{,}4625$ năm và $\Delta x = 4{,}37$:
 
-          $$ \Delta\tau = \sqrt{5{,}4625^2 - 4{,}37^2} = 5{,}4625\sqrt{1 - 0{,}64} = 5{,}4625 \times 0{,}6 \approx 3{,}28 \text{ năm} $$
+          $$ \Delta\tau = \sqrt{5{,}4625^2 - 4{,}37^2} $$
+
+          $$ = 5{,}4625\sqrt{1 - 0{,}64} $$
+
+          $$ = 5{,}4625 \times 0{,}6 \approx 3{,}28 \text{ năm} $$
 
           Chặng về y hệt, tổng $6{,}55$ năm. Người ở nhà: $\Delta x = 0$ nên $\Delta\tau = \Delta t = 10{,}925$ năm.
 
@@ -920,6 +932,16 @@ export default {
     // Đốm và nhãn chạy theo «bây giờ» của khung nhìn (cập nhật mỗi khung hình).
     const chay = Array.from({ length: 6 }, () => ({ duong: new DuongChay(160), dom: taoDom(0xffffff, 0.55), nhan: taoNhan('', 'dam'), mau: 0xffffff, ten: '', dung: false }));
     for (const c of chay) { goc.add(c.dom, c.nhan); }
+    // Mọi nhãn của cảnh tránh nhau theo mức ưu tiên (khung xếp chỗ); nhãn chạy theo «bây giờ» là vật chính (75).
+    const nhomNhan = [...nhan.ds.map((o) => ({ nhan: o, uuTien: 40, tat: true })), ...chay.map((c) => ({ nhan: c.nhan, uuTien: 75, tat: true }))];
+    function xepNhan() {
+      for (let i = 0; i < nhomNhan.length; i++) {
+        const k = nhomNhan[i];
+        k.tat = !k.nhan.visible;
+        if (i < nhan.ds.length) k.uuTien = k.nhan.userData.uuTien ?? 40;
+      }
+      goNhanDeNhau(nhomNhan, app.camera, app.rong, app.cao);
+    }
     const vongNay = new DuongDay(97, { mau: MAU_KTG.anhSang, rong: 2.4, quang: 0.14 });
     goc.add(vongNay.line);
 
@@ -1089,7 +1111,7 @@ export default {
         for (let k = -8; k <= 8; k++) {
           if (!k) continue;
           tuTau(k, 0); const d = dom.xanh.lab(L_[0], L_[1], 0);
-          if (d && soVach && k > 0 && k <= 4) nhan.them(String(k), 'xanh tran', d.position.x, d.position.y);
+          if (d && soVach && (k === 2 || k === 4)) nhan.them(String(k), 'xanh tran', d.position.x, d.position.y);   // ghi số mỗi hai vạch
           tuTau(0, k); dom.xanh.lab(L_[0], L_[1], 0);
         }
       }
@@ -1644,6 +1666,7 @@ export default {
       dongHoTai(tau);
       datVat3D(tau, dt);
       datTayNam();
+      xepNhan();
     }
 
     // Tuổi của hai anh em ở chỗ «bây giờ» của khung nhìn cắt đường thế giới (bước 7).
@@ -1672,20 +1695,20 @@ export default {
       if (cd === 'tiende') { d.push([chuCanh("canh.con-tau", "Con tàu"), `${so(S.beta, 2)} c · γ = ${so(gamma(S.beta), 3)}`]); d.push([chuCanh("canh.vong-vang-sang", "Vòng vàng sáng"), chuCanh("canh.mat-song-luc-nay-cua-khung-dang-nhin", "mặt sóng «lúc này» của khung đang nhìn")]); }
       if (cd === 'dongho') {
         d.push([chuCanh("canh.so-tich-toi-bay-gio", "Số tích tới «bây giờ»"), chuCanh("canh.phong-thi-nghiem-tren-tau", "phòng thí nghiệm {0} · trên tàu {1}", [soTichNay.lab, soTichNay.tau])]);
-        d.push([chuCanh("canh.mot-tich-tren-tau-do-tu-phong-thi", "Một tích trên tàu, đo từ phòng thí nghiệm"), `γ × 2h/c = ${so(gamma(S.beta) * 2 * H_DH, 3)} (γ = ${so(gamma(S.beta), 3)})`]);
+        d.push([chuCanh("canh.mot-tich-tren-tau-do-tu-phong-thi", "Một tích trên tàu"), `γ × 2h/c = ${so(gamma(S.beta) * 2 * H_DH, 3)} (γ = ${so(gamma(S.beta), 3)})`]);
       }
-      if (cd === 'dongthoi' && thongTin.tpA != null) d.push([chuCanh("canh.theo-dong-ho-cua-tau", "Theo đồng hồ của tàu"), chuCanh("canh.b-no-luc-t-a-no-luc-t", "B nổ lúc t′ = {0}, A nổ lúc t′ = {1}", [so(thongTin.tpB, 2), so(thongTin.tpA, 2)])]);
+      if (cd === 'dongthoi' && thongTin.tpA != null) d.push([chuCanh("canh.theo-dong-ho-cua-tau", "Theo đồng hồ của tàu"), chuCanh("canh.b-no-luc-t-a-no-luc-t", "B nổ ở t′ = {0}, A nổ ở t′ = {1}", [so(thongTin.tpB, 2), so(thongTin.tpA, 2)])]);
       if (cd === 'thuoc' && thongTin.Lp) d.push([chuCanh("canh.thuoc", "Thước"), chuCanh("canh.do-dai-rieng-phong-thi-nghiem-do", "độ dài riêng {0} · phòng thí nghiệm đo {1} = {2}/{3}", [so(L0, 0), so(thongTin.Lp, 3), so(L0, 0), so(gamma(S.beta), 3)])]);
       if (cd === 'lorentz') d.push([chuCanh("canh.he-so", "Hệ số"), chuCanh("canh.tau-co-do-nhanh", "γ = {0} · tàu có độ nhanh {1}", [so(gamma(S.beta), 3), so(Math.atanh(S.beta), 3)])]);
       if (cd === 'cong' && thongTin.w != null) d.push([chuCanh("canh.cong-van-toc", "Cộng vận tốc"), S.vVat >= 1 ? chuCanh("canh.c-cong-anh-sang-1-c", "{0} c cộng ánh sáng = 1 c", [so(S.beta, 2)]) : `(${so(S.beta, 2)} + ${so(S.vVat, 2)})/(1 + ${so(S.beta * S.vVat, 4)}) = ${so(thongTin.w, 4)} c`]);
       if (cd === 'sinhdoi' && thongTin.sd) {
         const { sd } = thongTin;
         d.push([chuCanh("canh.chuyen-di", "Chuyến đi"), chuCanh("canh.nam-anh-sang-o-c", "{0} năm ánh sáng ở {1} c, γ = {2}", [so(S.L, 2), so(S.betaSD, 2), so(sd.g, 3)])]);
-        d.push([chuCanh("canh.gap-lai", "Gặp lại"), chuCanh("canh.o-nha-nam-nguoi-di-nam-chenh-nam", "ở nhà {0} năm · người đi {1} năm · chênh {2} năm", [so(sd.T, 2), so(sd.Tdi, 2), so(sd.T - sd.Tdi, 2)])]);
+        d.push([chuCanh("canh.gap-lai", "Gặp lại"), chuCanh("canh.o-nha-nam-nguoi-di-nam-chenh-nam", "nhà {0} năm · người đi {1} năm · chênh {2} năm", [so(sd.T, 2), so(sd.Tdi, 2), so(sd.T - sd.Tdi, 2)])]);
       }
       if (cd === 'muon' && thongTin.m) {
         const { m } = thongTin;
-        d.push([chuCanh("canh.muon-0-998-c", "Muon 0,998 c"), chuCanh("canh.song-s-do-tu-mat-dat-di-km", "γ = {0} · sống {1} µs đo từ mặt đất · đi {2} km", [so(m.g, 2), so(m.songS * 1e6, 1), so(m.quangDuongM / 1000, 1)])]);
+        d.push([chuCanh("canh.muon-0-998-c", "Muon 0,998 c"), chuCanh("canh.song-s-do-tu-mat-dat-di-km", "γ = {0} · sống {1} µs, đi {2} km", [so(m.g, 2), so(m.songS * 1e6, 1), so(m.quangDuongM / 1000, 1)])]);
         d.push(['GPS · LHC', chuCanh("canh.7-2-s-moi-ngay-6-928", "7,2 µs mỗi ngày · γ ≈ 6 928")]);
       }
       return d;

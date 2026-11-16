@@ -8,7 +8,7 @@ import { dich } from '../ngon-ngu/dich.js';
 import banGoc from '../ngon-ngu/vi/hai-khe.json' with { type: 'json' };
 
 const chu = (khoa, giaTri) => dich('hai-khe', 'canh.' + khoa, banGoc['canh.' + khoa], giaTri);
-const GOC = { viTri: [6.3, 4.4, 9.2], dich: [0, 1.45, -0.55], fov: 36, min: 3.5, max: 23 };
+const GOC = { viTri: [6.3, 4.4, 9.2], dich: [0, 1.45, -0.55], fov: 36, min: 3.5, max: 23, hep: 0.4 };
 const Z_MAN = -2.8, Z_KHE = 0.45;
 const NUA_MAN = 3.1, CAO_MAN = 3.1, Y_MAN = 2.03;
 const SO_DIEM = 2400;
@@ -213,7 +213,12 @@ export default {
     function tungHat(reset) { tocDo(0); if(reset)xoa(); themHat(1); }
     function nhinMan() { app.bayToi([0,4.75,3.1],[0,2.0,Z_MAN],0.65); }
     function nhinToan() { app.bayToi(GOC.viTri,GOC.dich,0.65); }
+    // Ô số liệu theo bước (tối đa 5 dòng): dòng đầu là số chính của bước; chỉ số trỏ vào mảng dòng trong hud().
+    // 0 đã ghi · 1 khoảng vân · 2 nút đầu của bao · 3 đầu đọc · 4 mật độ tại đầu đọc · 5 độ lệch pha
+    const HUD_BUOC=[[0,1,3,4,5],[0,1,4,3,2],[2,1,0,4,3],[3,4,5,1,0],[1,0,2,3,4],[1,2,0,3,4],[3,4,1,2,0],[0,1,2,3,4]];
+    let buocNay=0;
     function buoc(i) {
+      buocNay=i;
       Object.assign(ts,MAC_DINH); ts.hai=i!==2; coDuong=i!==0&&i!==1&&i!==7;
       daKeoDau=false; daKeoKhe=false; xDoc=0; dauDoc.position.x=0;
       tayDoc.dat([0,0.59,Z_MAN+0.1]);
@@ -229,9 +234,10 @@ export default {
       denNguon.scale.setScalar(1+0.055*Math.sin(gio*3.6));
     }
     function hud() {
-      return [[chu('tong'),so(soHat,0)], [chu('van'),ts.hai&&ts.v>0 ? so(khoangVan(ts),3)+' mm' : chu(ts.hai?'mat-van':'chi-mot')],
+      const ds=[[chu('tong'),so(soHat,0)], [chu('van'),ts.hai&&ts.v>0 ? so(khoangVan(ts),3)+' mm' : chu(ts.hai?'mat-van':'chi-mot')],
         [chu('nut-bao'),so(nutBao(ts),2)+' mm'], [chu('dau-doc'),'x = '+so(xDoc,3)+' mm'],
         [chu('mat-do'),so(matDo(xDoc,ts),3)], [chu('pha'),so(lechPha(xDoc,ts)/Math.PI,2)+' π']];
+      return (HUD_BUOC[buocNay]||HUD_BUOC[0]).map(k=>ds[k]);
     }
     return {scene,buoc,capNhat,hud,xoa,tungHat,tocDo,duong,doi,nhinToan,nhinMan,
       dat:ten=>datThuThach(ten,ts,xDoc,daKeoKhe,daKeoDau)};

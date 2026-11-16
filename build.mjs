@@ -8,6 +8,7 @@ import { build } from 'esbuild';
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { KHOA_HOC } from './src/noi-dung/khoa-hoc.js';
+import { DS_TIENG_DICH } from './cong-cu/ngon-ngu.mjs';
 
 const thamSo = process.argv.slice(2);
 const lay = (co) => { const i = thamSo.indexOf(co); return i >= 0 ? thamSo[i + 1] : null; };
@@ -75,7 +76,7 @@ if (existsSync('src/loi-doc/vi')) {
 // tiếng; chế độ «Xem như video» dùng lời đã dịch làm phụ đề (chạy theo nhịp đọc ước tính) thay cho chữ rút từ lời giảng.
 // Chưa có thư mục thì không gói gì; bước nào thiếu hoặc rỗng thì trang tự quay về lời giảng của bước đó.
 const loiDocDich = {};
-for (const ma of ['en', 'zh-CN', 'ja']) {
+for (const ma of DS_TIENG_DICH) {
   const thuMuc = join('src/loi-doc', ma);
   if (!existsSync(thuMuc)) continue;
   for (const ten of readdirSync(thuMuc).filter((t) => t.endsWith('.json')).sort()) {
@@ -109,7 +110,7 @@ for (const [giong, muc] of Object.entries(giongDoc || {})) {
 
 // Chỉ nhúng các bản dịch đích. Bản Việt đã có trong chính mã bài và khung.
 const banDich = {};
-for (const ngonNgu of ['en', 'zh-CN', 'ja']) {
+for (const ngonNgu of DS_TIENG_DICH) {
   banDich[ngonNgu] = {};
   for (const phamVi of ['chung', ...ids]) {
     const tep = join('src/ngon-ngu', ngonNgu, phamVi + '.json');

@@ -232,7 +232,7 @@ Nếu mọi thiên hà luôn giữ vận tốc hiện tại, thì $d/v = 1/H_0$ 
 
 Mô hình bỏ qua chuyển động riêng của từng thiên hà (vài trăm km/s), nên các điểm trên đồ thị nằm đúng trên một đường thẳng; số liệu thật thì tản ra quanh đường ấy, nhất là ở gần.
 +++`,
-        vao: (c) => c.cauHinh({ moHinh: 'thuc', t: 'nay', muiTen: true, luoi: true, do_: false, doThi: 'hubble', thuoc: true, hubble: false, bip: true, nha: 0, mayAnh: 'tong' }),
+        vao: (c) => c.cauHinh({ moHinh: 'thuc', t: 'nay', muiTen: true, luoi: true, do_: false, doThi: 'hubble', thuoc: true, hubble: false, bip: true, nha: 0, mayAnh: 'tong' , hud: ['H', 'mau', 'bip', 'a'] }),
         nut: { hubble: (c) => c.cauHinh({ doThi: 'hubble' }), gan: (c) => c.goc('gan'), tong: (c) => c.goc('tong') },
         thuThach: {
           de: 'Kéo thiên hà mẫu tới chỗ **hôm nay** nó lùi xa đúng **một nửa tốc độ ánh sáng** (sai lệch dưới 0,03 c).',
@@ -260,7 +260,7 @@ $$ v = \dot a\, D = \frac{\dot a}{a}\, d = H\, d, \qquad H = \frac{\dot a}{a}. $
 
 Đứng ở thiên hà B thay vì A: vận tốc của C so với B là $v_C - v_B = H(d_C - d_B)$, vẫn là định luật Hubble với tâm B. Nếu vận tốc tỉ lệ $d^2$ chẳng hạn, phép trừ này sẽ không còn dạng cũ: người ở mỗi thiên hà sẽ thấy một bức tranh khác, và có một «tâm» đặc biệt. Vũ trụ đồng nhất (mọi nơi như nhau) và đẳng hướng (mọi hướng như nhau) buộc giãn nở phải có dạng $v = Hd$.
 +++`,
-        vao: (c) => c.cauHinh({ moHinh: 'thuc', t: 'nay', muiTen: true, luoi: true, do_: false, doThi: 'a', thuoc: false, hubble: false, bip: false, demLai: true, mayAnh: 'tong' }),
+        vao: (c) => c.cauHinh({ moHinh: 'thuc', t: 'nay', muiTen: true, luoi: true, do_: false, doThi: 'a', thuoc: false, hubble: false, bip: false, demLai: true, mayAnh: 'tong' , hud: ['a', 'H', 'nha', 'cau'] }),
         nut: { chuyen: (c) => c.cauHinh({ nha: 'khac' }), ve: (c) => c.cauHinh({ nha: 0 }), chieu: (c) => c.cauHinh({ chieu: true }) },
         thuThach: {
           de: 'Bấm thẳng vào **hai thiên hà khác nhau** trong cảnh để chuyển nhà hai lần. Sau mỗi lần, xem mũi tên: mọi thiên hà vẫn lùi ra xa nhà mới.',
@@ -296,7 +296,7 @@ $$ \frac{c\,\Delta t_\text{phát}}{a_\text{phát}} = \frac{c\,\Delta t_\text{nh�
 
 Công thức không chứa vận tốc nào. Vì thế không nên nghĩ $z$ là hiệu ứng Doppler của một vận tốc lúc phát; với $z$ lớn, dùng $v = cz$ hay công thức Doppler của thuyết tương đối hẹp đều cho kết quả sai (xem Davis và Lineweaver 2004). Chỉ khi $z$ nhỏ thì $z \approx v/c$, như ở bước 1.
 +++`,
-        vao: (c) => c.cauHinh({ moHinh: 'thuc', a: 0.5, muiTen: false, luoi: true, do_: true, doThi: 'a', thuoc: true, hubble: false, bip: true, nha: 0, mayAnh: 'tong' }),
+        vao: (c) => c.cauHinh({ moHinh: 'thuc', a: 0.5, muiTen: false, luoi: true, do_: true, doThi: 'a', thuoc: true, hubble: false, bip: true, nha: 0, mayAnh: 'tong' , hud: ['a', 'z', 'bip', 'mau', 'nhietDo'] }),
         nut: { a05: (c) => c.cauHinh({ a: 0.5 }), a025: (c) => c.cauHinh({ a: 0.25 }), nay: (c) => c.cauHinh({ t: 'nay' }), do: (c) => c.datDo() },
         thuThach: {
           de: 'Kéo đồng hồ vũ trụ tới lúc mà ánh sáng phát ra khi ấy, tới ta hôm nay, có dịch chuyển đỏ $z = 2$ (sai lệch dưới 0,15).',
@@ -337,7 +337,7 @@ Thay số với $H_0 = 67{,}4$ km/s/Mpc $= 2{,}18 \times 10^{-18}$ s⁻¹: $\rho
 
 Thuyết tương đối rộng cho đúng phương trình này, kèm hai điều Newton không có: $k$ là độ cong thật của không gian, và $\rho$ gồm cả năng lượng của bức xạ và năng lượng tối.
 +++`,
-        vao: (c) => c.cauHinh({ moHinh: 'thuc', t: 'nay', muiTen: true, luoi: true, do_: false, doThi: 'a', thuoc: false, hubble: false, bip: false, mayAnh: 'tong' }),
+        vao: (c) => c.cauHinh({ moHinh: 'thuc', t: 'nay', muiTen: true, luoi: true, do_: false, doThi: 'a', thuoc: false, hubble: false, bip: false, mayAnh: 'tong' , hud: ['a', 'H', 'gianNo', 'cau'] }),
         nut: { thuc: (c) => c.cauHinh({ moHinh: 'thuc' }), dong: (c) => c.cauHinh({ moHinh: 'dong' }), vc: (c) => c.cauHinh({ moHinh: 'vc' }) },
         thuThach: {
           de: 'Với kiểu «Quá nhiều vật chất», kéo đồng hồ vũ trụ tới lúc vũ trụ **ngừng giãn**, ngay trước khi co lại ($|H| \\lt 3$ km/s mỗi megaparsec).',
@@ -375,7 +375,7 @@ $$ \rho \propto a^{-3(1+w)} . $$
 
 Hai mốc trong bảng: bức xạ bằng vật chất khi $\Omega_r a^{-4} = \Omega_m a^{-3}$, tức $a = \Omega_r/\Omega_m \approx 2{,}9 \times 10^{-4}$; vật chất bằng năng lượng tối khi $a = (\Omega_m/\Omega_\Lambda)^{1/3} \approx 0{,}77$.
 +++`,
-        vao: (c) => c.cauHinh({ moHinh: 'thuc', t: 'nay', muiTen: false, luoi: true, do_: false, doThi: 'matDo', thuoc: false, hubble: false, bip: false, mayAnh: 'tong' }),
+        vao: (c) => c.cauHinh({ moHinh: 'thuc', t: 'nay', muiTen: false, luoi: true, do_: false, doThi: 'matDo', thuoc: false, hubble: false, bip: false, mayAnh: 'tong' , hud: ['a', 'nhietDo', 'z', 'gianNo'] }),
         nut: { bang: (c) => c.cauHinh({ a: Math.cbrt(0.315 / 0.685) }), chieu: (c) => c.cauHinh({ chieu: true }), nay: (c) => c.cauHinh({ t: 'nay' }) },
       },
       {
@@ -407,7 +407,7 @@ $$ \frac{\ddot a}{a} = \frac{4\pi G}{3}\left(-3\rho - \frac{3P}{c^2} + 2\rho\rig
 
 Đây chính là kết quả Baez và Bunn (2005) dùng để giải thích phương trình Einstein: thể tích một quả cầu hạt thử co lại với gia tốc tỉ lệ $\rho + 3P/c^2$. Với ΛCDM, thay $\rho_m \propto a^{-3}$ và $\rho_\Lambda$ không đổi, $\ddot a = 0$ khi $\Omega_m a^{-3} = 2\Omega_\Lambda$. Với $\Omega_m = 0{,}315$, $\Omega_\Lambda = 0{,}685$: $a = 0{,}613$, $z = 1/a - 1 \approx 0{,}63$; tích phân $a(t)$ cho thời điểm đó là 7,7 tỉ năm sau Vụ Nổ Lớn.
 +++`,
-        vao: (c) => c.cauHinh({ moHinh: 'thuc', a: Math.cbrt(0.315 / 1.37), muiTen: true, luoi: true, do_: false, doThi: 'a', thuoc: false, hubble: false, bip: false, mayAnh: 'tong' }),
+        vao: (c) => c.cauHinh({ moHinh: 'thuc', a: Math.cbrt(0.315 / 1.37), muiTen: true, luoi: true, do_: false, doThi: 'a', thuoc: false, hubble: false, bip: false, mayAnh: 'tong' , hud: ['gianNo', 'a', 'H', 'z'] }),
         nut: { truoc: (c) => c.cauHinh({ t: 4 }), dung: (c) => c.cauHinh({ a: Math.cbrt(0.315 / 1.37) }), sau: (c) => c.cauHinh({ t: 11 }) },
       },
       {
@@ -441,7 +441,7 @@ Thay $1/H_0 = 14{,}51$ tỉ năm, $\Omega_\Lambda = 0{,}685$, $\Omega_m = 0{,}31
 
 Khi $\Omega_\Lambda = 0$, $\Omega_m = 1$: $t_0 = \dfrac{2}{3H_0} = 9{,}7$ tỉ năm. Vũ trụ trống hẳn ($\Omega = 0$): $a$ tăng đều, $t_0 = 1/H_0 = 14{,}5$ tỉ năm.
 +++`,
-        vao: (c) => c.cauHinh({ moHinh: 'vc', t: 'nay', muiTen: true, luoi: true, do_: false, doThi: 'a', thuoc: false, hubble: false, bip: false, mayAnh: 'tong' }),
+        vao: (c) => c.cauHinh({ moHinh: 'vc', t: 'nay', muiTen: true, luoi: true, do_: false, doThi: 'a', thuoc: false, hubble: false, bip: false, mayAnh: 'tong' , hud: ['gianNo', 'a', 'H', 'nhietDo'] }),
         nut: { thuc: (c) => c.cauHinh({ moHinh: 'thuc' }), vc: (c) => c.cauHinh({ moHinh: 'vc' }), dong: (c) => c.cauHinh({ moHinh: 'dong' }), rong: (c) => c.cauHinh({ moHinh: 'rong' }) },
       },
       {
@@ -461,7 +461,7 @@ Máy quay lùi xa. Quả cầu kính đỏ cam là {{mặt cầu Hubble}}: ở �
 **Năng lượng tối có thật là hằng số?** Số liệu DESI (2024–2025) về phân bố các thiên hà, ghép với siêu tân tinh và bức xạ nền, **gợi ý** năng lượng tối có thể yếu dần theo thời gian. Độ tin cậy chưa đủ để khẳng định; mô hình trong bài vẫn dùng hằng số vũ trụ.
 
 Bài sau vẽ chính vũ trụ này thành một sơ đồ không-thời gian: nón ánh sáng quá khứ của ta, mặt cầu Hubble, và những chân trời giới hạn những gì ta có thể thấy.`,
-        vao: (c) => c.cauHinh({ moHinh: 'thuc', t: 'nay', muiTen: true, luoi: false, do_: false, doThi: 'hubble', thuoc: true, hubble: true, bip: false, mayAnh: 'xa' }),
+        vao: (c) => c.cauHinh({ moHinh: 'thuc', t: 'nay', muiTen: true, luoi: false, do_: false, doThi: 'hubble', thuoc: true, hubble: true, bip: false, mayAnh: 'xa' , hud: ['mau', 'H', 'a', 'gianNo'] }),
         nut: { hubble: (c) => c.datHubble(), qk: (c) => c.cauHinh({ a: 0.5 }), nay: (c) => c.cauHinh({ t: 'nay' }) },
         thuThach: {
           de: 'Kéo đồng hồ vũ trụ về tương lai (và kéo thiên hà mẫu nếu cần) tới khi thiên hà mẫu nằm đúng trên mặt cầu Hubble: lùi xa đúng bằng tốc độ ánh sáng (sai lệch dưới 0,04 c).',
@@ -605,13 +605,13 @@ Bài sau vẽ chính vũ trụ này thành một sơ đồ không-thời gian: n
     const vai = new THREE.Mesh(new THREE.PlaneGeometry(2 * NUA, 2 * NUA), matVai);
     vai.rotation.x = -Math.PI / 2;
     vai.renderOrder = -1;
-    const nhanVai = taoNhan(chuCanh("canh.luoi-khong-gian-moi-o-300-mpc-dong", "Lưới không gian<small>mỗi ô 300 Mpc đồng chuyển động, giãn theo a</small>"), 'mo tran');
+    const nhanVai = taoNhan(chuCanh("canh.luoi-khong-gian-moi-o-300-mpc-dong", "Lưới không gian<small>mỗi ô 300 Mpc, giãn theo a</small>"), 'mo tran');
     scene.add(vai, nhanVai);
 
     // ----- Quả cầu cố định (bán kính thật 5 tỉ năm ánh sáng) -----
     const cau = taoCauKinh(0x7fcaff, { doMo: 0.2 });
     cau.scale.setScalar(R_CAU);
-    const nhanCau = taoNhan(chuCanh("canh.qua-cau-co-dinh-ban-kinh-that-5", "Quả cầu cố định<small>bán kính thật 5 tỉ năm ánh sáng, không giãn</small>"), 'xanh');
+    const nhanCau = taoNhan(chuCanh("canh.qua-cau-co-dinh-ban-kinh-that-5", "Quả cầu cố định<small>5 tỉ năm ánh sáng, không giãn</small>"), 'xanh');
     nhanCau.position.set(-R_CAU * 0.72, -R_CAU * 0.72, 0);   // nửa dưới: tránh gợi ý kéo của đồng hồ vũ trụ
     scene.add(cau, nhanCau);
 
@@ -680,7 +680,7 @@ Bài sau vẽ chính vũ trụ này thành một sơ đồ không-thời gian: n
     let dangChieu = false;
     let chiSoNha = 0, chiSoMau = 0, chiSoKhac = 0;
     const nhaGoc = [0, 0, 0];
-    const hien = { muiTen: true, luoi: true, do_: false, thuoc: true, hubble: false, bip: false };
+    const hien = { muiTen: true, luoi: true, do_: false, thuoc: true, hubble: false, bip: false, hud: ['a', 'H', 'gianNo', 'cau'] };
     let kieuDT = 'a';
     let a = 1, daDemTrong = 0;
     let soLanChuyen = 0, soBamCanh = 0;
@@ -808,7 +808,7 @@ Bài sau vẽ chính vũ trụ này thành một sơ đồ không-thời gian: n
       viTri: [0, 0, 0], mau: 0xf3c66f, co: 1.9,
       rangBuoc: { kieu: 'ham', chieu: (tia) => chieuLenTia(tia) },
       gioiHan: (p) => { const L = p.length(), lo = 3 * a, hi = R_HIEN * 0.97 * a; if (L < lo) p.copy(huongMau).multiplyScalar(lo); else if (L > hi) p.setLength(hi); return p; },
-      nhan: chuCanh("canh.keo-thien-ha-mau-ra-xa-lai-gan", "Kéo thiên hà mẫu ra xa, lại gần"), ten: chuCanh("canh.thien-ha-mau", "Thiên hà mẫu"),
+      nhan: chuCanh("canh.keo-thien-ha-mau-ra-xa-lai-gan", "Kéo thiên hà mẫu"), ten: chuCanh("canh.thien-ha-mau", "Thiên hà mẫu"),
       moTa: () => moTaThienHa(chiSoMau),
       khiKeo: (p) => {
         const j = chiSoMau * 3;
@@ -1006,6 +1006,7 @@ Bài sau vẽ chính vũ trụ này thành một sơ đồ không-thời gian: n
       if (o.do_ != null) dkDo.dat(o.do_, true);
       if (o.thuoc != null) { hien.thuoc = o.thuoc; dkThuoc.dat(o.thuoc); }
       if (o.hubble != null) hien.hubble = o.hubble;
+      if (o.hud) hien.hud = o.hud;
       if (o.bip != null) { hien.bip = o.bip; dkBip.dat(o.bip); choBip = 0.6; }
       if (o.nha != null) { datNha(o.nha === 'khac' ? chiSoKhac : o.nha); if (o.nha === 'khac') soLanChuyen++; aVeCuoi = -1; }
       if (o.demLai) soBamCanh = 0;
@@ -1024,7 +1025,7 @@ Bài sau vẽ chính vũ trụ này thành một sơ đồ không-thời gian: n
       return { tv, a, H, moHinh: mh.id, homNay: Math.abs(tv - ls.tuoi) < 0.15, vMau: (H * dMpc) / C_KM_S, dMauGly: dMpc * GLY_MOI_MPC, soBamCanh };
     }
 
-    let choVe = 0, aVeCuoi = -1, choBip = 0.6, gyCuoi = Math.floor(tv), zMau = 0, daThu = false;
+    let dMauMpc = 0, choVe = 0, aVeCuoi = -1, choBip = 0.6, gyCuoi = Math.floor(tv), zMau = 0, daThu = false;
     function capNhat(dtg, dtThuc) {
       if (!daThu) { daThu = true; datTrangThaiThu(); }
       if (dangChieu) {
@@ -1068,6 +1069,7 @@ Bài sau vẽ chính vũ trụ này thành một sơ đồ không-thời gian: n
       const jm = chiSoMau * 3;
       const mx = vt[jm] * a, my = vt[jm + 1] * a, mz = vt[jm + 2] * a;
       const dMau = Math.hypot(mx, my, mz);
+      dMauMpc = dMau * MPC_MOI_DV;
       if (dMau > 1e-6) huongMau.set(mx / dMau, my / dMau, mz / dMau);
       if (hien.thuoc) {
         thuoc.dat(0, 0, 0, 0); thuoc.dat(1, mx, my, mz); thuoc.xong(2);
@@ -1107,9 +1109,9 @@ Bài sau vẽ chính vũ trụ này thành một sơ đồ không-thời gian: n
         veDoThi();
         if (hien.thuoc) {
           const dMpc = dMau * MPC_MOI_DV;
-          nhanThuoc.datChu(chuCanh("canh.thien-ha-mau-cach-ti-nam-anh-sang", "Thiên hà mẫu<small>cách {0} tỉ năm ánh sáng ({1} Mpc) · lùi {2} km/s = {3} c</small>", [so(dMpc * GLY_MOI_MPC, 2), so(dMpc, 0), so(H * dMpc, 0), so((H * dMpc) / C_KM_S, 2)]));
+          nhanThuoc.datChu(chuCanh("canh.thien-ha-mau-cach", "Thiên hà mẫu<small>cách {0} tỉ năm ánh sáng</small>", [so(dMpc * GLY_MOI_MPC, 2)]));
         }
-        if (hien.hubble && H > 0) nhanHubble.datChu(chuCanh("canh.mat-cau-hubble-ban-kinh-c-h-ti", "Mặt cầu Hubble<small>bán kính c/H = {0} tỉ năm ánh sáng; xa hơn thì lùi nhanh hơn ánh sáng</small>", [so((C_KM_S / H) * GLY_MOI_MPC, 1)]));
+        if (hien.hubble && H > 0) nhanHubble.datChu(chuCanh("canh.mat-cau-hubble-ban-kinh-c-h-ti", "Mặt cầu Hubble<small>c/H = {0} tỉ năm ánh sáng</small>", [so((C_KM_S / H) * GLY_MOI_MPC, 1)]));
       }
       // Âm thanh (chỉ khi mô hình đang chạy). Tiếng bíp: nốt gốc 880 Hz ở nhà, rồi nốt nhận được từ thiên hà mẫu;
       // tần số và nhịp của nốt nhận được đều chia cho 1 + z, đúng như ánh sáng.
@@ -1136,8 +1138,10 @@ Bài sau vẽ chính vũ trụ này thành một sơ đồ không-thời gian: n
     let choNhan = 0;
     const hienThat = (o) => { for (let p = o; p; p = p.parent) if (!p.visible) return false; return true; };
     const dsNhan = [
-      { nhan: nhanNha, uuTien: 10 }, { nhan: nhanThuoc, uuTien: 9 }, { nhan: nhanHubble, uuTien: 8 }, { nhan: nhanCot, uuTien: 7 },
-      { nhan: nhanCau, uuTien: 6 }, ...vachCot.map((v) => ({ nhan: v.n, uuTien: v.t === 13.8 ? 5 : 3 })), { nhan: nhanVai, uuTien: 2 },
+      // Thiên hà mẫu và mặt cầu Hubble là vật chính của bước nào bật chúng: ưu tiên 90, không bao giờ ẩn vì đè.
+      { nhan: nhanThuoc, uuTien: 90, giu: true }, { nhan: nhanHubble, uuTien: 90, giu: true },
+      { nhan: nhanNha, uuTien: 75 }, { nhan: nhanCot, uuTien: 70 }, { nhan: nhanCau, uuTien: 65 }, { nhan: nhanVai, uuTien: 60 },
+      ...vachCot.map((v) => ({ nhan: v.n, uuTien: v.t === 13.8 ? 25 : 20 })),
     ];
     function goNhan() {
       for (const k of dsNhan) {
@@ -1167,20 +1171,26 @@ Bài sau vẽ chính vũ trụ này thành một sơ đồ không-thời gian: n
       if (tot >= 0) { datNha(tot); soLanChuyen++; soBamCanh++; aVeCuoi = -1; }
     }
 
+    // Ô số liệu: tối đa 5 dòng. Dòng đầu luôn là tuổi vũ trụ; các dòng sau theo thứ tự ưu tiên của bước
+    // (hien.hud, do vao của bước đặt); dòng nào lúc này không có giá trị thì nhường chỗ cho dòng kế.
     function hud() {
       const H = (tocDoA(tv) / a) * 977.79;             // km/s/Mpc
       const giaToc = -(OR / a ** 3 + (0.5 * Om) / (a * a) - OL * a);
       const dong = [
         [chuCanh("canh.tuoi-vu-tru", "Tuổi vũ trụ"), chuCanh("canh.ti-nam-bc707d", "{0} tỉ năm{1}", [so(tv, tv < 1 ? 2 : 1), Math.abs(tv - ls.tuoi) < 0.06 ? chuCanh("canh.hom-nay-22f958", " (hôm nay)") : tv < ls.tuoi ? chuCanh("canh.ti-nam-truoc", " ({0} tỉ năm trước)", [so(ls.tuoi - tv, 1)]) : chuCanh("canh.ti-nam-sau", " ({0} tỉ năm sau)", [so(tv - ls.tuoi, 1)])])],
-        [chuCanh("canh.moi-khoang-cach-lon", "Mọi khoảng cách lớn"), chuCanh("canh.a-bang-hom-nay", "a = {0}, bằng {1}% hôm nay", [soNghia(a, 3), soNghia(a * 100, 3)])],
-        [chuCanh("canh.toc-do-gian-h", "Tốc độ giãn (H)"), H >= 0 ? chuCanh("canh.km-s-moi-megaparsec", "{0} km/s mỗi megaparsec", [soNghia(H, 3)]) : chuCanh("canh.dang-co-lai-km-s-moi-megaparsec", "đang co lại: {0} km/s mỗi megaparsec", [soNghia(-H, 3)])],
-        [chuCanh("canh.su-gian-no", "Sự giãn nở"), H < 0 ? chuCanh("canh.da-dao-chieu-vu-tru-co-lai", "đã đảo chiều, vũ trụ co lại") : Math.abs(giaToc) < 0.01 ? chuCanh("canh.dung-luc-chuyen-tu-cham-dan-sang-nhanh", "đúng lúc chuyển từ chậm dần sang nhanh dần") : giaToc > 0 ? chuCanh("canh.dang-nhanh-dan-nang-luong-toi-thang", "đang nhanh dần (năng lượng tối thắng)") : chuCanh("canh.dang-cham-dan-vat-chat-ham-lai", "đang chậm dần (vật chất hãm lại)")],
-        [chuCanh("canh.trong-qua-cau-co-dinh", "Trong quả cầu cố định"), chuCanh("canh.thien-ha-f7bb50", "{0} thiên hà", [so(daDemTrong, 0)])],
       ];
-      if (a < 0.995) dong.push([chuCanh("canh.anh-sang-phat-luc-nay-hom-nay-nhan", "Ánh sáng phát lúc này, hôm nay nhận được"), chuCanh("canh.buoc-song-dai-gap-lan-z", "bước sóng dài gấp {0} lần (z = {1})", [soNghia(1 / a, 3), soNghia(1 / a - 1, 2)])]);
-      dong.push([chuCanh("canh.nhiet-do-buc-xa-nen", "Nhiệt độ bức xạ nền"), `${soNghia(2.725 / a, 3)} K`]);
-      if (hien.bip && hien.thuoc) dong.push([chuCanh("canh.tieng-bip-quy-doi", "Tiếng bíp (quy đổi)"), chuCanh("canh.goc-hz-nhan-hz-chia-cho-1-z", "gốc {0} Hz → nhận {1} Hz (chia cho 1 + z = {2})", [so(BIP_GOC, 0), so(BIP_GOC / (1 + zMau), 0), so(1 + zMau, 2)])]);
-      if (soLanChuyen > 0) dong.push([chuCanh("canh.ban-da-chuyen-nha", "Bạn đã chuyển nhà"), chuCanh("canh.lan-nhin-tu-dau-moi-thu-cung-lui", "{0} lần: nhìn từ đâu mọi thứ cũng lùi ra xa mình", [soLanChuyen])]);
+      for (const ten of hien.hud) {
+        if (dong.length >= 5) break;
+        if (ten === 'a') dong.push([chuCanh("canh.moi-khoang-cach-lon", "Mọi khoảng cách lớn"), chuCanh("canh.a-bang-hom-nay", "a = {0}, bằng {1}% hôm nay", [soNghia(a, 3), soNghia(a * 100, 3)])]);
+        else if (ten === 'H') dong.push([chuCanh("canh.toc-do-gian-h", "Tốc độ giãn (H)"), H >= 0 ? chuCanh("canh.km-s-moi-megaparsec", "{0} km/s mỗi megaparsec", [soNghia(H, 3)]) : chuCanh("canh.dang-co-lai-km-s-moi-megaparsec", "đang co lại: {0} km/s mỗi megaparsec", [soNghia(-H, 3)])]);
+        else if (ten === 'gianNo') dong.push([chuCanh("canh.su-gian-no", "Sự giãn nở"), H < 0 ? chuCanh("canh.da-dao-chieu-vu-tru-co-lai", "đã đảo chiều, vũ trụ co lại") : Math.abs(giaToc) < 0.01 ? chuCanh("canh.dung-luc-chuyen-tu-cham-dan-sang-nhanh", "đúng lúc chuyển từ chậm dần sang nhanh dần") : giaToc > 0 ? chuCanh("canh.dang-nhanh-dan-nang-luong-toi-thang", "đang nhanh dần (năng lượng tối thắng)") : chuCanh("canh.dang-cham-dan-vat-chat-ham-lai", "đang chậm dần (vật chất hãm lại)")]);
+        else if (ten === 'cau') dong.push([chuCanh("canh.trong-qua-cau-co-dinh", "Trong quả cầu cố định"), chuCanh("canh.thien-ha-f7bb50", "{0} thiên hà", [so(daDemTrong, 0)])]);
+        else if (ten === 'z' && a < 0.995) dong.push([chuCanh("canh.anh-sang-phat-luc-nay-hom-nay-nhan", "Ánh sáng phát lúc này"), chuCanh("canh.buoc-song-dai-gap-lan-z", "z = {1}, bước sóng gấp {0} lần", [soNghia(1 / a, 3), soNghia(1 / a - 1, 2)])]);
+        else if (ten === 'nhietDo') dong.push([chuCanh("canh.nhiet-do-buc-xa-nen", "Nhiệt độ bức xạ nền"), `${soNghia(2.725 / a, 3)} K`]);
+        else if (ten === 'mau' && hien.thuoc) dong.push([chuCanh("canh.thien-ha-mau-lui", "Thiên hà mẫu lùi"), chuCanh("canh.km-s-bang-c", "{0} km/s = {1} c", [so(H * dMauMpc, 0), so((H * dMauMpc) / C_KM_S, 2)])]);
+        else if (ten === 'bip' && hien.bip && hien.thuoc) dong.push([chuCanh("canh.tieng-bip-quy-doi", "Tiếng bíp (quy đổi)"), chuCanh("canh.goc-hz-nhan-hz-chia-cho-1-z", "{0} Hz → {1} Hz, chia cho {2}", [so(BIP_GOC, 0), so(BIP_GOC / (1 + zMau), 0), so(1 + zMau, 2)])]);
+        else if (ten === 'nha' && soLanChuyen > 0) dong.push([chuCanh("canh.ban-da-chuyen-nha", "Bạn đã chuyển nhà"), chuCanh("canh.lan-nhin-tu-dau-moi-thu-cung-lui", "{0} lần", [soLanChuyen])]);
+      }
       return dong;
     }
 

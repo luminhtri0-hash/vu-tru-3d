@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { taoNgauNhien, DuongDay } from '../khung/ve.js';
+import { taoNgauNhien, DuongDay, goNhanDeNhau } from '../khung/ve.js';
 import { taoBan } from '../khung/ban-thi-nghiem-luong-tu.js';
 import { khungDoThi, MAU } from '../khung/giao-dien.js';
 import { xacSuatCong, giaTriTrungBinh, saiSoChuan } from '../vat-ly/spin-stern-gerlach.js';
@@ -10,29 +10,10 @@ import noiDung from '../noi-dung/spin-stern-gerlach.js';
 
 const chu=k=>dich('spin-stern-gerlach','canh.'+k,goc['canh.'+k]);
 
-// Mặt cắt hai cực nam châm (trong mặt phẳng z–y của cảnh), kéo dài dọc chùm (trục x).
-// Cực trên vát nhọn, cực dưới có rãnh: từ trường mạnh dần về phía mũi nhọn nên có gradient dọc trục đo.
-function cucNamChau(diem, dai) {
-  const hinh=new THREE.Shape(diem.map(([u,v])=>new THREE.Vector2(u,v)));
-  const g=new THREE.ExtrudeGeometry(hinh,{depth:dai,bevelEnabled:false});
-  g.translate(0,0,-dai/2); g.rotateY(Math.PI/2);
-  return g;
-}
-const CUC_TREN=[[-.46,.98],[.46,.98],[.46,.46],[.07,.2],[-.07,.2],[-.46,.46]];
-const CUC_DUOI=[[-.46,-.98],[.46,-.98],[.46,-.26],[.15,-.26],[.15,-.44],[-.15,-.44],[-.15,-.26],[-.46,-.26]];
-
-// Mũi tên trong nhóm: gốc ở (0,0,0), hướng theo +y của nhóm.
-function muiTen(dai,mau,nhom) {
-  const vl=new THREE.MeshBasicMaterial({color:new THREE.Color(mau).multiplyScalar(1.25)});
-  const than=new THREE.Mesh(new THREE.CylinderGeometry(.03,.03,dai-.16,10),vl); than.position.y=(dai-.16)/2;
-  const dau=new THREE.Mesh(new THREE.ConeGeometry(.085,.2,14),vl); dau.position.y=dai-.1;
-  const g=new THREE.Group(); g.add(than,dau); nhom.add(g); return g;
-}
-
 export default {
-  id:'spin-stern-gerlach', ...noiDung, mayAnh:{viTri:[6.6,5.6,10.6],dich:[.1,1.25,0],fov:42,min:4,max:24}, nhacNen:null,
+  id:'spin-stern-gerlach', ...noiDung, mayAnh:{viTri:[6.6,5.6,10.6],dich:[.1,1.25,0],fov:42,min:4,max:24,hep:.55}, nhacNen:null,
   tao(app) {
-    const {scene,mat,hop,vong,nhan,themThongTin,thanhKeo}=taoBan(app,chu);
+    const {scene,mat,hop,vong,nhan,themThongTin,thanhKeo,namCham,muiTen,hatBay}=taoBan(app,chu);
     const rng=taoNgauNhien(2601);
     const Y0=1.56, X_LO=-3.85, X_MAN=3.1;
     // Bàn và đường ray.
@@ -42,43 +23,42 @@ export default {
     const lo=hop(.95,.9,.9,X_LO-.25,Y0,0,mat.thep);
     for(const x of [-4.35,-4.1,-3.85]) hop(.055,.98,1.02,x,Y0,0,mat.dong);
     hop(.12,.16,.16,X_LO+.28,Y0,0,mat.dong);
-    nhan('nguon',X_LO-.25,2.42,0); themThongTin(lo,'nguon','tt-nguon');
+    const nhanNguon=nhan('nguon',X_LO-.25,2.42,0); themThongTin(lo,'nguon','tt-nguon');
 
     // Máy chuẩn bị: một nam châm nhỏ cố định theo trục z và một tấm chắn có hai lỗ.
-    const vlCuc=[mat.do,mat.xanh];
-    const chuanBi=new THREE.Group(); chuanBi.position.set(-2.95,Y0,0); chuanBi.scale.setScalar(.5); scene.add(chuanBi);
-    for(const [i,d] of [CUC_TREN,CUC_DUOI].entries()) chuanBi.add(new THREE.Mesh(cucNamChau(d,1.3),vlCuc[i]));
-    const khung0=new THREE.Mesh(new THREE.BoxGeometry(1.3,2.1,.16),mat.thep); khung0.position.z=-.56; chuanBi.add(khung0);
-    themThongTin(khung0,'chuan-bi','tt-chuan-bi');
+    // Dùng cùng kiểu hai cực nam châm của bàn thí nghiệm chung (Bài 27 cũng vậy), thu nhỏ một nửa.
+    const chuanBi=namCham({dai:1.3});
+    chuanBi.nhom.position.set(-2.95,Y0,0); chuanBi.nhom.scale.setScalar(.5);
+    themThongTin(chuanBi.khung,'chuan-bi','tt-chuan-bi');
     const tam=hop(.08,1.0,.7,-2.35,Y0,0,mat.den); themThongTin(tam,'chuan-bi','tt-chuan-bi');
     const nut=[1,-1].map(s=>{const o=hop(.1,.11,.11,-2.35,Y0+s*.22,0,mat.thep);return o;});
-    nhan('chuan-bi',-2.7,2.45,0);
+    const nhanChuanBi=nhan('chuan-bi',-2.75,.78,.3);
 
     // Mặt số góc: mũi tên vàng là hướng spin đã chuẩn bị, mũi tên đỏ cam là trục đo n.
     const XD=-1.35;
     const matSo=new THREE.Group(); matSo.position.set(XD,Y0,0); scene.add(matSo);
     const vongSo=vong(.8,.012,0,0,0,mat.thep,matSo); vongSo.rotation.y=Math.PI/2;
-    const tenChuanBi=[muiTen(.74,0xf3c66f,matSo),muiTen(.74,0xf3c66f,matSo)]; tenChuanBi[1].rotation.x=Math.PI;
-    const tenN=muiTen(.86,0xff8a73,matSo);
+    const tenChuanBi=[muiTen({dai:.74,mau:0xf3c66f},matSo),muiTen({dai:.74,mau:0xf3c66f},matSo)]; tenChuanBi[1].rotation.x=Math.PI;
+    const tenN=muiTen({dai:.86,mau:0xff8a73},matSo);
     const cung=new DuongDay(64,{mau:0xf3c66f,rong:2.4,quang:.12});
     cung.line.position.set(XD,Y0,0); scene.add(cung.line);
     const nhanTheta=nhan('goc-ngan',XD,Y0+1.12,0,'vang');
     const nhanN=nhan('truc-n',XD,Y0,0,'hong');
 
     // Nam châm phân tích: quay quanh trục chùm một góc θ.
-    const nam=new THREE.Group(); nam.position.set(0,Y0,0); nam.scale.set(1,.72,.72); scene.add(nam);
-    const cucTren=new THREE.Mesh(cucNamChau(CUC_TREN,1.3),mat.do), cucDuoi=new THREE.Mesh(cucNamChau(CUC_DUOI,1.3),mat.xanh);
-    const khung=new THREE.Mesh(new THREE.BoxGeometry(1.3,2.1,.16),mat.thep); khung.position.z=-.56;
-    nam.add(cucTren,cucDuoi,khung);
+    const {nhom:nam,cucTren,cucDuoi}=namCham({dai:1.3}); nam.position.set(0,Y0,0); nam.scale.set(1,.72,.72);
+    // Hai cực giữ màu tự sáng của bàn (mat.do, mat.xanh) như Bài 27: vật liệu có ánh sáng loá trắng khi máy nghiêng
+    // mặt vát về phía đèn chính.
+    for(const [nc,vl] of [[chuanBi.cucTren,mat.do],[chuanBi.cucDuoi,mat.xanh],[cucTren,mat.do],[cucDuoi,mat.xanh]]){nc.material.dispose();nc.material=vl;}
     themThongTin(cucTren,'nam','tt-nam'); themThongTin(cucDuoi,'nam','tt-nam');
-    nhan('nam',0,2.75,0);
+    const nhanNam=nhan('nam',.4,2.75,0);
 
     // Màn ghi quay cùng nam châm; các vết bám đọng lại trên màn.
     const man=new THREE.Group(); man.position.set(X_MAN,Y0,0); scene.add(man);
     const tamMan=hop(.1,1.6,1.25,.04,0,0,mat.thep,man); themThongTin(tamMan,'man','tt-man');
     hop(.03,1.5,1.15,-.03,0,0,mat.den,man);
     for(const [h,vl] of [[1,mat.do],[-1,mat.xanh]]) hop(.02,.04,.9,-.06,h*.7,0,vl,man);
-    nhan('man',X_MAN,2.62,0);
+    const nhanMan=nhan('man',X_MAN,2.62,0);
     const SO_VET=900, vetG=new THREE.CircleGeometry(.026,8); vetG.rotateY(-Math.PI/2);
     const vet=new THREE.InstancedMesh(vetG,new THREE.MeshBasicMaterial({color:0xffffff,side:THREE.DoubleSide}),SO_VET);
     vet.count=0; vet.frustumCulled=false; man.add(vet);
@@ -94,31 +74,35 @@ export default {
       return {k,c,v,n,z};
     });
     hop(.02,CAO,.02,XC+.2,Y_DAY+CAO/2,-1.0,mat.thep);
-    nhan('cot-dem',XC,Y_DAY+CAO+.65,-.55);
+    const nhanCot=nhan('cot-dem',XC,Y_DAY+CAO+.65,-.55);
 
-    // Nguyên tử đang bay: lượng lớn, dùng một InstancedMesh.
-    const SO_NT=90, ntG=new THREE.SphereGeometry(.05,10,8);
-    const nt=new THREE.InstancedMesh(ntG,new THREE.MeshBasicMaterial({color:0xffffff}),SO_NT);
-    nt.instanceMatrix.setUsage(THREE.DynamicDrawUsage); nt.frustumCulled=false; scene.add(nt);
+    // Nguyên tử đang bay: nhóm hạt bay của bàn chung (một lượt vẽ cho mọi hạt).
+    const SO_NT=90, nt=hatBay(SO_NT,{banKinh:.05});
     const MAU_CHUA=new THREE.Color(0xb5a8ff), MAU_K={1:new THREE.Color(0xffb27f).multiplyScalar(1.3),'-1':new THREE.Color(0x7fe6f2).multiplyScalar(1.3)};
     const ds=Array.from({length:SO_NT},()=>({song:false,t:0,s:1,k:1,chan:false,mau:-9}));
-    const M4=new THREE.Matrix4(), Q=new THREE.Quaternion(), V=new THREE.Vector3(), S1=new THREE.Vector3(1,1,1), S0=new THREE.Vector3(0,0,0);
-    for(let i=0;i<SO_NT;i++){nt.setMatrixAt(i,M4.compose(V.set(0,-50,0),Q,S0));nt.setColorAt(i,MAU_CHUA);}
+    const M4=new THREE.Matrix4(), Q=new THREE.Quaternion(), V=new THREE.Vector3(), S1=new THREE.Vector3(1,1,1);
+    for(let i=0;i<SO_NT;i++){nt.an(i);nt.datMau(i,MAU_CHUA);}
+    nt.xong();
+    // Nhãn tránh nhau: nam châm phân tích là vật chính; các vật lời giảng nhắc tên ngang hàng nhau.
+    const dsNhan=[{nhan:nhanNam,uuTien:92,giu:true},{nhan:nhanNguon,uuTien:70},{nhan:nhanChuanBi,uuTien:72},
+      {nhan:nhanTheta,uuTien:78},{nhan:nhanN,uuTien:76},{nhan:nhanMan,uuTien:66}];
 
-    let theta=0,pol=1,keo=false,dem=0,cong=0,tu=0,lanAm=-2,tichPhat=0,cos=1,sin=0;
+    let buocHien=-1,theta=0,pol=1,keo=false,dem=0,cong=0,tu=0,lanAm=-2,tichPhat=0,cos=1,sin=0;
     const datTay=thanhKeo({k:'goc',x:0,y:.33,z:1.3,min:0,max:180,dau:-1.82,cuoi:1.82,buoc:1,donVi:v=>so(v,0)+'°',doi:(v,nguoi)=>{keo=nguoi;datGoc(v);}});
     app.bang.nut(['duong','am','tron'].map(k=>({nhan:chu(k),khiBam:()=>lenh(k)})));
     const ghiChu=app.bang.chuThich(chu('do-thi'));
     const dt2=app.bang.doThi(150);
 
-    function lamMoi(){dem=0;cong=0;soVet=0;vet.count=0;}
+    // Đếm lại từ đầu: bỏ cả các nguyên tử đang bay, vì chúng đã được chọn cửa theo trạng thái và góc cũ.
+    function lamMoi(){dem=0;cong=0;soVet=0;vet.count=0;
+      for(let i=0;i<SO_NT;i++){if(ds[i].song){ds[i].song=false;nt.an(i);}} nt.xong();}
     function veCung(){
       const n=Math.max(2,Math.round(2+theta/3)), r=.62;
       for(let i=0;i<n;i++){const a=theta*Math.PI/180*i/(n-1);cung.dat(i,0,r*Math.cos(a),r*Math.sin(a));}
       cung.xong(n);cung.line.visible=theta>.5 && pol!==0;
       const a=theta*Math.PI/360;nhanTheta.position.set(XD,Y0+.98*Math.cos(a)+.1,.98*Math.sin(a));
       nhanTheta.datChu('θ = '+so(theta,0)+'°');
-      nhanN.position.set(XD,Y0+1.12*Math.cos(2*a),1.12*Math.sin(2*a));
+      nhanN.position.set(XD,Y0+1.4*Math.cos(2*a),1.4*Math.sin(2*a));
     }
     function datChuanBi(){
       tenChuanBi[0].visible=pol>=0;tenChuanBi[1].visible=pol<=0;
@@ -131,7 +115,7 @@ export default {
       else if(k==='goc-0')datGoc(0);else if(k==='goc-90')datGoc(90);else if(k==='goc-180')datGoc(180);else if(k==='goc-60')datGoc(60);
       datChuanBi();veCung();lamMoi();keo=false;
     }
-    function buoc(i){pol=[0,1,1,1,1,-1,0,1][i];datGoc([0,0,45,15,180,0,45,85][i]);datChuanBi();veCung();keo=false;}
+    function buoc(i){buocHien=i;pol=[0,1,1,1,1,-1,0,1][i];datGoc([0,0,45,15,180,0,45,85][i]);datChuanBi();veCung();keo=false;}
 
     // Đường bay: lệch ở máy chuẩn bị (rồi dồn lại về giữa cho dễ nhìn), sau đó lệch dọc trục đo n.
     const muot=u=>u<=0?0:u>=1?1:u*u*(3-2*u);
@@ -155,21 +139,21 @@ export default {
       vet.instanceMatrix.needsUpdate=true; if(vet.instanceColor)vet.instanceColor.needsUpdate=true;
     }
     function capNhat(dt) {
+      goNhanDeNhau(dsNhan,app.camera,app.rong,app.cao);
       if(dt<=0)return; dt=Math.min(dt,.1); tu+=dt;
       tichPhat=Math.min(tichPhat+dt*36,4); while(tichPhat>=1){tichPhat-=1;phat();}
-      let doiMau=false;
       for(let i=0;i<SO_NT;i++){const h=ds[i];
         if(!h.song)continue;
         h.t+=dt*.52;
         const [x,y,z,d]=viTri(h);
-        if(h.chan && x>=-2.38){h.song=false;nt.setMatrixAt(i,M4.compose(V.set(0,-50,0),Q,S0));continue;}
+        if(h.chan && x>=-2.38){h.song=false;nt.an(i);continue;}
         if(h.t>=1){h.song=false;dem++;if(h.k===1)cong++;ghiVet(h.k);
           if(tu-lanAm>.9){app.am.tich({tanSo:h.k===1?760:420,doTo:.15,lech:.4*h.k});lanAm=tu;}
-          nt.setMatrixAt(i,M4.compose(V.set(0,-50,0),Q,S0));continue;}
-        const m=d>.03?h.k:0; if(m!==h.mau){h.mau=m;nt.setColorAt(i,m?MAU_K[m]:MAU_CHUA);doiMau=true;}
-        nt.setMatrixAt(i,M4.compose(V.set(x,y,z),Q,S1));
+          nt.an(i);continue;}
+        const m=d>.03?h.k:0; if(m!==h.mau){h.mau=m;nt.datMau(i,m?MAU_K[m]:MAU_CHUA);}
+        nt.dat(i,x,y,z);
       }
-      nt.instanceMatrix.needsUpdate=true; if(doiMau&&nt.instanceColor)nt.instanceColor.needsUpdate=true;
+      nt.xong();
     }
     function veCot(){
       const p=xacSuatCong(theta,pol);
@@ -190,8 +174,13 @@ export default {
     }
     function dat(k){return keo && pol===1 && Math.abs(xacSuatCong(theta,pol)-({can:.5,baTu:.75,motTu:.25})[k])<.014;}
     datChuanBi();veCung();
-    return {scene,buoc,lenh,capNhat,dat,hud:()=>{veCot();veDoThi();const f=dem?cong/dem:0;return [
-      [chu('chuan-bi'),pol===0?chu('tron'):chu(pol>0?'duong':'am')],[chu('goc'),so(theta,0)+'°'],['P(+) '+chu('ly-thuyet'),so(100*xacSuatCong(theta,pol),1)+' %'],
-      [chu('dem'),so(cong,0)+' / '+so(dem,0)],[chu('ti-le'),dem?so(100*f,1)+' ± '+so(100*saiSoChuan(f,dem),1)+' %':'—'],['⟨S⟩ / ħ',so(giaTriTrungBinh(theta,pol),3)]];}};
+    // Ô số liệu 5 dòng: dòng đầu là xác suất lý thuyết (bước 4 nói về trung bình nên đưa ⟨S⟩ lên đầu).
+    return {scene,buoc,lenh,capNhat,dat,hud:()=>{veCot();veDoThi();const f=dem?cong/dem:0;
+      const dong=[['P(+) '+chu('ly-thuyet'),so(100*xacSuatCong(theta,pol),1)+' %'],
+        [chu('chuan-bi'),pol===0?chu('tron'):chu(pol>0?'duong':'am')],[chu('goc'),so(theta,0)+'°'],
+        [chu('ti-le'),dem?so(100*f,1)+' ± '+so(100*saiSoChuan(f,dem),1)+' % ('+so(cong,0)+' / '+so(dem,0)+')':'—'],
+        ['⟨S⟩ / ħ',so(giaTriTrungBinh(theta,pol),3)]];
+      if(buocHien===3)dong.unshift(dong.pop());
+      return dong;}};
   },
 };

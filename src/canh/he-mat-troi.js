@@ -421,7 +421,7 @@ export default {
         noiDung: R`
           Mỗi năm Trái Đất đi một vòng dài $2\pi \times 1\ \text{AU} \approx 6{,}28$ AU. Cũng trong một năm đó, Mặt Trời bay được
 
-          $$ 230\ \text{km/s} \times 3{,}156 \times 10^{7}\ \text{s} \approx 7{,}26 \times 10^{9}\ \text{km} \approx 48{,}5\ \text{AU} $$
+          $$ \begin{aligned} 230\ \text{km/s} \times 3{,}156 \times 10^{7}\ \text{s} &\approx 7{,}26 \times 10^{9}\ \text{km} \\ &\approx 48{,}5\ \text{AU} \end{aligned} $$
 
           Vậy bước lò xo thật dài gấp gần **8 lần** chu vi vòng xoắn. Lò xo bị kéo giãn tới mức trông như một đường thẳng hơi lượn sóng. Sao Hải Vương còn hơn thế: mỗi vòng mất 165 năm, trong lúc đó Mặt Trời đi gần 8 000 AU, còn chu vi quỹ đạo chỉ 189 AU.
 
@@ -713,7 +713,7 @@ export default {
       };
     }
     const muiBay = taoMuiTen(0xf3c66f);
-    const nhanBay = taoNhan(chuCanh("canh.huong-mat-troi-bay-ve-phia-chom-thien", "Hướng Mặt Trời bay<small>về phía chòm Thiên Nga · 230 km/s = 828 000 km/h</small>"), 'vang dam');
+    const nhanBay = taoNhan(chuCanh("canh.huong-mat-troi-bay-ve-phia-chom-thien", "Hướng Mặt Trời bay<small>về phía chòm Thiên Nga</small>"), 'vang dam');
     const huongTam = tam.clone().normalize();
     const muiTam = taoMuiTen(0x8fb4ff);
     const nhanTam = taoNhan(chuCanh("canh.tam-ngan-ha-cach-26-700-nam-anh", "Tâm Ngân Hà<small>cách 26 700 năm ánh sáng</small>"), 'xanh');
@@ -794,7 +794,8 @@ export default {
       voyager: () => [[120, 260, 470], [0, 0, 0]],
       dau: () => GOC_DAU,
       ngang: () => GOC_NGANG,
-      bay: () => gocBay(nen === 1 ? 900 : 90),
+      // đích chỉ lùi sau Mặt Trời một chút: Mặt Trời và đầu mũi tên hướng bay cách mép bảng bài giảng đủ chỗ cho nhãn
+      bay: () => gocBay(nen === 1 ? 900 : 90, 'ngang', 0.06),
       truoc: () => gocBay(nen === 1 ? 700 : 110, 'truoc'),
       phang: () => gocBay(nen === 1 ? 900 : 130, 'phang'),
       xa: () => gocBay(nen === 1 ? 6000 : 900, 'ngang', 0.1),   // đích gần Mặt Trời hơn để nhãn bên phải không chui dưới bảng bài giảng
@@ -893,7 +894,7 @@ export default {
       ten: chuCanh("canh.trai-dat-dong-thoi-gian", "Trái Đất · dòng thời gian"), moTa: chuCanh("canh.keo-doc-quy-dao-de-tua-thoi-gian", "Kéo dọc quỹ đạo để tua thời gian tới lui; mọi hành tinh chạy theo đúng ngày."),
       rangBuoc: { kieu: 'mat-phang', phap: [0, 1, 0], qua: [0, 0, 0] },
       gioiHan: (q) => q.setY(0).setLength(Math.max(0.5, dat.viTri.length())),
-      nhan: chuCanh("canh.keo-trai-dat-de-tua-thoi-gian", "Kéo Trái Đất để tua thời gian"),
+      nhan: chuCanh("canh.keo-trai-dat-de-tua-thoi-gian", "Kéo Trái Đất để tua ngày"),
       khiNam: () => { dungThoiGian(); },
       khiKeo: (q) => { keoDatToi(q); daKeo.dat = true; },
     });
@@ -914,7 +915,7 @@ export default {
       ten: chuCanh("canh.hanh-tinh-thu", "Hành tinh thử"), moTa: () => chuCanh("canh.keo-ra-xa-hay-lai-gan-mat-troi", "Kéo ra xa hay lại gần Mặt Trời.<br>a = <span class=\"so\">{0} AU</span> · T = a<sup>1,5</sup> = <span class=\"so\">{1} năm</span>", [so(thu.a, 2), so(chuKyKepler(thu.a), 2)]),
       rangBuoc: { kieu: 'mat-phang', phap: [0, 1, 0], qua: [0, 0, 0] },
       gioiHan: (q) => { q.setY(0); const r = q.length(); return r < 1e-6 ? q.set(0.6, 0, 0) : q.setLength(Math.min(32, Math.max(0.6, r))); },
-      nhan: chuCanh("canh.keo-hanh-tinh-thu-ra-xa-lai-gan", "Kéo hành tinh thử ra xa, lại gần"),
+      nhan: chuCanh("canh.keo-hanh-tinh-thu-ra-xa-lai-gan", "Kéo hành tinh thử"),
       khiNam: () => { thu.keo = true; },
       khiKeo: (q) => { thu.a = q.length(); thu.phi = Math.atan2(-q.z, q.x); veVongThu(); daKeo.thu = true; },
       khiTha: () => { thu.keo = false; },
@@ -928,7 +929,7 @@ export default {
       ten: chuCanh("canh.voyager-1-dong-thoi-gian", "Voyager 1 · dòng thời gian"), moTa: () => chuCanh("canh.keo-doc-duong-bay-de-tua-thoi-gian", "Kéo dọc đường bay để tua thời gian.<br>Cách Mặt Trời <span class=\"so\">{0} AU</span> = {1} ánh sáng", [so(voyager[0].viTri.length(), 1), thoiGianAnhSang(voyager[0].viTri.length())]),
       rangBuoc: { kieu: 'duong', qua: goc1.toArray(), huong: u1.toArray() },
       gioiHan: (q) => { const s = q.clone().sub(goc1).dot(u1); const j = kepJd(Math.max(JD_VOYAGER_TIN_DUOC, v1.jd0 + s / toc1)); return q.copy(goc1).addScaledVector(u1, (j - v1.jd0) * toc1); },
-      nhan: chuCanh("canh.keo-voyager-1-de-tua-thoi-gian", "Kéo Voyager 1 để tua thời gian"),
+      nhan: chuCanh("canh.keo-voyager-1-de-tua-thoi-gian", "Kéo Voyager 1 để tua ngày"),
       khiNam: () => { dungThoiGian(); },
       khiKeo: (q) => { jd = kepJd(Math.max(JD_VOYAGER_TIN_DUOC, v1.jd0 + q.clone().sub(goc1).dot(u1) / toc1)); for (const p of hanhTinh) p.vong = Math.floor(kinhDoTrungBinh(p.ht, jd) / 360); daKeo.v1 = true; },
     });
@@ -1282,7 +1283,8 @@ export default {
       // nhãn: giữ nhãn quan trọng, ẩn nhãn bị đè
       dsNhan.length = 0;
       dsNhan.push({ nhan: nhanMT, uuTien: 100, giu: true });
-      dsNhan.push({ nhan: nhanBay, uuTien: 72 }, { nhan: nhanTam, uuTien: bay ? 20 : 54 });
+      // bước 5 giảng đúng về mũi tên vàng: nhãn hướng bay ngang hàng nhãn góc 60° để cùng hiện
+      dsNhan.push({ nhan: nhanBay, uuTien: gocNhom.visible ? 86 : 72 }, { nhan: nhanTam, uuTien: bay ? 20 : 54 });
       dsNhan.push({ nhan: nhanCyg, uuTien: 74, tat: !bay }, { nhan: nhanDeneb, uuTien: 12, tat: true });
       dsNhan.push({ nhan: nhanGoc, uuTien: 80, tat: !gocNhom.visible });
       dsNhan.push({ nhan: nhanThu, uuTien: 90, tat: tayDang !== 'thu' });
@@ -1291,9 +1293,14 @@ export default {
         dsNhan.push({ nhan: v.nhanRa, uuTien: 14, tat: !v.moc.visible });
       }
       const xaNgoai = dCam > 25;
-      hanhTinh.forEach((p, i) => dsNhan.push({ nhan: p.nhan, uuTien: p.ht.id === chonId ? 96 : 52 + (xaNgoai ? i : 8 - i) }));
-      dsNhan.push({ nhan: nhanTH, uuTien: 16, tat: !daiTH.visible || bay || dCam > 40 }, { nhan: nhanK, uuTien: 15, tat: !daiK.visible || bay || dCam < 25 || dCam > 600 });
-      for (const n of dsNhanThuoc) dsNhan.push({ nhan: n, uuTien: 13, tat: !thuoc.visible });
+      // Bước «Tỉ lệ thật» (thước đo đang hiện) so Trái Đất, Sao Mộc với Mặt Trời: hai nhãn này chênh Mặt Trời dưới
+      // 15 bậc nên khi nằm sát Mặt Trời thì khung dời chứ không ẩn; Trái Đất giữ chỗ (lúc nó chạy qua sau nhãn Mặt Trời
+      // vẫn hiện). Vòng trong ở góc nhìn này chỉ rộng vài chục điểm
+      // ảnh: nhãn Sao Hỏa (lời giảng bước này không nhắc) tắt để nhường chỗ cho Trái Đất; chữ thước 5 AU, 10 AU vẫn hiện.
+      const tiLe = thuoc.visible;
+      hanhTinh.forEach((p, i) => dsNhan.push({ nhan: p.nhan, uuTien: p.ht.id === chonId ? 96 : tiLe && p === dat ? 92 : tiLe && p.ht.id === 'moc' ? 88 : 52 + (xaNgoai ? i : 8 - i), giu: tiLe && p === dat, tat: tiLe && p === hoa && chonId !== 'hoa' }));
+      dsNhan.push({ nhan: nhanTH, uuTien: 16, tat: !daiTH.visible || bay || dCam > 40 || tiLe }, { nhan: nhanK, uuTien: 15, tat: !daiK.visible || bay || dCam < 25 || dCam > 600 });
+      dsNhanThuoc.forEach((n, i) => dsNhan.push({ nhan: n, uuTien: i === 1 ? 78 : 13, tat: !thuoc.visible }));
       dsNhan.push({ nhan: nhanPhang, uuTien: 10, tat: !gocNhom.visible }, { nhan: nhanNQ, uuTien: 8, tat: !xa });
       goNhanDeNhau(dsNhan, camera, app.rong, app.cao);
 

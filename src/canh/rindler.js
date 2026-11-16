@@ -15,7 +15,7 @@ import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js
 import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
 import { so, soNghia, R0_NGAN_HA_NAS } from '../vat-ly/hang-so.js';
 import { cTrenA, duHanh, duHanhCoHam, tiLeNhip, tChamSan, thoiDiemNhan } from '../vat-ly/rindler.js';
-import { taoNhan, taoNenSao, taoDom } from '../khung/ve.js';
+import { taoNhan, taoNenSao, taoDom, goNhanDeNhau } from '../khung/ve.js';
 import { MAU_KTG } from '../khung/ktg.js';
 import { taoDenCanh, taoTenLua } from '../khung/do-vat.js';
 
@@ -142,9 +142,11 @@ class BoNhan {
     this.i = 0;
   }
   bat() { this.i = 0; }
-  them(html, lop, x, t, y = 0, phai = false) {
+  // uu: mức ưu tiên khi các nhãn tránh nhau (goNhanDeNhau): 90 trở lên là nhãn chính, không bao giờ ẩn vì đè.
+  them(html, lop, x, t, y = 0, phai = false, uu = 20) {
     if (!html || this.i >= this.ds.length || !trong(x, t, 0.2)) return null;
     const o = this.ds[this.i++];
+    o._uu = uu;
     const ten = `nhan ${lop}${phai ? ' phai' : ''}`;
     if (o.element.className !== ten) o.element.className = ten;
     o.center.x = phai ? 1 : 0;
@@ -335,7 +337,7 @@ export default {
   ten: 'Gia tốc trong không-thời gian',
   moTa: 'Tên lửa 1 g: hyperbol, đồng hồ trần nhanh hơn sàn, chân trời',
   yChinh: 'Tên lửa tăng tốc đều vạch trong không-thời gian một hyperbol tiến sát nhưng không bao giờ chạm tia sáng 45°. Lưới tọa độ của phi hành đoàn cong theo; trong lưới ấy vật thả ra «rơi», ánh sáng cong, đồng hồ ở trần chạy nhanh hơn đồng hồ ở sàn, và sau lưng tên lửa có một chân trời. Tất cả xảy ra trong không-thời gian hoàn toàn phẳng.',
-  mayAnh: { viTri: [6.5, 3.2, 17.5], dich: [1.7, 0, 0], fov: 40, min: 4, max: 50 },
+  mayAnh: { viTri: [6.5, 3.2, 17.5], dich: [1.7, 0, 0], fov: 40, min: 4, max: 50, hep: 0.6 },
 
   baiGiang: {
     mucTieu: [
@@ -515,7 +517,9 @@ export default {
         noiDung: R`
           Giờ dùng hyperbol để tính một chuyến đi. Tên lửa tăng tốc 1 g suốt; $\tau$ là số năm trôi qua **trên tàu**:
 
-          $$ cT = \frac{c^2}{a}\sinh\frac{a\tau}{c}, \qquad d = \frac{c^2}{a}\left(\cosh\frac{a\tau}{c} - 1\right), \qquad v = c\tanh\frac{a\tau}{c} $$
+          $$ cT = \frac{c^2}{a}\sinh\frac{a\tau}{c}, \qquad v = c\tanh\frac{a\tau}{c} $$
+
+          $$ d = \frac{c^2}{a}\left(\cosh\frac{a\tau}{c} - 1\right) $$
 
           | Trên tàu $\tau$ | Trái Đất $T$ | Quãng đường $d$ | Tốc độ $v$ |
           |---|---|---|---|
@@ -755,7 +759,7 @@ export default {
           return _p.set(M_[0], M_[1], 0);
         },
       },
-      nhan: chuCanh("canh.keo-ten-lua-doc-duong-the-gioi", "Kéo tên lửa dọc đường thế giới"),
+      nhan: chuCanh("canh.keo-ten-lua-doc-duong-the-gioi", "Kéo tên lửa"),
       khiNam: () => { S.tuDieu = true; S.daKeoTL = true; },
       khiKeo: (p) => { S.tuDieu = true; S.daKeoTL = true; S.eta = Math.max(-ETA_KEO, Math.min(ETA_KEO, etaTuT(p.y))); },
     });
@@ -764,7 +768,7 @@ export default {
       moTa: () => chuCanh("canh.do-cao-nam-anh-sang-chay-nhanh-gap", "Độ cao ρ = {0} năm ánh sáng: chạy nhanh gấp <b>{1}</b> lần đồng hồ sàn; gia tốc riêng {2} g.", [so(S.rhoD, 2), so(S.rhoD / RHO0, 2), so(RHO0 / S.rhoD, 2)]),
       rangBuoc: { kieu: 'duong', qua: [0, 0, 0], huong: [1, 0, 0] },
       gioiHan: (p) => { p.x = Math.max(SC * 0.3, Math.min(SC * 3.2, p.x)); p.y = 0; p.z = 0; return p; },
-      nhan: chuCanh("canh.keo-dong-ho-thu-ba-len-xuong", "Kéo đồng hồ thứ ba lên, xuống"),
+      nhan: chuCanh("canh.keo-dong-ho-thu-ba-len-xuong", "Kéo đồng hồ thứ ba"),
       khiKeo: (p) => { S.rhoD = p.x / SC; S.daKeoDH = true; S.ban = true; },
     });
     const tayPhat = tt.tayNam({
@@ -851,7 +855,7 @@ export default {
         else o.ngat();
       }
     }
-    function nhanR(html, lop, rho, eta, phai = false, dx = 0, dt = 0) { if (anhR(rho, eta)) nhan.them(html, lop, M_[0] + dx, M_[1] + dt, 0, phai); }
+    function nhanR(html, lop, rho, eta, phai = false, dx = 0, dt = 0, uu = 20) { if (anhR(rho, eta)) nhan.them(html, lop, M_[0] + dx, M_[1] + dt, 0, phai, uu); }
 
     function veTenLua() {
       const h = S.hien;
@@ -890,7 +894,7 @@ export default {
           net.chanTroi.them(0, 0, -YK, xm, d * 4.6, -YK); net.chanTroi.them(0, 0, YK, xm, d * 4.6, YK);
           net.chanTroi.them(xm, d * 4.6, -YK, xm, d * 4.6, YK);
         }
-        nhan.them(chuCanh("canh.chan-troi-ct-x-tin-hieu-phat-sau", "chân trời: cT = X<small>tín hiệu phát sau mặt này không bao giờ tới tên lửa</small>"), 'do', xm * 0.72 + 0.1, 4.6 * 0.72, YK);
+        nhan.them(chuCanh("canh.chan-troi-ct-x-tin-hieu-phat-sau", "chân trời: cT = X<small>tín hiệu phát sau mặt này không bao giờ tới tên lửa</small>"), 'do', xm * 0.72 + 0.1, 4.6 * 0.72, YK, false, 60);
       }
       // sàn, trần: ống sáng ở giữa, tấm kính theo bề rộng tên lửa
       mat.san.bat(); mat.tran.bat(); net.vien.bat(); ong.san.bat(); ong.tran.bat(); ong.dat.bat(); ong.tau.bat();
@@ -899,21 +903,21 @@ export default {
       if (h.san) {
         sheet(mat.san, net.vien, RHO0, -ETA_MAX, ETA_MAX, 140);
         ongCong(ong.san, (s) => { _f[0] = RHO0 * Math.cosh(s); _f[1] = RHO0 * Math.sinh(s); }, -ETA_MAX, ETA_MAX, 220);
-        nhanR(chuCanh("canh.san-gia-toc-rieng-1-g", "sàn<small>gia tốc riêng 1 g</small>"), 'hong dam', RHO0, -1.25, true, -0.15, 0);
+        nhanR(chuCanh("canh.san-gia-toc-rieng-1-g", "sàn<small>gia tốc riêng 1 g</small>"), 'hong dam', RHO0, -1.25, true, -0.15, 0, 70);
         if (h.vanToc) {
           for (const tau of [-1.5, -1, -0.5, 0.5, 1, 1.5, 2]) {
             const eta = tau / RHO0;
             if (anhR(RHO0, eta) && dom.hong.them(M_[0], M_[1])) {
-              nhan.them(chuCanh("canh.nam-v-c", "{0} năm<small>v = {1} c</small>", [so(tau, 1), so(Math.tanh(eta), 2)]), 'hong', M_[0] + 0.12, M_[1], 0);
+              nhan.them(chuCanh("canh.nam-v-c", "{0} năm<small>v = {1} c</small>", [so(tau, 1), so(Math.tanh(eta), 2)]), 'hong', M_[0] + 0.12, M_[1], 0, false, 30);
             }
           }
-          if (anhR(RHO0, 0)) { dom.to.them(M_[0], M_[1]); nhan.them(chuCanh("canh.dung-yen-tuc-thoi-x-c-a-0", "đứng yên tức thời<small>X = c²/a = 0,97 năm ánh sáng</small>"), 'dam', M_[0] - 0.15, M_[1] - 0.05, 0, true); }
+          if (anhR(RHO0, 0)) { dom.to.them(M_[0], M_[1]); nhan.them(chuCanh("canh.dung-yen-tuc-thoi-x-c-a-0", "đứng yên tức thời<small>X = c²/a = 0,97 năm ánh sáng</small>"), 'dam', M_[0] - 0.15, M_[1] - 0.05, 0, true, 60); }
         }
       }
       if (h.tran) {
         sheet(mat.tran, net.vien, RHO1, -ETA_MAX, ETA_MAX, 140);
         ongCong(ong.tran, (s) => { _f[0] = RHO1 * Math.cosh(s); _f[1] = RHO1 * Math.sinh(s); }, -ETA_MAX, ETA_MAX, 220);
-        nhanR(chuCanh("canh.tran-gia-toc-rieng-g", "trần<small>gia tốc riêng {0} g</small>", [so(RHO0 / RHO1, 2)]), 'xanh dam', RHO1, -0.75, false, 0.15, 0);
+        nhanR(chuCanh("canh.tran-gia-toc-rieng-g", "trần<small>gia tốc riêng {0} g</small>", [so(RHO0 / RHO1, 2)]), 'xanh dam', RHO1, -0.75, false, 0.15, 0, 70);
       }
       if (h.vach) {
         // mỗi 0,25 năm theo đồng hồ của chính nó
@@ -922,11 +926,11 @@ export default {
           const eS = tau / RHO0, eT = tau / RHO1;
           if (h.san && Math.abs(eS) < ETA_MAX && anhR(RHO0, eS)) {
             dom.hong.them(M_[0], M_[1]);
-            if (j > 0 && j % 4 === 0) nhan.them(chuCanh("canh.nam", "{0} năm", [so(tau, 0)]), 'hong tran', M_[0], M_[1], 0, true);
+            if (j > 0 && j % 4 === 0) nhan.them(chuCanh("canh.nam", "{0} năm", [so(tau, 0)]), 'hong tran', M_[0], M_[1], 0, true, 15);
           }
           if (h.tran && Math.abs(eT) < ETA_MAX && anhR(RHO1, eT)) {
             dom.xanh.them(M_[0], M_[1]);
-            if (j > 0 && j % 4 === 0) nhan.them(chuCanh("canh.nam", "{0} năm", [so(tau, 0)]), 'xanh tran', M_[0] + 0.05, M_[1], 0);
+            if (j > 0 && j % 4 === 0) nhan.them(chuCanh("canh.nam", "{0} năm", [so(tau, 0)]), 'xanh tran', M_[0] + 0.05, M_[1], 0, false, 15);
           }
         }
       }
@@ -939,15 +943,15 @@ export default {
           const e = (j * 0.25) / rD;
           if (Math.abs(e) < ETA_MAX && anhR(rD, e)) dom.tim.them(M_[0], M_[1]);
         }
-        nhanR(chuCanh("canh.dong-ho-thu-ba-nhanh-gap-lan-san", "đồng hồ thứ ba<small>nhanh gấp {0} lần sàn · gia tốc riêng {1} g</small>", [so(rD / RHO0, 2), so(RHO0 / rD, 2)]), 'tim dam', rD, -0.42, false, 0.18, 0);
+        nhanR(chuCanh("canh.dong-ho-thu-ba-nhanh-gap-san", "đồng hồ thứ ba<small>nhanh gấp {0} lần sàn</small>", [so(rD / RHO0, 2)]), 'tim dam', rD, -0.42, false, 0.18, 0, 85);
       }
       // quả bóng: đứng yên ở X = ρ0 + h từ lúc thả tới lúc sàn chạm
       ong.bong.bat();
       if (h.bong) {
         const tc = tChamSan(RHO0, HT);
         ongCong(ong.bong, (s) => { _f[0] = RHO1; _f[1] = s; }, 0, tc, 60);
-        if (anh(RHO1, 0)) { dom.trang.them(M_[0], M_[1]); nhan.them(chuCanh("canh.tha-qua-bong", "thả quả bóng"), 'tran', M_[0] + 0.12, M_[1] - 0.1, 0); }
-        if (anh(RHO1, tc)) { dom.to.them(M_[0], M_[1]); nhan.them(chuCanh("canh.san-cham-bong-dong-ho-san-nam", "sàn chạm bóng<small>đồng hồ sàn: {0} năm</small>", [so(RHO0 * ETA_BONG, 2)]), 'dam', M_[0] + 0.12, M_[1], 0); }
+        if (anh(RHO1, 0)) { dom.trang.them(M_[0], M_[1]); nhan.them(chuCanh("canh.tha-qua-bong", "thả quả bóng"), 'tran', M_[0] + 0.12, M_[1] - 0.1, 0, false, 55); }
+        if (anh(RHO1, tc)) { dom.to.them(M_[0], M_[1]); nhan.them(chuCanh("canh.san-cham-bong-dong-ho-san-nam", "sàn chạm bóng<small>đồng hồ sàn: {0} năm</small>", [so(RHO0 * ETA_BONG, 2)]), 'dam', M_[0] + 0.12, M_[1], 0, false, 65); }
       }
       // chớp sáng từ sàn lên trần
       net.xung.bat();
@@ -978,8 +982,8 @@ export default {
           }
           if (anh(RHO0, Te)) dom.cam.them(M_[0], M_[1]);
         }
-        if (anh(RHO0, 0.35)) nhan.them(chuCanh("canh.den-hieu-tha-qua-cua-san-luc-0", "đèn hiệu<small>thả qua cửa sàn lúc η = 0</small>"), 'cam', M_[0] - 0.12, M_[1], 0, true);
-        if (K < 0.02 && anh(RHO0, RHO0)) { dom.to.them(M_[0], M_[1]); nhan.them(chuCanh("canh.qua-chan-troi-luc-nam", "qua chân trời<small>lúc {0} năm</small>", [so(RHO0, 4)]), 'do', M_[0] - 0.12, M_[1], 0, true); }
+        if (anh(RHO0, 0.35)) nhan.them(chuCanh("canh.den-hieu-tha-qua-cua-san-luc-0", "đèn hiệu<small>thả qua cửa sàn lúc η = 0</small>"), 'cam', M_[0] - 0.12, M_[1], 0, true, 70);
+        if (K < 0.02 && anh(RHO0, RHO0)) { dom.to.them(M_[0], M_[1]); nhan.them(chuCanh("canh.qua-chan-troi-luc-nam", "qua chân trời<small>lúc {0} năm</small>", [so(RHO0, 4)]), 'do', M_[0] - 0.12, M_[1], 0, true, 70); }
       }
       // tín hiệu người học phát từ đường cam (bước 5)
       net.tinHieu.bat(); net.tinHieuMat.bat();
@@ -1010,7 +1014,7 @@ export default {
         }
       }
       // điểm chốt
-      if (K < 0.3 && (h.luoiR || h.nay || h.chanTroi)) { dom.to.them(0, 0); nhan.them(chuCanh("canh.diem-chot", "điểm chốt"), 'tran', 0.12, -0.25, 0); }
+      if (K < 0.3 && (h.luoiR || h.nay || h.chanTroi)) { dom.to.them(0, 0); nhan.them(chuCanh("canh.diem-chot", "điểm chốt"), 'tran', 0.12, -0.25, 0, false, 50); }
       // nhãn trục
       if (K < 0.5) { nhan.them(chuCanh("canh.x-nam-anh-sang", "X (năm ánh sáng)"), 'mo tran', B.x1 - 0.1, 0.25, 0, true); nhan.them(chuCanh("canh.ct-nam", "cT (năm)"), 'xanh tran', 0.1, B.t1 - 0.2, 0); }
       else nhan.them(chuCanh("canh.do-cao-trong-ten-lua", "ρ: độ cao trong tên lửa"), 'mo tran', B.x1 - 0.1, 0.25, 0, true);
@@ -1036,8 +1040,9 @@ export default {
       let D, Ttong, vMax, gMax;
       if (ham) { const n = tau / 2 / k; D = 2 * k * (Math.cosh(n) - 1); Ttong = 2 * k * Math.sinh(n); vMax = Math.tanh(n); gMax = Math.cosh(n); }
       else { const r = duHanh(tau); D = r.d; Ttong = r.T; vMax = r.v; gMax = r.g; }
-      const ox = -2.6, ot = -4.3;
-      const sc = Math.min(8.6 / Ttong, 8.6 / D);
+      // Gốc nâng lên cho sự kiện «khởi hành» nằm trên ô số liệu (5 dòng).
+      const ox = -2.6, ot = -3.5;
+      const sc = Math.min(7.8 / Ttong, 7.8 / D);
       const P = (X, T) => { M_[0] = ox + sc * X; M_[1] = ot + sc * T; };
       // vị trí và thời gian theo thời gian riêng s
       const viTri = (s) => {
@@ -1050,7 +1055,7 @@ export default {
       for (let j = 1; j * nac <= Ttong * 1.02; j++) {
         P(0, j * nac); const a0 = M_[0], a1 = M_[1]; P(D * 1.05, j * nac); net.dhLuoi.doan(a0, a1, M_[0], M_[1]);
         P(0, j * nac); dom.trang.them(M_[0], M_[1]);
-        nhan.them(chuCanh("canh.nam", "{0} năm", [soNghia(j * nac, 3)]), 'mo tran', ox - 0.1, M_[1], 0, true);
+        nhan.them(chuCanh("canh.nam", "{0} năm", [soNghia(j * nac, 3)]), 'mo tran', ox - 0.1, M_[1], 0, true, 15);
       }
       // Trái Đất và ánh sáng
       P(0, 0); ong.dat.them(M_[0], M_[1]); P(0, Ttong * 1.04); ong.dat.them(M_[0], M_[1]);
@@ -1061,12 +1066,13 @@ export default {
       const buoc = tau > 30 ? 5 : tau > 12 ? 2 : tau > 5 ? 1 : 0.5;
       for (let s = buoc; s < tau - 1e-6; s += buoc) { viTri(s); P(_f[0], _f[1]); dom.hong.them(M_[0], M_[1]); }
       P(0, 0); dom.to.them(M_[0], M_[1]);
-      nhan.them(chuCanh("canh.khoi-hanh", "khởi hành"), 'tran', M_[0] + 0.15, M_[1] - 0.2, 0);
+      nhan.them(chuCanh("canh.khoi-hanh", "khởi hành"), 'tran', M_[0] + 0.15, M_[1] - 0.2, 0, false, 50);
       P(D, Ttong); dom.to.them(M_[0], M_[1]);
-      nhan.them(chuCanh("canh.tren-tau-nam-trai-dat-nam-di-nam", "{0}<small>trên tàu {1} năm · Trái Đất {2} năm · đi {3} năm ánh sáng</small>", [ham ? chuCanh("canh.toi-noi-dung-yen", "tới nơi, đứng yên") : chuCanh("canh.sau", "sau ") + so(tau, 1) + chuCanh("canh.nam-tren-tau", " năm trên tàu"), so(tau, 1), soNghia(Ttong, 4), soNghia(D, 4)]), 'hong dam', M_[0] - 0.15, M_[1] + 0.3, 0, true);
-      nhan.them(chuCanh("canh.trai-dat", "Trái Đất"), 'dam', ox + 0.12, ot + 0.35, 0);
-      nhan.them(chuCanh("canh.anh-sang", "ánh sáng"), 'vang tran', ox + 4.4, ot + 4.6, 0);
-      if (ham) { viTri(tau / 2); P(_f[0], _f[1]); dom.to.them(M_[0], M_[1]); nhan.them(chuCanh("canh.giua-duong-bat-dau-ham-v-c-c", "giữa đường: bắt đầu hãm<small>v = c − {0} c · γ = {1}</small>", [soNghia(1 - vMax, 2), soNghia(gMax, 3)]), 'hong', M_[0] - 0.15, M_[1], 0, true); }
+      // Quãng đường đã có ở ô số liệu; nhãn chỉ giữ hai thời gian để so.
+      nhan.them(chuCanh("canh.tren-tau-nam-trai-dat-nam", "{0}<small>trên tàu {1} năm · Trái Đất {2} năm</small>", [ham ? chuCanh("canh.toi-noi-dung-yen", "tới nơi, đứng yên") : chuCanh("canh.sau", "sau ") + so(tau, 1) + chuCanh("canh.nam-tren-tau", " năm trên tàu"), so(tau, 1), soNghia(Ttong, 4)]), 'hong dam', M_[0] - 0.15, M_[1] + 0.3, 0, true, 90);
+      nhan.them(chuCanh("canh.trai-dat", "Trái Đất"), 'dam', ox + 0.12, ot + 0.35, 0, false, 60);
+      nhan.them(chuCanh("canh.anh-sang", "ánh sáng"), 'vang tran', ox + 4.4, ot + 4.6, 0, false, 30);
+      if (ham) { viTri(tau / 2); P(_f[0], _f[1]); dom.to.them(M_[0], M_[1]); nhan.them(chuCanh("canh.giua-duong-bat-dau-ham-v-c-c", "giữa đường: bắt đầu hãm<small>v = c − {0} c · γ = {1}</small>", [soNghia(1 - vMax, 2), soNghia(gMax, 3)]), 'hong', M_[0] - 0.15, M_[1], 0, true, 60); }
       for (const k2 in net) net[k2].xong();
       for (const k2 in mat) mat[k2].xong();
       for (const k2 in ong) ong[k2].xong();
@@ -1101,6 +1107,20 @@ export default {
       if (h.bong && qua(ETA_BONG)) am.not({ tanSo: 140, dai: 0.35, doTo: 0.45, dang: 'mem' });
       if (h.den) for (const [e, Te] of etaChop) if (qua(e)) am.not({ tanSo: tanSoNhan(Te), dai: 0.4, doTo: 0.34, dang: 'chuong' });
       if (h.phat && S.teThu < RHO0 && qua(-Math.log(1 - S.teThu / RHO0))) am.not({ tanSo: tanSoNhan(S.teThu), dai: 0.6, doTo: 0.45, dang: 'kinh' });
+    }
+
+    // ----- Nhãn tránh nhau -----
+    // Dựng sẵn danh sách một lần (không cấp phát mỗi khung hình). Nhãn trong bộ nhãn dùng mức ưu tiên ghi lúc them().
+    const dsNhan = nhan.ds.map((o) => ({ nhan: o, uuTien: 20, tat: true, giu: false }));
+    const NHAN_RIENG = [[nhanTL, 90, true], [nhanTin, 85, false], [nhanBong, 80, false], [nhanNay, 65, false]];
+    for (const [o, uuTien, giu] of NHAN_RIENG) dsNhan.push({ nhan: o, uuTien, tat: true, giu });
+    function xepNhan() {
+      for (const k of dsNhan) {
+        const o = k.nhan;
+        k.tat = !o.visible;
+        if (o._uu != null) { k.uuTien = o._uu; k.giu = o._uu >= 90; }
+      }
+      goNhanDeNhau(dsNhan, app.camera, app.rong, app.cao);
     }
 
     // ----- Vòng lặp -----
@@ -1148,6 +1168,7 @@ export default {
         }
         if (dt > 0 && tlXoay.visible) amDongCo.dat({ tanSoLoc: 360, doTo: 0.07, lech: 0.15 }, 0.1);
         else amDongCo.dat({ doTo: 0 }, 0.1);
+        xepNhan();
         return;
       }
       tenLua.datLucDay(1, 0.3);
@@ -1236,6 +1257,7 @@ export default {
       // động cơ: tiếng không đổi (gia tốc riêng không đổi)
       if (dt > 0 && tlXoay.visible) amDongCo.dat({ tanSoLoc: 360, doTo: 0.07, lech: 0.15 }, 0.1);
       else amDongCo.dat({ doTo: 0 }, 0.1);
+      xepNhan();
     }
 
     // Trạng thái dựng sẵn để chụp ảnh và kiểm thử thách (chỉ khi app.imLang).
@@ -1253,8 +1275,10 @@ export default {
         const t = thongTinDH;
         if (!t) return [];
         return [
-          [chuCanh("canh.chuyen-di-1-g", "Chuyến đi 1 g"), chuCanh("canh.nam-tren-tau-c52fab", "{0} · {1} năm trên tàu", [S.kieu === 'ham' ? chuCanh("canh.tang-toc-nua-dau-ham-nua-sau", "tăng tốc nửa đầu, hãm nửa sau") : chuCanh("canh.tang-toc-suot-ef473b", "tăng tốc suốt"), so(S.tauTong, 2)])],
-          [chuCanh("canh.trai-dat", "Trái Đất"), chuCanh("canh.nam-troi-qua-quang-duong-nam-anh-sang", "{0} năm trôi qua · quãng đường {1} năm ánh sáng", [soNghia(t.Ttong, 4), soNghia(t.D, 4)])],
+          [chuCanh("canh.tren-tau", "Trên tàu"), chuCanh("canh.nam", "{0} năm", [so(S.tauTong, 2)])],
+          [chuCanh("canh.chuyen-di-1-g", "Chuyến đi 1 g"), S.kieu === 'ham' ? chuCanh("canh.tang-toc-nua-dau-ham-nua-sau", "tăng tốc nửa đầu, hãm nửa sau") : chuCanh("canh.tang-toc-suot-ef473b", "tăng tốc suốt")],
+          [chuCanh("canh.trai-dat", "Trái Đất"), chuCanh("canh.nam-troi-qua", "{0} năm trôi qua", [soNghia(t.Ttong, 4)])],
+          [chuCanh("canh.quang-duong", "Quãng đường"), chuCanh("canh.nam-anh-sang-1b", "{0} năm ánh sáng", [soNghia(t.D, 4)])],
           [chuCanh("canh.nhanh-nhat", "Nhanh nhất"), `v = ${t.vMax > 0.9999 ? `c − ${soNghia(1 - t.vMax, 2)} c` : `${so(t.vMax, 4)} c`} · γ = ${soNghia(t.gMax, 4)}`],
         ];
       }
@@ -1264,12 +1288,16 @@ export default {
         [chuCanh("canh.dong-ho-san-tran", "Đồng hồ sàn · trần"), chuCanh("canh.nam-nam-ti-so", "{0} năm · {1} năm (tỉ số {2})", [so(eta * RHO0, 2), so(eta * RHO1, 2), so(tiLeNhip(RHO0, HT), 3)])],
         [chuCanh("canh.ten-lua-so-voi-khung-quan-tinh", "Tên lửa so với khung quán tính"), `v = ${so(Math.tanh(eta), 3)} c`],
       ];
-      if (S.hien.dongHo3) d.push([chuCanh("canh.dong-ho-thu-ba", "Đồng hồ thứ ba"), chuCanh("canh.nam-anh-sang-nhanh-gap-lan-san", "ρ = {0} năm ánh sáng: nhanh gấp {1} lần sàn", [so(S.rhoD, 2), so(S.rhoD / RHO0, 3)])]);
+      if (S.hien.dongHo3) {
+        d.push([chuCanh("canh.dong-ho-thu-ba", "Đồng hồ thứ ba"), chuCanh("canh.rho-nam-anh-sang", "ρ = {0} năm ánh sáng", [so(S.rhoD, 2)])]);
+        d.push([chuCanh("canh.nhip-so-voi-san", "Nhịp so với sàn"), chuCanh("canh.nhanh-gap-lan", "nhanh gấp {0} lần", [so(S.rhoD / RHO0, 3)])]);
+      }
       if (S.hien.den && eta > 0) {
         const tr = eta * RHO0;
         // thời điểm phát (đồng hồ đèn hiệu) của chớp sáng đang tới sàn
         const Te = RHO0 * (1 - Math.exp(-tr / RHO0));
-        d.push([chuCanh("canh.anh-sang-den-hieu-dang-toi-san", "Ánh sáng đèn hiệu đang tới sàn"), chuCanh("canh.phat-luc-nam-gioi-han-tieng-hz", "phát lúc {0} năm (giới hạn {1}) · tiếng {2} Hz", [so(Te, 3), so(RHO0, 4), so(tanSoNhan(Te), 0)])]);
+        // Giới hạn 0,9687 năm đã ghi ở nhãn «qua chân trời» và trong lời giảng.
+        d.push([chuCanh("canh.chop-den-hieu-toi-san", "Chớp đèn hiệu tới sàn"), chuCanh("canh.phat-luc-nam-tieng-hz", "phát lúc {0} năm · tiếng {1} Hz", [so(Te, 3), so(tanSoNhan(Te), 0)])]);
       }
       if (S.hien.phat) d.push([chuCanh("canh.tin-hieu-ban-phat", "Tín hiệu bạn phát"), S.teThu < RHO0 ? chuCanh("canh.luc-nam-toi-san-luc-nam", "lúc {0} năm → tới sàn lúc {1} năm", [so(S.teThu, 3), so(thoiDiemNhan(S.teThu, RHO0), 2)]) : chuCanh("canh.luc-nam-khong-bao-gio-toi", "lúc {0} năm → không bao giờ tới", [so(S.teThu, 3)])]);
       return d;

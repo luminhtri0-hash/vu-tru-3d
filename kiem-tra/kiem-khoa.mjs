@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { SO_BAI } from '../src/noi-dung/khoa-hoc.js';
 import { khopNgonNgu, dich } from '../src/ngon-ngu/dich.js';
+import { DS_TIENG_DICH } from '../cong-cu/ngon-ngu.mjs';
 
 const args = process.argv.slice(2);
 const tuyChon = (co, ds) => {
@@ -19,8 +20,9 @@ assert.equal(khopNgonNgu('ja-JP'), 'ja');
 assert.equal(khopNgonNgu('en-GB'), 'en');
 assert.equal(khopNgonNgu('vi-VN'), 'vi');
 assert.equal(khopNgonNgu('fr'), null);
+assert.equal(khopNgonNgu('ko-KR'), 'ko');       // mục cấu hình có sẵn; app chỉ hiện khi có thư mục src/ngon-ngu/ko/
 assert.equal(dich('chung', 'khong-ton-tai', 'Bài {0}', [15]), 'Bài 15');
-for (const ma of tuyChon('--tieng', ['en', 'zh-CN', 'ja'])) {
+for (const ma of tuyChon('--tieng', DS_TIENG_DICH)) {
   let tong = 0, thieu = 0;
   for (const id of tuyChon('--bai', ['chung', ...SO_BAI])) {
     const vi = doc('vi', id), dich = doc(ma, id);

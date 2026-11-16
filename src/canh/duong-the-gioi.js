@@ -56,7 +56,7 @@ export default {
   ten: 'Sự kiện và đường thế giới',
   moTa: 'Vật đứng yên vẫn vạch một đường trong không-thời gian',
   yChinh: 'Mỗi vật không phải là một điểm chạy trong không gian mà là một **đường** nằm trong không-thời gian: đường thế giới. Đứng yên là đường thẳng đứng, đi đều là đường nghiêng, quay vòng là đường xoắn ốc. Ở tỉ lệ thật, đường thế giới của Trái Đất gần như thẳng tắp.',
-  mayAnh: { viTri: [12, 10, 14.5], dich: [0, 4.6, 0], fov: 40, min: 4, max: 70 },
+  mayAnh: { viTri: [12, 10, 14.5], dich: [0, 4.6, 0], fov: 40, min: 4, max: 70, hep: 0.55 },
 
   baiGiang: {
     mucTieu: [
@@ -99,6 +99,7 @@ export default {
           Ngôi nhà nhỏ đứng trên tấm kính là ngôi nhà «lúc này». Đoạn ống sáng dưới tấm kính là quá khứ của nó, đoạn mờ đứt khúc phía trên là tương lai.
 
           > [Thử ngay] Kéo tấm «bây giờ» xuống tận đáy rồi lên tận đỉnh. Ngôi nhà không dịch sang ngang chút nào: nó chỉ trượt dọc đường thế giới thẳng đứng của chính nó.
+          > [[Cho «bây giờ» chạy lại từ đáy|quet]]
 
           Bạn đang ngồi yên đọc dòng này, nhưng trong không-thời gian bạn vẫn đang «đi»: đi dọc trục thời gian. Muốn so thời gian với độ dài, ta nhân thời gian với tốc độ ánh sáng $c$:
 
@@ -106,6 +107,7 @@ export default {
 
           Trong mô hình, mỗi ô trên sàn dài **một giây ánh sáng** (gần 300 000 km) và mỗi nấc trên trục thời gian là một giây. Hai trục dùng chung một thước đo.`,
         vao: (c) => c.cauHinh({ che: 'cb', hien: { A: true }, mayAnh: 'cheo' }),
+        nut: { quet: (c) => c.quetBayGio() },
       },
       {
         ten: 'Đi đều: đường nghiêng',
@@ -349,6 +351,7 @@ export default {
     // =====================================================================
     nhomCB.add(luoiSan({ nua: NUA, o: 1, t: 0, doMo: 0.13 }));
     nhomCB.add(trucKTG({ x: [-NUA, NUA + 0.7], y: [-NUA, NUA + 0.7], t: [0, T_MAX + 0.9], goc: [-NUA, -NUA, 0], nhanX: 'x', nhanY: 'y', nhanT: chuCanh("canh.thoi-gian", "thời gian") }));
+    const dsNhanGiay = [];
     for (let t = 1; t <= T_MAX; t++) {
       // vạch từng giây trên trục thời gian; vạch chẵn có số
       const gach = duongDayTinh([-NUA - 0.16, t, -NUA, -NUA + 0.16, t, -NUA], { mau: MAU_KTG.thoiGian, rong: t % 2 ? 1.2 : 2, doMo: t % 2 ? 0.45 : 0.8, sang: 1.3 });
@@ -357,6 +360,7 @@ export default {
         const n = taoNhan(chuCanh("canh.giay", "{0} giây", [t]), 'mo tran');
         n.position.set(-NUA, t, -NUA);
         nhomCB.add(n);
+        dsNhanGiay.push({ n, t });
       }
     }
     const oNhan = taoNhan(chuCanh("canh.moi-o-1-giay-anh-sang-300-000", "mỗi ô: 1 giây ánh sáng ≈ 300 000 km"), 'mo tran', { giua: true });
@@ -437,7 +441,7 @@ export default {
       g.add(moc.line, sang.line, cung.line, nhanGoc);
       if (nhanAnhSang) g.add(nhanSang);
       return {
-        nhom: g,
+        nhom: g, nhanGoc, nhanSang,
         dat(v) {
           const th = Math.atan(v), rc = 1.4;
           for (let i = 0; i <= 24; i++) {
@@ -470,7 +474,7 @@ export default {
       san.position.set(e.x, 0.02, e.y);
       const day = new DuongDong(2, { mau: e.mau, doMo: 0.3 });
       day.dat(0, e.x, 0, e.y); day.dat(1, e.x, e.t, e.y); day.xong(2);
-      const nhan = taoNhan(chuCanh("canh.x-y-t-giay", "{0}<small>x = {1} · y = {2} · t = {3} giây</small>", [e.ten, so(e.x, 1), so(e.y, 1), so(e.t, 1)]), 'dam');
+      const nhan = e.nhan = taoNhan(chuCanh("canh.x-y-t-giay", "{0}<small>x = {1} · y = {2} · t = {3} giây</small>", [e.ten, so(e.x, 1), so(e.y, 1), so(e.t, 1)]), 'dam');
       nhan.position.copy(e.cham.position);
       // chớp sáng và vòng loang trên tấm kính lúc «bây giờ» đi qua sự kiện
       e.chop = domSang(e.mau, 1, 3);
@@ -661,8 +665,11 @@ export default {
       });
       // nhãn đè nhau thì giấu bớt nhãn kém quan trọng
       dsNhanHMT.length = 0;
-      dsNhanHMT.push({ nhan: mt.nhan, uuTien: 5 }, { nhan: nhanNang, uuTien: 1, tat: S.phamVi !== 'trong' });
-      for (const p of dsHT) dsNhanHMT.push({ nhan: p.nhan, uuTien: p.ht.id === 'dat' ? 4 : 3 - p.i * 0.1, tat: !p.nhom.visible });
+      // Mặt Trời và các hành tinh ngang hàng nhau (chênh dưới 15 bậc) để cùng hiện khi nằm sát; tia nắng lời giảng nhắc.
+      dsNhanHMT.push({ nhan: mt.nhan, uuTien: 80, giu: true }, { nhan: nhanNang, uuTien: 72, tat: S.phamVi !== 'trong' });
+      for (const p of dsHT) dsNhanHMT.push({ nhan: p.nhan, uuTien: p.ht.id === 'dat' ? 76 : 70 - p.i * 0.1, tat: !p.nhom.visible });
+      dsNhanHMT.push({ nhan: nhanNay, uuTien: 40 }, { nhan: nhanO, uuTien: 10 });
+      for (const v of dsVach) dsNhanHMT.push({ nhan: v.n, uuTien: 15, tat: !v.n.visible });
       goNhanDeNhau(dsNhanHMT, app.camera, app.rong, app.cao);
       nhanNay.datChu(chuCanh("canh.hom-nay", "hôm nay: {0}", [ngayThang(S.jd)]));
       nhanO.datChu(chuCanh("canh.moi-o-au-trieu-km", "mỗi ô: {0} AU ≈ {1} triệu km", [so(1 / k, 1), so((149.6 / k), 0)]));
@@ -719,7 +726,7 @@ export default {
     function datVC(v, ngay = false) { S.vC = kep(v, 0.1, 0.95); dkVC.dat(S.vC); loC.dat(S.vC, ngay); }
 
     const GOC = {
-      cheo: [[13.4, 10.9, 16.2], [0, 4.3, 0]],
+      cheo: [[14.6, 11.4, 17.2], [1.3, 4.3, 0.6]],
       ngang: [[0.01, 5, 24], [0, 5, 0]],
       tren: [[0.01, 27, 0.02], [0, 4, 0]],
       hmt: [[11.4, 5.6, 16.6], [-1.2, -2.1, 0]],
@@ -771,6 +778,27 @@ export default {
       else if (ten === 'tianang') { S.mucNen = Math.log(1 / Math.tan((THU_THACH_B4.tiaNang.goc * Math.PI) / 180)) / Math.log(nenToiDa('trong')); dkNen.dat(S.mucNen); }
     }
 
+    // Nhãn của mô hình ba kiểu chuyển động tránh nhau: vật lời giảng nhắc 80, sự kiện 75, «bây giờ» 60, góc θ và tia sáng
+    // mẫu 25 (góc θ 68 vì lời giảng hỏi góc này), vạch giây 15, chú thích ô 10. Khi có con tàu, trục thời gian chỉ ghi số ở 4 và 8 giây; khi có trạm quay thì
+    // ẩn chú thích ô (tối đa 12 nhãn mỗi bước).
+    const nhomCBNhan = [
+      ...dsVat.map((o) => ({ nhan: o.nhan, uuTien: 80, tu: o })),
+      ...dsSK.map((e) => ({ nhan: e.nhan, uuTien: 75, sk: true })),
+      { nhan: nhanKinh, uuTien: 60 },
+      { nhan: mtB.nhanGoc, uuTien: 68, tu: vB }, { nhan: mtB.nhanSang, uuTien: 25, tu: vB }, { nhan: mtC.nhanGoc, uuTien: 68, tu: vC },
+      ...dsNhanGiay.map(({ n, t }) => ({ nhan: n, uuTien: 15, giay: t })),
+      { nhan: oNhan, uuTien: 10, o: true },
+    ].map((k) => ({ ...k, tat: false }));
+    function xepNhanCB() {
+      for (const k of nhomCBNhan) {
+        if (k.tu) k.tat = !k.tu.nhom.visible || (k.tu.nhan === k.nhan && !k.tu.cham.visible);
+        else if (k.sk) k.tat = !nhomSK.visible;
+        else if (k.giay) k.tat = k.giay === 10 || (S.hien.B && k.giay % 4 !== 0);   // «10 giây» trùng chỗ nhãn trục «thời gian»
+        else if (k.o) k.tat = !!S.hien.C;
+      }
+      goNhanDeNhau(nhomCBNhan, app.camera, app.rong, app.cao);
+    }
+
     let vbVe = -1, vcVe = -1, gioTram = 0;
     function capNhat(dt, dtThuc = dt) {
       if (thu) { apThu(thu); thu = null; }
@@ -790,6 +818,7 @@ export default {
         nhanKinh.datChu(chuCanh("canh.bay-gio-t-giay", "bây giờ: t = {0} giây", [so(T, 1)]));
         dkT.dat(T);
         for (const o of dsVat) if (o.nhom.visible) datVat(o, T);
+        xepNhanCB();
         // trạm quay: quay mặt theo hướng chuyển động; tàu và trạm có chuyển động nhỏ của riêng chúng
         if (vC.nhom.visible) { const a = (vc / R_TRAM) * T; vC.vat.nhom.rotation.y = -Math.PI / 2 - a; vC.vat.capNhat?.(dt); }
         vB.vat.capNhat?.(dt);
@@ -843,20 +872,29 @@ export default {
 
     function hud() {
       if (S.che === 'cb') {
-        const d = [[chuCanh("canh.bay-gio", "Bây giờ"), chuCanh("canh.t-giay-1b1794", "t = {0} giây{1}", [so(Math.min(S.T, T_MAX), 1), S.chay ? '' : chuCanh("canh.dang-dung-bat-bay-gio-tu-chay-de", " · đang dừng (bật «Bây giờ» tự chạy để chạy tiếp)")])]];
-        if (S.hien.B) d.push([chuCanh("canh.con-tau", "Con tàu"), chuCanh("canh.c-km-s-nghieng-so-voi-truc-thoi", "{0} c = {1} km/s · nghiêng {2}° so với trục thời gian", [so(S.vB, 2), so(S.vB * 299792.458, 0), so(gocNghiengDo(S.vB), 1)])]);
-        if (S.hien.C) d.push([chuCanh("canh.tram-quay", "Trạm quay"), chuCanh("canh.c-buoc-lo-xo-giay-anh-sang-ban", "{0} c · bước lò xo {1} giây ánh sáng, bán kính {2}", [so(S.vC, 2), so(buocLoXo(R_TRAM, S.vC), 1), so(R_TRAM, 1)])]);
-        if (S.hien.L) d.push([chuCanh("canh.tia-sang", "Tia sáng"), chuCanh("canh.1-c-nghieng-dung-45", "1 c · nghiêng đúng 45°{0}", [S.T > 1 ? chuCanh("canh.da-cach-nha-giay-anh-sang", " · đã cách nhà {0} giây ánh sáng", [so(Math.min(S.T, T_MAX) - 1, 2)]) : ''])]);
+        const d = [[chuCanh("canh.bay-gio", "Bây giờ"), chuCanh("canh.t-giay-1b1794", "t = {0} giây{1}", [so(Math.min(S.T, T_MAX), 1), S.chay ? '' : chuCanh("canh.dang-dung-bat-bay-gio-tu-chay-de", " · đang dừng")])]];
+        if (S.hien.B) d.push([chuCanh("canh.con-tau", "Con tàu"), chuCanh("canh.c-km-s-nghieng-so-voi-truc-thoi", "{0} c = {1} km/s · nghiêng {2}°", [so(S.vB, 2), so(S.vB * 299792.458, 0), so(gocNghiengDo(S.vB), 1)])]);
+        if (S.hien.C) d.push([chuCanh("canh.tram-quay", "Trạm quay"), chuCanh("canh.c-buoc-lo-xo-giay-anh-sang-ban", "{0} c · bước lò xo {1} giây ánh sáng · R = {2}", [so(S.vC, 2), so(buocLoXo(R_TRAM, S.vC), 1), so(R_TRAM, 1)])]);
+        if (S.hien.L) d.push([chuCanh("canh.tia-sang", "Tia sáng"), chuCanh("canh.1-c-nghieng-dung-45", "1 c · nghiêng 45°{0}", [S.T > 1 ? chuCanh("canh.da-cach-nha-giay-anh-sang", " · cách nhà {0} giây ánh sáng", [so(Math.min(S.T, T_MAX) - 1, 2)]) : ''])]);
         return d;
       }
       const { nen, s, namQua } = thongTin;
+      // Tối đa 5 dòng; dòng đầu là con số chính của bước: mức nén trục thời gian (bước 6, 7) hoặc tốc độ người quan sát (bước 8).
+      const dTruc = [chuCanh("canh.truc-thoi-gian", "Trục thời gian"), nen < 1.5 ? chuCanh("canh.dung-ti-le-that-1-nam-dai-63", "đúng tỉ lệ thật (1 năm dài 63 241 AU)") : chuCanh("canh.nen-lan", "nén {0} lần", [soNghia(nen, 2)])];
+      const dNay = [chuCanh("canh.hom-nay-e6747a", "Hôm nay"), ngayThang(S.jd)];
+      const dGiay = [chuCanh("canh.moi-giay-troi-qua", "Mỗi giây trôi qua"), doiThoiGian(TROI_HMT / s)];
+      if (S.u !== 0) {
+        return [
+          [chuCanh("canh.nguoi-quan-sat", "Người quan sát"), chuCanh("canh.bay-km-s-v-c", "bay {0} km/s (v/c = {1})", [so(S.u, 1), soNghia(S.u / 299792.458, 2)])],
+          dTruc, dNay, dGiay,
+          [chuCanh("canh.khung-hinh-lui-ve-qua-khu", "Khung hình lùi về quá khứ"), doiThoiGian(namQua)],
+        ];
+      }
       return [
-        [chuCanh("canh.hom-nay-e6747a", "Hôm nay"), ngayThang(S.jd)],
-        [chuCanh("canh.truc-thoi-gian", "Trục thời gian"), nen < 1.5 ? chuCanh("canh.dung-ti-le-that-1-nam-dai-63", "đúng tỉ lệ thật (1 năm dài 63 241 AU)") : chuCanh("canh.nen-lan", "nén {0} lần", [soNghia(nen, 2)])],
-        [chuCanh("canh.khung-hinh-lui-ve-qua-khu", "Khung hình lùi về quá khứ"), doiThoiGian(namQua)],
-        [chuCanh("canh.moi-giay-troi-qua", "Mỗi giây trôi qua"), doiThoiGian(TROI_HMT / s)],
+        dTruc,
         [chuCanh("canh.tia-nang", "Tia nắng"), chuCanh("canh.hop-voi-mat-hom-nay-tan-1", "hợp với mặt «hôm nay» {0}° (tan = 1/{1})", [nen > 50 ? soNghia(gocTiaNangDo(nen), 2) : so(gocTiaNangDo(nen), 2), soNghia(nen, 3)])],
-        [chuCanh("canh.nguoi-quan-sat", "Người quan sát"), S.u === 0 ? chuCanh("canh.dung-yen-so-voi-mat-troi", "đứng yên so với Mặt Trời") : chuCanh("canh.bay-km-s-v-c", "bay {0} km/s (v/c = {1})", [so(S.u, 1), soNghia(S.u / 299792.458, 2)])],
+        dNay, dGiay,
+        [chuCanh("canh.khung-hinh-lui-ve-qua-khu", "Khung hình lùi về quá khứ"), doiThoiGian(namQua)],
       ];
     }
 
@@ -864,6 +902,7 @@ export default {
       scene, capNhat, hud, cauHinh, goc,
       datVB: (v) => datVB(v), datVC: (v) => datVC(v),
       datU: (v) => { S.u = v; dkU.dat(v); },
+      quetBayGio: () => { S.T = 0; datChay(true); },
       nhaNen: (dich) => { S.mucNenDich = dich; },
       trangThai: () => ({ T: Math.min(S.T, T_MAX), chay: S.chay, vB: S.vB, vC: S.vC, che: S.che, phamVi: S.phamVi, nen: Math.pow(nenToiDa(S.phamVi), S.mucNen) }),
       huy() { den.huy(); },

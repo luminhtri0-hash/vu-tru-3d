@@ -13,7 +13,7 @@ import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
 import { so, soNghia } from '../vat-ly/hang-so.js';
 import { DINH_LP, CANH_LP, MAT_LP, demPhanTu, maTranQuay, nhanVec, catLapPhuong4, taoBoCat, banKinhLatCat, tenKhoi, doDaiCanhCat } from '../vat-ly/bon-chieu.js';
 import { R_MAT_TRANG_KM, CHU_KY_MAT_TRANG_NGAY, giayAnhSangKm } from '../vat-ly/khoang-cach-anh-sang.js';
-import { taoNhan, taoNenSao, taoDom, DuongDay, duongDayTinh, kep } from '../khung/ve.js';
+import { taoNhan, taoNenSao, taoDom, DuongDay, duongDayTinh, goNhanDeNhau, kep } from '../khung/ve.js';
 import { MAU_KTG, luoi, matHienTai } from '../khung/ktg.js';
 import { taoTraiDat, taoMatTrang } from '../khung/hanh-tinh.js';
 
@@ -163,7 +163,7 @@ export default {
   ten: 'Chiều thứ tư',
   moTa: 'Từ điểm tới siêu lập phương; chiếu và cắt lát vật bốn chiều',
   yChinh: 'Mỗi chiều mới là một hướng vuông góc với mọi hướng cũ. Ta không nhìn thấy trọn một vật bốn chiều, chỉ thấy **hình chiếu** (bóng) và **lát cắt** của nó. Thời gian có thể đóng vai chiều thứ tư, và «bây giờ» là một lát cắt; nhưng thời gian khác chiều không gian ở một **dấu trừ**.',
-  mayAnh: { viTri: [4.6, 3.4, 8.6], dich: [0, 0, 0], fov: 40, min: 3, max: 40 },
+  mayAnh: { viTri: [4.6, 3.4, 8.6], dich: [0, 0, 0], fov: 40, min: 3, max: 40, hep: 0.5 },
   hinh: { quang: 0.4, nguong: 0.95 },
 
   baiGiang: {
@@ -258,7 +258,9 @@ export default {
           +++ Đi sâu: ma trận quay trong mặt phẳng xw
           Quay góc $\alpha$ trong mặt phẳng $xw$ chỉ đổi hai tọa độ $x$ và $w$, còn $y$, $z$ giữ nguyên:
 
-          $$ x' = x\cos\alpha - w\sin\alpha, \qquad w' = x\sin\alpha + w\cos\alpha $$
+          $$ x' = x\cos\alpha - w\sin\alpha $$
+
+          $$ w' = x\sin\alpha + w\cos\alpha $$
 
           Phép quay giữ nguyên khoảng cách $\sqrt{x^2 + y^2 + z^2 + w^2}$, vì $x'^2 + w'^2 = x^2 + w^2$. Khi $\alpha = 90°$, ô $x = +1$ chuyển sang chỗ của ô $w = +1$: khối «trong» và khối «ngoài» là hai ô bất kỳ, tuỳ hướng ta nhìn.
           +++`,
@@ -907,7 +909,7 @@ export default {
       }
       canhCau.xong();
       canhCau.mat.opacity = S.cat ? 0.55 : 0.85;
-      nhanCau.position.set(0, 2.45, 0);
+      nhanCau.position.set(-0.5, 2.45, 0);   // lệch trái: chừa đầu thước w bên phải cho nhãn «trục w»
     }
 
     function vePhim(dt) {
@@ -1163,7 +1165,6 @@ export default {
       nhomVong.add(n);
       return n;
     });
-    void nhanVach;
 
     const HR = 1.9;                                       // nửa chiều cao của thước w ứng với f = 1
     const nhomThuoc = new THREE.Group();
@@ -1184,6 +1185,28 @@ export default {
     nhomThuoc.add(nhanThuoc, nhanW0);
     const vachCat = new BoDoan(2, { rong: 2.5, cong: true, sang: 2 });     // vạch ngang tại w₀ trên thước
     nhomThuoc.add(vachCat.line);
+
+    // Nhãn tránh nhau theo mức ưu tiên (khung xếp chỗ). Vật chính 90, vật lời giảng nhắc 60–80, nhãn phụ 10–30.
+    // «an» là điều kiện bài muốn ẩn hẳn nhãn đó ở trạng thái hiện tại; nhãn mà bài tự bật tắt (visible) thì giữ nguyên.
+    const dsNhan = [
+      { nhan: nhanLP, uuTien: 90, giu: true }, { nhan: nhanCau, uuTien: 90, giu: true },
+      { nhan: nhanCat, uuTien: 80, tu: true }, { nhan: nhanTruc, uuTien: 75, tu: true }, { nhan: nhanHuongKeo, uuTien: 75, tu: true },
+      { nhan: nhanDat, uuTien: 70 }, { nhan: nhanTrang, uuTien: 70 },
+      { nhan: nhanVong, uuTien: 60 }, { nhan: nhanW0, uuTien: 60 }, { nhan: nhanThuoc, uuTien: 80 },
+      ...nhanTrucLB.map((n, k) => ({ nhan: n, uuTien: 40, an: k === 2 ? () => S.vat === 'phim' : null })),
+      { nhan: nhanLB, uuTien: 12, an: () => S.vat === 'phim' },
+      ...nhanVach.map((n) => ({ nhan: n, uuTien: 15, an: () => S.vat === 'phim' })),
+      ...anh.map((a) => ({ nhan: a.nhan, uuTien: 20 })),
+    ];
+    // Bước phim (17 nhãn) bớt còn 12: ẩn chú thích la bàn, ba số độ trên vòng và nhãn trục z (phép quay của bước chỉ ở mặt xw).
+    const nhomGo = dsNhan.map((k) => ({ nhan: k.nhan, uuTien: k.uuTien, giu: !!k.giu, tat: false }));
+    function xepNhan() {
+      for (let i = 0; i < dsNhan.length; i++) {
+        const k = dsNhan[i];
+        nhomGo[i].tat = k.tu ? !k.nhan.visible : !!(k.an && k.an());
+      }
+      goNhanDeNhau(nhomGo, app.camera, app.rong, app.cao);
+    }
 
     function viTriVong(out) {
       out.set(nhom4.position.x, -2.55, 0);
@@ -1602,6 +1625,7 @@ export default {
         veSoSanh(dt);
         capNhatTayNam();
         amThanh(dt);
+        xepNhan();
         return;
       }
       if (S.keoDich != null) {
@@ -1644,6 +1668,7 @@ export default {
       nhomLaBan.position.set(S.phang && S.vat === 'cau' ? -2.0 : -4.1, S.phang && S.vat === 'cau' ? -2.3 : 1.5, S.phang && S.vat === 'cau' ? 0.6 : 0);
       capNhatTayNam();
       amThanh(dt);
+      xepNhan();
     }
 
     function hud() {
@@ -1660,11 +1685,12 @@ export default {
         const gd = Math.round(kep(S.keo, 0, 4));
         d.push([chuCanh("canh.vat", "Vật"), chuCanh("canh.chieu", "{0} {1} chiều: {2}", [TEN_GIAI_DOAN[gd].toLowerCase(), gd, [0, 1, 2, 3, 4].filter((q) => q <= gd).map((q) => `${demPhanTu(gd, q)} ${q === 4 ? chuCanh("canh.sieu-khoi", "siêu khối") : TEN_PHAN_TU[q]}`).slice(0, 4).join(', ')])]);
       } else if (S.vat === 'cau') d.push([chuCanh("canh.vat", "Vật"), chuCanh("canh.sieu-cau-ban-kinh-1-x-y-z", "siêu cầu bán kính 1: x² + y² + z² + w² = 1")]);
-      else d.push([chuCanh("canh.vat", "Vật"), chuCanh("canh.phim-trai-dat-mat-trang-w-thoi-gian", "phim Trái Đất – Mặt Trăng (w = thời gian, nén khoảng {0} lần)", [soNghia(NEN_PHIM, 1)])]);
+      else d.push([chuCanh("canh.vat", "Vật"), chuCanh("canh.phim-trai-dat-mat-trang-w-thoi-gian", "phim Trái Đất – Mặt Trăng (trục w nén ≈ {0} lần)", [soNghia(NEN_PHIM, 1)])]);
       d.push([chuCanh("canh.goc-quay", "Góc quay"), `xw ${so(S.goc.xw / DO, 0)}° · yw ${so(S.goc.yw / DO, 0)}° · zw ${so(S.goc.zw / DO, 0)}°${S.tuQuay ? chuCanh("canh.dang-quay-trong", " · đang quay trong {0}", [S.matQuay]) : ''}`]);
       d.push([chuCanh("canh.chieu-587cfe", "Chiếu"), S.chieu === 'phoi' ? chuCanh("canh.phoi-canh-d", "phối cảnh, d = {0}", [so(D, 1)]) : chuCanh("canh.chieu-thang-bo-w", "chiếu thẳng (bỏ w)")]);
       if (S.cat) {
-        if (S.vat === 'lp') d.push([chuCanh("canh.lat-cat", "Lát cắt"), chuCanh("canh.w-dinh-canh-mat", "w₀ = {0}: {1} ({2} đỉnh, {3} cạnh, {4} mặt)", [so(w0, 2), tenCat, boCat.soDinh, boCat.soCanh, boCat.soDa])]);
+        // Số đỉnh, cạnh, mặt của lát cắt đã ghi trên nhãn của nó; ô số liệu chỉ giữ w₀ và tên khối (dòng dưới 60 ký tự).
+        if (S.vat === 'lp') d.push([chuCanh("canh.lat-cat", "Lát cắt"), chuCanh("canh.w-ten-lat-cat", "w₀ = {0}: {1}", [so(w0, 2), tenCat])]);
         if (S.vat === 'cau') d.push([chuCanh("canh.lat-cat", "Lát cắt"), chuCanh("canh.w-qua-cau-ban-kinh", "w₀ = {0}: quả cầu bán kính {1}", [so(w0, 2), so(banKinhLatCat(1, w0), 3)])]);
         if (S.vat === 'phim') d.push([chuCanh("canh.lat-cat", "Lát cắt"), chuCanh("canh.w-the-gioi-luc-nay", "w₀ = {0}: «thế giới lúc này»", [so(w0, 2)])]);
       }

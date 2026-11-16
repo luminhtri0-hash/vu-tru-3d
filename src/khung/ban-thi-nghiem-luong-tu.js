@@ -92,8 +92,10 @@ function hinhCuc(diem, dai) {
 }
 export function taoNamCham({ dai = 1.3, mauBac = 0xffa975, mauNam = 0x71dbe9, khung = true, vatLieuKhung = null } = {}) {
   const nhom = new THREE.Group();
-  // Màu cực hơi tự sáng để nhận ra từ xa, nhưng vẫn để đèn của phòng tạo khối (mặt vát, rãnh nhìn rõ).
-  const vl = (mau) => new THREE.MeshStandardMaterial({ color: mau, roughness: 0.5, metalness: 0.25, emissive: mau, emissiveIntensity: 0.12 });
+  // Màu cực tự sáng một phần để nhận ra từ xa, phần còn lại để đèn của phòng tạo khối (mặt vát, rãnh nhìn rõ).
+  // Màu nền của vật liệu chỉ lấy 55% màu cực, bề mặt nhám: trước bản 3.8 dùng nguyên màu (màu phấn sáng) nên mặt trên của
+  // cực, nơi ba ngọn đèn cùng chiếu, vượt ngưỡng sáng và loá thành trắng khi máy quay nghiêng xuống nhìn từ trên.
+  const vl = (mau) => new THREE.MeshStandardMaterial({ color: new THREE.Color(mau).multiplyScalar(0.55), roughness: 0.72, metalness: 0.05, emissive: mau, emissiveIntensity: 0.3 });
   const cucTren = new THREE.Mesh(hinhCuc(CUC_TREN, dai), vl(mauBac));
   const cucDuoi = new THREE.Mesh(hinhCuc(CUC_DUOI, dai), vl(mauNam));
   nhom.add(cucTren, cucDuoi);

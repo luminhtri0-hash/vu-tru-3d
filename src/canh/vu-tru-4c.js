@@ -67,7 +67,7 @@ export default {
           > [[Nhìn ngang|ngang]] [[Nhìn chéo|toan]] [[Nhìn từ trên xuống|tren]]
 
           > [Lưu ý] Hình bỏ bớt một chiều không gian. Các mặt tròn xoay bị cắt bỏ một phần tư để thấy mặt cắt bên trong. Trục thời gian giãn gấp 1,87 lần trục khoảng cách cho dễ nhìn (0,28 so với 0,15 đơn vị hình cho mỗi tỉ năm), nên ở hệ trục này ánh sáng không nghiêng 45°. Mọi thứ xa hơn 60 tỉ năm ánh sáng bị cắt.`,
-        vao: (c) => c.cauHinh({ aN: 1, s: 0, hien: { th: true, homNay: true }, mayAnh: 'toan' }),
+        vao: (c) => c.cauHinh({ aN: 1, s: 0, hien: { th: true, homNay: true }, mayAnh: 'toan', nhan: { vach: true, th: true, vuNo: true, kc: true }, hud: ['tuoi', 'he'] }),
         ra: (c) => c.im(),
         nut: { ngang: (c) => c.goc('ngang'), toan: (c) => c.goc('toan'), tren: (c) => c.goc('tren') },
       },
@@ -92,7 +92,7 @@ export default {
 
           Giãn nở chuyển từ chậm dần sang nhanh dần khi $\ddot a = 0$, tức $\Omega_m/a^3 = 2\Omega_\Lambda$: $a = (0{,}315/1{,}37)^{1/3} \approx 0{,}61$, ứng với $z \approx 0{,}63$ và tuổi vũ trụ 7,7 tỉ năm.
           +++`,
-        vao: (c) => c.cauHinh({ aN: 1, s: 0, hien: { th: true, homNay: true }, mayAnh: 'toan' }),
+        vao: (c) => c.cauHinh({ aN: 1, s: 0, hien: { th: true, homNay: true }, mayAnh: 'toan', nhan: { vach: true, th: true, vuNo: true, kc: true }, hud: ['tuoi', 'he'] }),
         ra: (c) => c.im(),
         nut: { chi: (c) => c.cauHinh({ hien: { th: true, homNay: true } }), mat: (c) => c.cauHinh({ hien: { th: true, homNay: true, non: true, hubble: true, hat: true, sk: true } }) },
       },
@@ -115,7 +115,7 @@ export default {
 
           Khi $a \to 0$ thì $D \to 0$; khi $a = 1$ thì $\eta = \eta_0$ và $D = 0$. Giữa hai đầu $D$ phải đạt cực đại, đúng ở nơi $\dd D/\dd t = 0$, tức $H D = c$: đỉnh giọt nước nằm trên mặt cầu Hubble của bước sau.
           +++`,
-        vao: (c) => c.cauHinh({ aN: 1, s: 0, z: 3, hien: { th: true, homNay: true, non: true, chon: true }, mayAnh: 'giot' }),
+        vao: (c) => c.cauHinh({ aN: 1, s: 0, z: 3, hien: { th: true, homNay: true, non: true, chon: true }, mayAnh: 'giot', nhan: { chinh: 'non' }, hud: ['z', 'phat', 'dPhat', 'dNay'] }),
         ra: (c) => c.im(),
         nut: { giot: (c) => c.goc('giot'), z3: (c) => c.datZ(3), z1: (c) => c.datZ(1) },
         thuThach: {
@@ -139,7 +139,7 @@ export default {
 
           > [Thử ngay] Kéo thiên hà qua lại mép mặt cầu Hubble trên tấm «hôm nay»: một nốt nhỏ vang lên mỗi lần nó vượt qua.
           > [[Thiên hà z = 3|z3]] [[Thiên hà z = 1,48|z148]] [[Thiên hà z = 0,5|z05]]`,
-        vao: (c) => c.cauHinh({ aN: 1, s: 0, z: 3, hien: { th: true, homNay: true, non: true, hubble: true, chon: true }, mayAnh: 'gan' }),
+        vao: (c) => c.cauHinh({ aN: 1, s: 0, z: 3, hien: { th: true, homNay: true, non: true, hubble: true, chon: true }, mayAnh: 'gan', nhan: { chinh: 'hubble' }, hud: ['hubble', 'z', 'dNay', 'vNay'] }),
         ra: (c) => c.im(),
         nut: { z3: (c) => c.datZ(3), z148: (c) => c.datZ(1.48), z05: (c) => c.datZ(0.5) },
         thuThach: {
@@ -165,7 +165,7 @@ export default {
           +++ Đi sâu: so với Davis và Lineweaver 2004
           Với mô hình của họ ($H_0 = 70$; $\Omega_m = 0{,}3$; $\Omega_\Lambda = 0{,}7$; không tính bức xạ), mã của bài cho tuổi 13,5 tỉ năm, chân trời hạt 46,2 tỉ năm ánh sáng và chân trời sự kiện 15,9 tỉ năm ánh sáng; bài báo nêu chân trời hạt 46 tỉ năm ánh sáng, chân trời sự kiện 16 tỉ năm ánh sáng. Với mô hình Planck 2018 dùng ở đây: tuổi 13,79 tỉ năm, chân trời hạt 46,1 tỉ năm ánh sáng, chân trời sự kiện 16,7 tỉ năm ánh sáng. Hai mô hình khác nhau ở $H_0$ và $\Omega_m$, nên các con số chỉ lệch vài phần trăm.
           +++`,
-        vao: (c) => c.cauHinh({ aN: 1, s: 0, z: 11, hien: { th: true, homNay: true, non: true, hubble: true, hat: true, chon: true, cmb: true }, mayAnh: 'toan' }),
+        vao: (c) => c.cauHinh({ aN: 1, s: 0, z: 11, hien: { th: true, homNay: true, non: true, hubble: true, hat: true, chon: true, cmb: true }, mayAnh: 'toan', nhan: { chinh: 'hat' }, hud: ['hat', 'z', 'phat', 'dNay'] }),
         ra: (c) => c.im(),
         nut: { toan: (c) => c.goc('toan'), z11: (c) => c.datZ(11), z1090: (c) => c.datZ(1090) },
         thuThach: {
@@ -191,7 +191,7 @@ export default {
           > [Lưu ý] Âm thanh là quy đổi cho tai nghe được. Khi kéo thiên hà, âm kéo dài có cao độ $660/(1 + z)$ Hz: càng xa, ánh sáng của nó tới ta càng bị kéo dài, âm càng trầm. Vượt ra ngoài chân trời sự kiện thì vang một nốt trầm (từ đó không bao giờ liên lạc được nữa); vào lại bên trong thì vang một nốt sáng.
 
           > [Lưu ý] Con số 16,7 tùy vào năng lượng tối có giữ nguyên mãi hay không. Mô hình ở đây giả sử nó là hằng số vũ trụ. Số liệu DESI (2024–2025) gợi ý năng lượng tối có thể yếu dần theo thời gian, nhưng chưa đủ chắc để khẳng định.`,
-        vao: (c) => c.cauHinh({ aN: 1, s: 0, z: 1.87, hien: { th: true, homNay: true, non: true, nonTL: true, sk: true, hat: true, chon: true }, mayAnh: 'toan' }),
+        vao: (c) => c.cauHinh({ aN: 1, s: 0, z: 1.87, hien: { th: true, homNay: true, non: true, nonTL: true, sk: true, hat: true, chon: true }, mayAnh: 'toan', nhan: { chinh: 'sk' }, hud: ['sk', 'z', 'dNay', 'lienLac'] }),
         ra: (c) => c.im(),
         nut: { z187: (c) => c.datZ(1.87), z1: (c) => c.datZ(1), he2: (c) => c.datHe(1), he1: (c) => c.datHe(0) },
         thuThach: {
@@ -221,7 +221,7 @@ export default {
 
           Trong ngoặc vuông là metric phẳng của Bài 5. Thừa số $a^2$ phía trước làm mọi khoảng cách co giãn như nhau theo mọi hướng, nên không đổi góc giữa các hướng («bảo toàn góc», tiếng Anh: conformal). Nón ánh sáng ($\dd s = 0$) vì thế giống hệt nón trong không-thời gian phẳng.
           +++`,
-        vao: (c) => c.cauHinh({ aN: 1, s: 0, sDich: 2, z: 3, hien: { th: true, homNay: true, non: true, nonTL: true, sk: true, hat: true, hubble: true, chon: true }, mayAnh: 'xa' }),
+        vao: (c) => c.cauHinh({ aN: 1, s: 0, sDich: 2, z: 3, hien: { th: true, homNay: true, non: true, nonTL: true, sk: true, hat: true, hubble: true, chon: true }, mayAnh: 'xa', nhan: { vuNo: true, kc: true, tatMat: ['hubble', 'nonTL'] }, hud: ['he', 'z', 'dNay'] }),
         ra: (c) => c.im(),
         nut: { he1: (c) => c.datHe(0), he2: (c) => c.datHe(1), he3: (c) => c.datHe(2) },
       },
@@ -244,7 +244,7 @@ export default {
           > [Tóm lại] Tuổi vũ trụ 13,79 tỉ năm; $c/H_0 = 14{,}51$; chân trời sự kiện 16,7 tỉ năm ánh sáng; chân trời hạt 46,1 tỉ năm ánh sáng. Nón quá khứ rộng nhất 5,85 tỉ năm ánh sáng ở $z \approx 1{,}6$. Ở hệ trục đồng chuyển và bảo giác, mọi thứ trở về hình học nón 45° của Bài 5.
 
           [[Bức xạ nền z = 1090|z1090]] [[Hệ trục thật|he1]] [[Hệ trục bảo giác|he3]]`,
-        vao: (c) => c.cauHinh({ aN: 1, s: 2, z: 1090, hien: { th: true, homNay: true, non: true, hat: true, sk: true, chon: true, cmb: true }, mayAnh: 'xa' }),
+        vao: (c) => c.cauHinh({ aN: 1, s: 2, z: 1090, hien: { th: true, homNay: true, non: true, hat: true, sk: true, chon: true, cmb: true }, mayAnh: 'xa', nhan: { chinh: 'cmb', vuNo: true }, hud: ['z', 'phat', 'dPhat', 'dNay'] }),
         ra: (c) => c.im(),
         nut: { z1090: (c) => c.datZ(1090), he1: (c) => c.datHe(0), he3: (c) => c.datHe(2) },
       },
@@ -331,6 +331,10 @@ export default {
     const S = {
       s: 0, sDich: null, z: 3, chi: V.thienHa(3).chi, aN: 1,
       hien: { th: true, homNay: true, non: false, nonTL: false, hubble: false, hat: false, sk: false, chon: false, cmb: false },
+      // nhãn phụ bước nào cần (vạch tuổi, «thiên hà trôi», Vụ Nổ Lớn, tên trục ngang) và vật chính của bước
+      nhan: { vach: true, th: true, vuNo: true, kc: true, chinh: null },
+      // các dòng ô số liệu, theo thứ tự ưu tiên (tối đa 5 dòng)
+      hud: ['tuoi', 'he', 'am'],
     };
     let N = nhinTuLuc(V, 1);
 
@@ -699,7 +703,7 @@ export default {
       spChon.position.set(rN, yN, 0);
       nhanNayTH._an = !(rN <= R_MAX);
       nhanNayTH.position.set(rN + 0.15, yN + 0.26, 0);
-      nhanNayTH.datChu(chuCanh("canh.thien-ha-ay-cach-lui-c", "thiên hà ấy {0}<small>cách {1} · lùi {2} c · {3}</small>", [aN === 1 ? chuCanh("canh.hom-nay", "hôm nay") : chuCanh("canh.luc-bay-gio", "lúc «bây giờ»"), kcChu(g.dNay), so(g.vNay, 2), g.lienLac ? chuCanh("canh.con-lien-lac-duoc", "còn liên lạc được") : chuCanh("canh.ngoai-chan-troi-su-kien", "ngoài chân trời sự kiện")]));
+      nhanNayTH.datChu(chuCanh("canh.thien-ha-ay-cach", "thiên hà ấy {0}<small>cách {1}</small>", [aN === 1 ? chuCanh("canh.hom-nay", "hôm nay") : chuCanh("canh.luc-bay-gio", "lúc «bây giờ»"), kcChu(g.dNay)]));
       // tia sáng từ lúc phát tới ta lúc «bây giờ», dọc nón quá khứ, ở mặt phẳng φ = 0
       tiaChon.line.visible = domPhat.visible = photon.visible = g.thay;
       nhanPhat._an = !g.thay;
@@ -719,7 +723,7 @@ export default {
         const rP = rHien(chi, g.aPhat), yP = yTaiA(g.aPhat);
         domPhat.position.set(rP, yP, 0);
         nhanPhat.position.set(rP + 0.15, yP - 0.12, 0);
-        nhanPhat.datChu(chuCanh("canh.phat-sang-z-vu-tru-luc-do-cach", "phát sáng · z = {0}<small>vũ trụ {1} · lúc đó cách {2}</small>", [so(g.z, g.z < 10 ? 2 : 0), tuoiChu(g.tPhat), kcChu(g.dPhat)]));
+        nhanPhat.datChu(chuCanh("canh.phat-sang-z-luc-vu-tru", "phát sáng · z = {0}<small>lúc vũ trụ {1}</small>", [so(g.z, g.z < 10 ? 2 : 0), tuoiChu(g.tPhat)]));
       }
       datPhoton();
     }
@@ -842,7 +846,7 @@ export default {
       viTri: [rHien(S.chi, 1), yTaiA(1), 0], mau: MAU_TH, co: 0.13,
       rangBuoc: { kieu: 'ham', chieu: (tia) => chieuNgang(tia) },
       gioiHan: (p) => { p.z = 0; p.y = yTaiA(S.aN); p.x = kep(p.x, 0.02, R_MAX); return p; },
-      nhan: chuCanh("canh.keo-thien-ha-ra-xa-lai-gan", "Kéo thiên hà ra xa, lại gần"), ten: chuCanh("canh.thien-ha-duoc-chon", "Thiên hà được chọn"),
+      nhan: chuCanh("canh.keo-thien-ha-ra-xa-lai-gan", "Kéo thiên hà"), ten: chuCanh("canh.thien-ha-duoc-chon", "Thiên hà được chọn"),
       moTa: () => { const g = N.thienHa(S.chi); return g.thay ? chuCanh("canh.z-luc-phat-cach-lui-c", "z = {0} · lúc phát cách {1}, lùi {2} c<br>{3}", [so(g.z, g.z < 10 ? 2 : 0), kcChu(g.dPhat), so(g.vPhat, 2), g.lienLac ? chuCanh("canh.con-lien-lac-duoc-voi-ta", "Còn liên lạc được với ta") : chuCanh("canh.ngoai-chan-troi-su-kien-khong-bao-gio", "Ngoài chân trời sự kiện: không bao giờ liên lạc được nữa")]) : chuCanh("canh.anh-sang-chua-kip-toi-ta", "Ánh sáng chưa kịp tới ta"); },
       khiNam: () => { if (!giong) giong = am.giong({ dang: 'mem', tanSo: TIENG_GOC_4C, doTo: 0 }); },
       khiKeo: (p) => datChi(p.x / (KX * (S.aN + (1 - S.aN) * s1)), true),
@@ -861,6 +865,8 @@ export default {
     for (const k of Object.keys(mat)) tt.them(mat[k].mesh, { ten: tenMat[k], mau: mauMat[k], moTa: moTaMat[k], noiBat: false });
 
     function cauHinh(o = {}) {
+      if (o.nhan) S.nhan = { vach: false, th: false, vuNo: false, kc: false, chinh: null, ...o.nhan };
+      if (o.hud) S.hud = o.hud;
       if (o.hien) S.hien = { th: false, homNay: false, non: false, nonTL: false, hubble: false, hat: false, sk: false, chon: false, cmb: false, ...o.hien };
       if (o.s != null) { S.s = o.s; S.sDich = null; dkS.dat(S.s); dkHe.dat(Math.round(S.s)); }
       if (o.sDich != null) { S.sDich = o.sDich; dkHe.dat(o.sDich); }
@@ -876,18 +882,24 @@ export default {
 
     // gỡ nhãn đè nhau (vài lần mỗi giây)
     const hienThat = (o) => { for (let p = o; p; p = p.parent) if (!p.visible) return false; return true; };
-    const dsNhan = () => [
-      ...[nhanPhat, nhanNayTH].map((n) => ({ nhan: n, uuTien: 10 })),
-      { nhan: nhanTa, uuTien: 9 }, { nhan: nhanTruc, uuTien: 9 },
-      ...nhanMat.map((k) => ({ nhan: k.n, uuTien: 8 })),
-      { nhan: nhanCMB, uuTien: 7 }, { nhan: nhanNay, uuTien: 6.5 }, { nhan: nhanVuNo, uuTien: 6 }, { nhan: nhanKC, uuTien: 5 },
-      ...vachT.map((v) => ({ nhan: v.n, uuTien: 4 })),
-      { nhan: nhanTH, uuTien: 2 }, ...nhanVong.map((n) => ({ nhan: n, uuTien: 1 })),
-    ];
+    // Vật chính của bước: 90 và giữ; vật lời giảng nhắc: 60–80 (vạch tuổi chỉ hiện ở bước giảng trục thời gian nên cũng 65). Vòng số 10…60 đã ghi ở nhãn «hôm nay» nên tắt.
+    const dsNhan = () => {
+      const c = S.nhan.chinh;
+      return [
+        { nhan: nhanPhat, uuTien: 80 }, { nhan: nhanNayTH, uuTien: 78 },
+        { nhan: nhanTa, uuTien: 75 }, { nhan: nhanTruc, uuTien: 65 },
+        ...nhanMat.map((k) => ({ nhan: k.n, uuTien: k.m === c ? 90 : 70, giu: k.m === c, tat: S.nhan.tatMat?.includes(k.m) })),
+        { nhan: nhanCMB, uuTien: c === 'cmb' ? 90 : 70, giu: c === 'cmb' }, { nhan: nhanNay, uuTien: 62 },
+        { nhan: nhanVuNo, uuTien: 60, tat: !S.nhan.vuNo }, { nhan: nhanKC, uuTien: 60, tat: !S.nhan.kc },
+        ...vachT.map((v) => ({ nhan: v.n, uuTien: 65, tat: !S.nhan.vach })),
+        { nhan: nhanTH, uuTien: c === 'th' ? 90 : 60, giu: c === 'th', tat: !S.nhan.th },
+        ...nhanVong.map((n) => ({ nhan: n, uuTien: 10, tat: true })),
+      ];
+    };
     let choNhan = 0;
     function goNhan() {
       const ds = dsNhan();
-      for (const k of ds) { k.nhan.visible = true; k.tat = !hienThat(k.nhan.parent) || k.nhan._an; }
+      for (const k of ds) { k.nhan.visible = true; k.tat = k.tat || !hienThat(k.nhan.parent) || k.nhan._an; }
       goNhanDeNhau(ds, app.camera, app.rong, app.cao);
     }
 
@@ -933,14 +945,24 @@ export default {
     }
 
     function hud() {
-      const g = N.thienHa(S.chi);
-      const d = [
-        [chuCanh("canh.he-truc", "Hệ trục"), S.s < 0.01 ? TEN_HE[0] : S.s > 1.99 ? TEN_HE[2] : Math.abs(S.s - 1) < 0.01 ? TEN_HE[1] : chuCanh("canh.dang-chuyen", "đang chuyển ({0})", [so(S.s, 2)])],
-        [chuCanh("canh.hom-nay-e6747a", "Hôm nay"), chuCanh("canh.tuoi-ti-nam-c-h0-chan-troi-hat", "tuổi {0} tỉ năm · c/H0 = {1} · chân trời hạt {2} · chân trời sự kiện {3} tỉ năm ánh sáng", [so(V.tuoi, 2), so(V.banKinhHubbleNay, 2), so(V.chanTroiHat, 1), so(V.chanTroiSuKien, 1)])],
-      ];
-      if (S.aN !== 1) d.push([chuCanh("canh.bay-gio-a60bf6", "«Bây giờ»"), chuCanh("canh.tuoi-ti-nam-c-h-chan-troi-hat", "tuổi {0} tỉ năm · c/H = {1} · chân trời hạt {2} · chân trời sự kiện {3} tỉ năm ánh sáng (khoảng cách thật)", [so(N.tN, 2), so(N.dHubble, 2), so(N.dChanTroiHat, 1), so(N.dChanTroiSuKien, 1)])]);
-      if (S.hien.chon) d.push([chuCanh("canh.thien-ha-duoc-chon", "Thiên hà được chọn"), g.thay ? chuCanh("canh.z-phat-luc-luc-do-cach-nay-cach", "z = {0} · phát lúc {1} · lúc đó cách {2} · nay cách {3}", [so(g.z, g.z < 10 ? 2 : 0), tuoiChu(g.tPhat), kcChu(g.dPhat), kcChu(g.dNay)]) : chuCanh("canh.anh-sang-chua-kip-toi-ta-f7a0a3", "ánh sáng chưa kịp tới ta")]);
-      if (giong) d.push([chuCanh("canh.am-khi-keo-quy-doi", "Âm khi kéo (quy đổi)"), g.thay ? `${so(tanSoTieng4c(g.z), 0)} Hz = 660/(1 + z)` : chuCanh("canh.im-chua-thay", "im: chưa thấy")]);
+      const g = N.thienHa(S.chi), nay = S.aN === 1;
+      const d = [];
+      for (const ten of S.hud) {
+        if (d.length >= 5) break;
+        if (ten === 'tuoi') d.push([nay ? chuCanh("canh.tuoi-vu-tru-hom-nay", "Tuổi vũ trụ hôm nay") : chuCanh("canh.tuoi-vu-tru-bay-gio", "Tuổi vũ trụ «bây giờ»"), chuCanh("canh.ti-nam-4c", "{0} tỉ năm", [so(N.tN, 2)])]);
+        else if (ten === 'he') d.push([chuCanh("canh.he-truc", "Hệ trục"), S.s < 0.01 ? TEN_HE[0] : S.s > 1.99 ? TEN_HE[2] : Math.abs(S.s - 1) < 0.01 ? TEN_HE[1] : chuCanh("canh.dang-chuyen", "đang chuyển ({0})", [so(S.s, 2)])]);
+        else if (ten === 'hubble') d.push([chuCanh("canh.mat-cau-hubble-c-h", "Mặt cầu Hubble (c/H)"), kcChu(N.dHubble)]);
+        else if (ten === 'hat') d.push([chuCanh("canh.chan-troi-hat", "Chân trời hạt"), chuCanh("canh.ti-nam-anh-sang", "{0} tỉ năm ánh sáng", [so(N.dChanTroiHat, 1)])]);
+        else if (ten === 'sk') d.push([chuCanh("canh.chan-troi-su-kien", "Chân trời sự kiện"), chuCanh("canh.ti-nam-anh-sang", "{0} tỉ năm ánh sáng", [so(N.dChanTroiSuKien, 1)])]);
+        else if (!S.hien.chon) continue;
+        else if (ten === 'z') d.push([chuCanh("canh.thien-ha-duoc-chon", "Thiên hà được chọn"), g.thay ? chuCanh("canh.z-bang", "z = {0}", [so(g.z, g.z < 10 ? 2 : 0)]) : chuCanh("canh.anh-sang-chua-kip-toi-ta-f7a0a3", "ánh sáng chưa kịp tới ta")]);
+        else if (ten === 'phat' && g.thay) d.push([chuCanh("canh.phat-sang-luc-vu-tru", "Phát sáng lúc vũ trụ"), tuoiChu(g.tPhat)]);
+        else if (ten === 'dPhat' && g.thay) d.push([chuCanh("canh.luc-phat-cach-ta", "Lúc phát, cách ta"), kcChu(g.dPhat)]);
+        else if (ten === 'dNay') d.push([nay ? chuCanh("canh.hom-nay-cach-ta", "Hôm nay cách ta") : chuCanh("canh.bay-gio-cach-ta", "«Bây giờ» cách ta"), kcChu(g.dNay)]);
+        else if (ten === 'vNay') d.push([nay ? chuCanh("canh.hom-nay-lui-xa", "Hôm nay lùi xa") : chuCanh("canh.bay-gio-lui-xa", "«Bây giờ» lùi xa"), chuCanh("canh.c-4c", "{0} c", [so(g.vNay, 2)])]);
+        else if (ten === 'lienLac') d.push([chuCanh("canh.tin-hieu-ta-gui-toi", "Tín hiệu ta gửi tới"), g.lienLac ? chuCanh("canh.con-lien-lac-duoc", "còn liên lạc được") : chuCanh("canh.ngoai-chan-troi-su-kien", "ngoài chân trời sự kiện")]);
+      }
+      if (giong && d.length < 5) d.push([chuCanh("canh.am-khi-keo-quy-doi", "Âm khi kéo (quy đổi)"), g.thay ? `${so(tanSoTieng4c(g.z), 0)} Hz = 660/(1 + z)` : chuCanh("canh.im-chua-thay", "im: chưa thấy")]);
       return d;
     }
 

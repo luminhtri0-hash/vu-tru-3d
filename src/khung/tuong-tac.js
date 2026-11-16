@@ -190,7 +190,7 @@ const CSS = `
 .vt-nhan.b1 .mui { animation-name: vt-moi-phai; }
 .vt-nhan.b2 .mui { animation-name: vt-moi-len; }
 .vt-nhan.b3 .mui { animation-name: vt-moi-xuong; }
-body.xem-video .vt-nhan { display: none !important; }
+body.xv-dang-xem .vt-nhan { display: none !important; }
 @keyframes vt-moi { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-3px); } }
 @keyframes vt-moi-phai { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
 @keyframes vt-moi-len { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
@@ -635,7 +635,8 @@ export class TuongTac {
       if (t.an || t.khoa || !this._hien(t.vat)) continue;
       t.vat.getWorldPosition(_v1);
       if (!this._manHinh(_v1)) continue;
-      const r = Math.max(15, this._rLoiPx(t, _v1) * 2.1 + 5);
+      // Ngón tay che mất chỗ chạm và kém chính xác hơn chuột: vùng bắt tay nắm rộng ít nhất 48 điểm ảnh (chuột: 30).
+      const r = Math.max(this._con.cham ? 24 : 15, this._rLoiPx(t, _v1) * 2.1 + 5);
       if (Math.hypot(_q.x - x, _q.y - y) > r) continue;
       const s = cam.position.distanceTo(_v1);
       if (s < sau) { sau = s; tot = t; }
@@ -1039,8 +1040,8 @@ export class TuongTac {
       else if (this._gio - t.nhanTat > 0.6) { el.remove(); t.nhanEl = null; }
       return;
     }
-    // Chế độ «Xem như video»: người xem không cần lời mời kéo (CSS ẩn hẳn lớp nhãn này).
-    thay = thay && !t.khoa && !dangKeo && !this.app.xemVideo?.mo && this._manHinh(p);
+    // Bảng đang ẩn và lời giảng đang chạy (người học đang ngồi xem): không cần lời mời kéo (CSS ẩn hẳn lớp nhãn này).
+    thay = thay && !t.khoa && !dangKeo && !this.app.nghe?.dangXem && this._manHinh(p);
     const cx = this._khung.x + _q.x, cy = this._khung.y + _q.y;
     // Tay nắm nằm dưới bảng bài giảng hoặc ngoài cửa sổ thì không mời kéo.
     if (thay) { const bo = this.app.boNhan; if (cx < 0 || cy < 0 || cx > Math.min(this._khung.x + this._khung.w, bo?.phai ?? Infinity) || cy > Math.min(this._khung.y + this._khung.h, bo?.day ?? Infinity)) thay = false; }

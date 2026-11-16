@@ -147,11 +147,16 @@ export function coCongThucVua(goc) {
   const ds = [...goc.querySelectorAll('.bg-toan, .ct-tex, .cong-thuc')];
   if (!ds.length) return;
   for (const el of ds) { if (el.style.fontSize) el.style.fontSize = ''; el.classList.remove('cuon'); }
-  const tiLe = ds.map((el) => { const co = el.clientWidth; return co > 0 && el.scrollWidth > co + 1 ? (co - 18) / el.scrollWidth : 0; });
+  // Đọc hết rồi mới ghi. Cỡ chữ mới tính bằng điểm ảnh từ cỡ đang dùng của chính khung công thức (trên điện thoại khung này
+  // có cỡ gốc riêng, khác cỡ của đoạn văn chứa nó, nên ghi bằng phần trăm sẽ lệch).
+  const soDo = ds.map((el) => { const co = el.clientWidth; return co > 0 && el.scrollWidth > co + 1 ? { tiLe: (co - 18) / el.scrollWidth, px: parseFloat(getComputedStyle(el).fontSize) || 15, co } : null; });
   ds.forEach((el, i) => {
-    if (!tiLe[i]) return;
-    el.style.fontSize = `${Math.floor(Math.max(0.7, tiLe[i]) * 100)}%`;
-    if (tiLe[i] < 0.7) el.classList.add('cuon');
+    const d = soDo[i];
+    if (!d) return;
+    // Co tối đa tới 70%; bảng rất hẹp (điện thoại bề ngang 360) thì cho co tới 62% để khỏi phải cuộn ngang.
+    const san = d.co < 330 ? 0.62 : 0.7;
+    el.style.fontSize = `${(d.px * Math.max(san, d.tiLe)).toFixed(2)}px`;
+    if (d.tiLe < san) el.classList.add('cuon');
   });
 }
 

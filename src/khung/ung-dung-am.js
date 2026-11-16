@@ -18,7 +18,8 @@ export const PT_AM = {
   },
   batTatTieng(b = !this.am.bat) {
     this.am.datBat(b);
-    if (b) { this.am.khoiDong(); this._datNen(); this.am.phat('gat'); } else this._gdAm?.pause();
+    if (b) { this.am.khoiDong(); this._datNen(); this.am.phat('gat'); }
+    this.nghe?.datCam(!b);           // tắt tiếng thì giọng đọc cũng câm; phụ đề vẫn chạy
     this._veNutTieng();
   },
   _veNutTieng() {
@@ -32,9 +33,18 @@ export const PT_AM = {
     el.innerHTML = `<h3>${chu("gd.am-thanh")}</h3>`;
     const b = new BangDieuKhien(el, { am: this.am });
     b.congTac({ nhan: chu("gd.bat-tieng"), giaTri: this.am.bat, khiDoi: (v) => this.batTatTieng(v) });
-    b.thanhTruot({ nhan: chu("gd.muc-am"), min: 0, max: 1, buoc: 0.01, giaTri: this.am.mucAm, hienThi: (v) => `${Math.round(v * 100)}%`, khiDoi: (v) => { this.am.datMucAm(v); if (this._gdAm) this._gdAm.volume = this._gdMucAm(); } });
+    b.thanhTruot({ nhan: chu("gd.muc-am"), min: 0, max: 1, buoc: 0.01, giaTri: this.am.mucAm, hienThi: (v) => `${Math.round(v * 100)}%`, khiDoi: (v) => { this.am.datMucAm(v); this.nghe.datMucAm(); } });
     b.congTac({ nhan: chu("gd.nhac-nen"), giaTri: this.am.batNen, khiDoi: (v) => { this.am.datBatNen(v); if (v) this._datNen(); } });
     b.chuThich(chu("gd.tieng-trong-mo-hinh-deu-mang-nghia-nhip-dong-ho-tin-"));
+    // Giọng đọc lời giảng: chỉ hiện các giọng đã có tiếng (danh sách ở ung-dung-giong-doc.js).
+    const dsGiong = this._gdDsGiong();
+    if (dsGiong.length) {
+      const hG = document.createElement('h3');
+      hG.textContent = chu("gd.giong-doc");
+      el.append(hG);
+      b.chon({ luaChon: dsGiong.map((ma) => ({ giaTri: ma, nhan: this._gdTenGiong(ma) })), giaTri: this._gdGiong, khiDoi: (v) => this.datGiongDoc(v) });
+      b.chuThich(chu("gd.giong-doc-chu-thich"));
+    }
     const h = document.createElement('h3');
     h.textContent = chu("gd.hinh");
     el.append(h);

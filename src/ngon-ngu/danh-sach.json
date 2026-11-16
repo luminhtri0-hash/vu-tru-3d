@@ -1,0 +1,82 @@
+{
+  "ghiChu": "Danh sách thứ tiếng của app, một mục cho mỗi thứ tiếng. THÊM MỘT THỨ TIẾNG: thêm một mục ở đây và một thư mục src/ngon-ngu/<mã>/ (xem «Hướng dẫn viết bài giảng.md», mục «Thêm một thứ tiếng»). Mục chưa có thư mục thì app chưa hiện thứ tiếng đó. Các trường: ma (mã thứ tiếng, cũng là tên thư mục), ten (tên trong ô chọn tiếng), khop (mã ngôn ngữ của trình duyệt nhận về thứ tiếng này), giong (mã vùng của giọng đọc Google, ghép thành <giong>-Chirp3-HD-<tên giọng>), chu («vuong»: chữ vuông như Trung, Nhật, Hàn: lời giảng thoáng dòng, nhãn nhỏ bớt giãn chữ), phong (phông chữ thêm cho thứ tiếng, đứng sau phông hệ thống), ngatDong (giá trị word-break của CSS cho tieuDe và than), phuDe (luật chia phụ đề: tach «tu» = ngắt ở khoảng trắng, «ky-tu» = ngắt được giữa các chữ; dong = sức chứa một dòng, tính bằng nửa ô chữ vuông khi tach là «tu» và bằng số chữ khi «ky-tu»; toc = tốc độ đọc ước tính, cùng đơn vị, mỗi giây).",
+  "goc": "vi",
+  "ngonNgu": [
+    {
+      "ma": "vi",
+      "ten": "Tiếng Việt",
+      "khop": [
+        "vi"
+      ],
+      "giong": "vi-VN",
+      "phuDe": {
+        "tach": "tu",
+        "dong": 42,
+        "toc": 14
+      }
+    },
+    {
+      "ma": "en",
+      "ten": "English",
+      "khop": [
+        "en"
+      ],
+      "giong": "en-US",
+      "phuDe": {
+        "tach": "tu",
+        "dong": 42,
+        "toc": 14
+      }
+    },
+    {
+      "ma": "zh-CN",
+      "ten": "简体中文",
+      "khop": [
+        "zh"
+      ],
+      "giong": "cmn-CN",
+      "chu": "vuong",
+      "phuDe": {
+        "tach": "ky-tu",
+        "dong": 20,
+        "toc": 6
+      }
+    },
+    {
+      "ma": "ja",
+      "ten": "日本語",
+      "khop": [
+        "ja"
+      ],
+      "giong": "ja-JP",
+      "chu": "vuong",
+      "ngatDong": {
+        "tieuDe": "auto-phrase"
+      },
+      "phuDe": {
+        "tach": "ky-tu",
+        "dong": 20,
+        "toc": 6
+      }
+    },
+    {
+      "ma": "ko",
+      "ten": "한국어",
+      "khop": [
+        "ko"
+      ],
+      "giong": "ko-KR",
+      "chu": "vuong",
+      "phong": "\"Apple SD Gothic Neo\", \"Noto Sans KR\", \"Malgun Gothic\"",
+      "ngatDong": {
+        "tieuDe": "keep-all",
+        "than": "keep-all"
+      },
+      "phuDe": {
+        "tach": "tu",
+        "dong": 42,
+        "toc": 14
+      }
+    }
+  ]
+}

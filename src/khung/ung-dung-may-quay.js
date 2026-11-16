@@ -54,7 +54,12 @@ export const PT_MAY_QUAY = {
     const b = $('bai-hoc');
     if (document.body.classList.contains('an-bang') || !b) { this._lechDich = [0, 0]; return; }
     const rong = b.offsetWidth, cao = b.offsetHeight;
-    if (rong < this.rong * 0.6) this._lechDich = [(rong + 14) / 2, 0];        // bảng nằm bên phải
-    else this._lechDich = [0, (cao + 14) / 2];                                // màn hình hẹp: bảng nằm dưới
+    if (rong < this.rong * 0.6) { this._lechDich = [(rong + 14) / 2, 0]; return; }      // bảng nằm bên phải
+    // Màn hình hẹp (điện thoại, máy tính bảng cầm dọc): bảng nằm dưới. Phía trên, thanh trên và ô số liệu thu gọn nằm
+    // ngay dưới nó che một dải; tâm hình đặt vào giữa phần CÒN TRỐNG THẬT (dưới dải đó, trên bảng). Trước bản 3.8 tâm
+    // hình tính từ mép trên cửa sổ, nên phần trên của mô hình và nhãn ở đó chui dưới thanh trên (Bài 16, Bài 27).
+    const tren = $('thanh-tren');
+    const dinh = tren ? tren.offsetTop + tren.offsetHeight + 52 : 0;
+    this._lechDich = [0, (cao + 14 - dinh) / 2];
   },
 };

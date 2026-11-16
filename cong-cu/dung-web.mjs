@@ -9,7 +9,7 @@
 //     service worker không giữ tiếng cũ khi tệp được tạo lại mà tên không đổi;
 //   - thẻ <head>: tiêu đề, mô tả, đường dẫn chuẩn, thẻ chia sẻ (og:, twitter:), biểu tượng trang;
 //   - một đoạn mã nhỏ đổi tiêu đề và mô tả theo thứ tiếng người học chọn, và thêm dòng chân trang
-//     «Trí Lữ soạn · Giấy phép · Mã nguồn» ở màn hình chào.
+//     «Trí Lữ soạn · Giấy phép · Mã nguồn» ở cuối màn hình chào (kiểu trình bày: lớp .chan-trang-web trong src/style.css).
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
@@ -111,8 +111,7 @@ function lam(){var l=nn(),m=MT[l];
 document.title=m.tieuDe;var d=document.querySelector('meta[name="description"]');if(d)d.setAttribute('content',m.moTa);
 var k=document.querySelector('#chao .khoi');if(!k||k.querySelector('.chan-trang-web'))return;
 var c=CT[l],p=document.createElement('div');p.className='chan-trang-web';p.lang=l;
-p.style.cssText='margin-top:18px;font-size:12px;letter-spacing:.02em;color:#8d90a0;';
-function a(t,h){var e=document.createElement('a');e.textContent=t;e.href=h;e.target='_blank';e.rel='noopener';e.style.cssText='color:inherit;text-decoration:underline;text-underline-offset:2px;';return e;}
+function a(t,h){var e=document.createElement('a');e.textContent=t;e.href=h;e.target='_blank';e.rel='noopener';return e;}
 p.append(c[0],' · ',a(c[1],KHO+'/blob/main/LICENSE-CONTENT.md'),' · ',a(c[2],KHO));k.append(p);}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(lam,0);});else setTimeout(lam,0);
 })();`;

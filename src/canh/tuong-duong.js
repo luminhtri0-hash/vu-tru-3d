@@ -15,7 +15,7 @@ import { dich as dichChu } from '../ngon-ngu/dich.js';
 // (đặt cần ga 1 g hoặc nửa g), thu=keo (đang kéo bóng lên cao).
 
 import * as THREE from 'three';
-import { taoNhan, taoNenSao, taoDom, DuongDay, DuongDong } from '../khung/ve.js';
+import { taoNhan, taoNenSao, taoDom, DuongDay, DuongDong, goNhanDeNhau } from '../khung/ve.js';
 import { taoDenCanh, taoBuong, taoPhiHanhGia, taoTenLua, taoCan, taoBong, taoDenChieu, LoXo } from '../khung/do-vat.js';
 import { vlKimLoai, vlSon, vlBong, vlSang, hopBo, ghep, dat, domSang } from '../khung/do-vat-chung.js';
 import { taoTraiDat } from '../khung/hanh-tinh.js';
@@ -98,7 +98,7 @@ export default {
   ten: 'Nguyên lý tương đương',
   moTa: 'Rơi tự do xoá trọng lực; vì thế ánh sáng phải cong',
   yChinh: 'Năm 1907 Einstein chợt nghĩ: **người đang rơi tự do không cảm thấy trọng lượng của mình**. Từ đó suy ra: trong một buồng kín đủ nhỏ, không thí nghiệm nào phân biệt được đứng yên trên mặt đất với ngồi trong tên lửa tăng tốc, và rơi tự do giống hệt trôi giữa không gian trống. Hệ quả đầu tiên: ánh sáng phải cong trong trường hấp dẫn. Giới hạn: buồng phải nhỏ, nếu không sẽ thấy lực thủy triều.',
-  mayAnh: { viTri: [0.4, 3.0, 14.5], dich: [0, 1.7, 0], fov: 40, min: 5, max: 60 },
+  mayAnh: { viTri: [0.4, 3.0, 14.5], dich: [0, 1.7, 0], fov: 40, min: 5, max: 60, hep: 0.6 },
   giaiThich: R`
     - Buồng đứng yên trên mặt đất và buồng trong tên lửa tăng tốc 9,8 m/s² cho cùng kết quả với mọi thí nghiệm tại chỗ: bóng rơi như nhau, cân chỉ như nhau.
     - Nhìn từ ngoài tên lửa, quả bóng thả ra đứng yên; chính sàn lao lên đón nó. Vì thế mọi vật «rơi» như nhau, nặng hay nhẹ. Thí nghiệm xác nhận khối lượng quán tính bằng khối lượng hấp dẫn tới cỡ $10^{-15}$.
@@ -819,6 +819,7 @@ export default {
 
     datNhan();
 
+    const dsNhanDat = [{ nhan: nhanDat, uuTien: 60, tat: false, giu: false }, { nhan: nhanTam, uuTien: 75, tat: true, giu: false }];
     function capNhat(dt) {
       tong += dt;
       const nang = S.cheDo === 'nang', ngoai = S.ngoai;
@@ -835,6 +836,12 @@ export default {
       PA.goc.set(XA, doiA(s), 0);
       PB.goc.set(XB, doiB(s), 0);
       nhomDat.position.y = lxDat.v;
+      // Khi buồng trái đứt cáp, Trái Đất tụt xuống dưới ô số liệu: đưa nhãn lên mép trên, cạnh bệ.
+      const kDat = kep((Y_DAT.nang - lxDat.v) / (Y_DAT.nang - Y_DAT.roi), 0, 1);
+      nhanDat.position.set(-1.2 + 3.95 * kDat, -2.15 + 2.4 * kDat, 3.2 - 2.6 * kDat);
+      // Hai nhãn gần mặt đất tránh nhau: «hướng về tâm» (bước bi thử) ưu tiên hơn nhãn Trái Đất.
+      dsNhanDat[1].tat = !nhanTam.visible;
+      goNhanDeNhau(dsNhanDat, app.camera, app.rong, app.cao);
 
       // bóng và người
       if (ngoai) { ngoaiBuong(PA, a1, dt); ngoaiBuong(PB, a2, dt); }
@@ -954,7 +961,7 @@ export default {
         [chuCanh("canh.goc-nhin", "Góc nhìn"), S.ngoai ? chuCanh("canh.tu-ben-ngoai-dung-yen-so-voi-thuoc", "từ bên ngoài (đứng yên so với thước mốc)") : chuCanh("canh.tu-trong-buong", "từ trong buồng")],
       ];
       if (S.trieu) d.push([chuCanh("canh.bi-thu", "Bi thử"), nang ? chuCanh("canh.chi-co-y-nghia-khi-buong-roi-tu", "chỉ có ý nghĩa khi buồng rơi tự do") : chuCanh("canh.luc-thuy-trieu-phong-dai-hang-trieu-lan", "lực thủy triều phóng đại hàng triệu lần")]);
-      d.push([chuCanh("canh.luu-y", "Lưu ý"), chuCanh("canh.anh-sang-va-trong-luc-trong-hinh-da", "ánh sáng và trọng lực trong hình đã được làm chậm để nhìn kịp")]);
+      // Lời dặn «hình đã làm chậm» nằm ở hộp «Lưu ý» của bước 1, không lặp ở ô số liệu.
       return d;
     }
 

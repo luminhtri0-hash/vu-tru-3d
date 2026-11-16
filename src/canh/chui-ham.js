@@ -1,16 +1,17 @@
 import * as THREE from 'three';
 import loi from '../noi-dung/chui-ham.js';
 import goc from '../ngon-ngu/vi/chui-ham.json' with {type:'json'};
-import {banVe,gocBan,chuCuaBai,ghepBuoc} from './ban-do-luong-tu.js';
-import {taoNgauNhien,kep} from '../khung/ve.js';
+import {gocBan,chuCuaBai,ghepBuoc} from './ban-do-luong-tu.js';
+import {taoBanDoThi} from '../khung/ban-thi-nghiem-luong-tu.js';
+import {taoNgauNhien,kep,goNhanDeNhau} from '../khung/ve.js';
 import {so} from '../vat-ly/hang-so.js';
 import {tinhRao,matDoRao,tGanDung} from '../vat-ly/chui-ham.js';
 const id='chui-ham',chu=chuCuaBai(id,goc);
 const thu=[c=>c.xoa(),c=>c.set('a',.4),c=>c.dem(100),c=>c.set('a',.1),c=>c.set('U',4),c=>c.dem(100),c=>c.set('a',.4),c=>c.set('a',.1)];
 const thach={3:c=>c.dat(3),4:c=>c.dat(4),7:c=>c.dat(7)};
-export default{id,...ghepBuoc(loi,thu,thach),mayAnh:{...gocBan,viTri:[3.8,5.2,10.8]},hinh:{quang:.22},nhacNen:null,
+export default{id,...ghepBuoc(loi,thu,thach),mayAnh:{...gocBan,viTri:[3.8,5.2,10.8],hep:.5},hinh:{quang:.22},nhacNen:null,
 tao(app){
- const {scene,nhan,net,kim,hop}=banVe(),rand=taoNgauNhien(2503);
+ const {scene,nhan,net,kim,hop}=taoBanDoThi(app),rand=taoNgauNhien(2503);
  const S={E:2,U:4,a:.2};let param=tinhRao(S.E,S.U,S.a);
  const X0=-.75,scaleX=5,scaleE=.38;
  const verre=new THREE.MeshStandardMaterial({color:0x9872a8,transparent:true,opacity:.53,roughness:.35,depthWrite:false});
@@ -19,12 +20,14 @@ tao(app){
  const bord=hop(.065,1,1.45,0,1,0,kim(0x835f83));
  const eLine=net(0xffc66b,2,3.5),rho=net(0x63dcff,180,3);
  const tagE=nhan(chu('den'),-3.02,1.2,-.7,'vang'),tagU=nhan(chu('cao'),.3,2.6,-.15,'dam');
- nhan(chu('mat'),-2.7,2.45,1.3,'xanh');
+ const tagMat=nhan(chu('mat'),-2.7,2.45,1.3,'xanh');
  // Thước nm dọc theo chùm: gốc ở mặt trái của rào, để đọc bề rộng a và chiều dài suy giảm trên hình.
- for(const v of [-.6,-.4,-.2,0,.2,.4,.6,.8]){const x=X0+v*scaleX;hop(.02,.05,.22,x,-.13,-1.0,kim(0xb99a67));nhan(so(v,1),x,-.13,-1.28,'mo');}
+ for(const v of [-.6,-.4,-.2,0,.2,.4,.6,.8]){const x=X0+v*scaleX;hop(.02,.05,.22,x,-.13,-1.0,kim(0xb99a67));if(Math.round(v*10)%4===0)nhan(so(v,1),x,-.13,-1.28,'mo');}
  nhan('x (nm)',X0+.93*scaleX,-.13,-1.28,'mo');
+ // Nhãn của bài tránh nhau: hai mức năng lượng giữ, các nhãn chú thích ngang hàng nhau.
+ const dsNhan=[{nhan:tagU,uuTien:95,giu:true},{nhan:tagE,uuTien:90,giu:true},{nhan:tagMat,uuTien:65}];
  const det=[-2.8,2.75].map((x,j)=>{
-  hop(1.7,.14,1.05,x,.04,1.76,kim(j?0x315761:0x664b40));nhan(chu(j?'truyen':'phan'),x,.08,2.42,j?'xanh':'vang');
+  hop(1.7,.14,1.05,x,.04,1.76,kim(j?0x315761:0x664b40));dsNhan.push({nhan:nhan(chu(j?'truyen':'phan'),x,.08,2.42,j?'xanh':'vang'),uuTien:65});
   const a=new THREE.Float32BufferAttribute(new Float32Array(240*3),3).setUsage(THREE.DynamicDrawUsage);
   const g=new THREE.BufferGeometry();g.setAttribute('position',a);g.setDrawRange(0,0);
   const pts=new THREE.Points(g,new THREE.PointsMaterial({color:j?0x7ff4ff:0xffa665,size:.061}));pts.frustumCulled=false;scene.add(pts);return{x,a,g,count:0};});
@@ -51,6 +54,8 @@ tao(app){
  return{scene,set,xoa,dem,dat(i){if(i===4)return daKeoU&&Math.abs(S.E-2)<1e-6&&Math.abs(S.U-S.E-4)<.12;
   return daKeoA&&S.E===2&&S.U===4&&(i===3?Math.abs(param.T-.20)<.015:param.T<.02);},
   buoc(i){Object.assign(S,{E:2,U:4,a:i===3||i===7?.1:.2});daKeoA=daKeoU=false;for(const k in dk)dk[k].dat(S[k]);ve();xoa();dem(28,false);},
-  capNhat(dt){if(dt<=0)return;gio+=dt;du+=dt*18;const n=Math.floor(du);if(n){du-=n;dem(n);}},
-  hud(){const tr=det[1].count,n=det[0].count+tr;return[[chu('tin'),so(param.T,4)],[chu('truyen'),so(tr,0)],[chu('phan'),so(det[0].count,0)],[chu('thu'),n?so(tr/n,3):'—'],[chu('suy'),so(1/param.kappa,3)+' nm'],[chu('gan'),so(tGanDung(S.E,S.U,S.a),4)]];}};
+  capNhat(dt){goNhanDeNhau(dsNhan.slice(),app.camera,app.rong,app.cao);if(dt<=0)return;gio+=dt;du+=dt*18;const n=Math.floor(du);if(n){du-=n;dem(n);}},
+  hud(){const tr=det[1].count,n=det[0].count+tr;
+   // Dòng đầu ghép T đúng với T gần đúng của rào dày để ô số liệu không quá 5 dòng.
+   return[[chu('tin'),so(param.T,4)+' · '+chu('gan')+' '+so(tGanDung(S.E,S.U,S.a),4)],[chu('truyen'),so(tr,0)],[chu('phan'),so(det[0].count,0)],[chu('thu'),n?so(tr/n,3):'—'],[chu('suy'),so(1/param.kappa,3)+' nm']];}};
 }};

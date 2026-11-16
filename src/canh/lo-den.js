@@ -226,7 +226,7 @@ export default {
     - Đĩa khí phẳng nhưng hiện cả mặt sau vì ánh sáng bị bẻ qua đỉnh và đáy lỗ đen. Một bên sáng hơn do hiệu ứng Doppler; mép trong tối đi do dịch chuyển đỏ.
     - EHT: vành M87* rộng 42 ± 3 micro giây cung (2019), Sgr A* khoảng 52 micro giây cung (2022), khớp với cỡ bóng tính từ khối lượng.
     - Mô hình là lỗ đen không quay. Lỗ đen thật có quay (Kerr): bóng hơi lệch, mép trong của đĩa dời vào hoặc ra.`,
-  mayAnh: { viTri: [0, 2.4, 15.5], dich: [0, 0, 0], fov: 50, min: 1.06, max: 90, doi: false },
+  mayAnh: { viTri: [0, 2.4, 15.5], dich: [0, 0, 0], fov: 50, min: 1.06, max: 90, doi: false, hep: 0.7 },
   tiLeDiemAnh: 1,
   hinh: { tuQuanDoNet: true, quang: 0.42, banKinh: 0.4, nguong: 1.25 },   // bài này tự chỉnh độ nét theo tốc độ máy (xem MUC bên dưới)
 
@@ -907,7 +907,8 @@ export default {
       U.uLen.value.setFromMatrixColumn(mw, 1);
       U.uTruoc.value.setFromMatrixColumn(mw, 2).negate();
       if (nhinRa) { U.uTruoc.value.negate(); U.uPhai.value.negate(); }
-      U.uTanNua.value = Math.tan((camera.fov * Math.PI) / 360);
+      // chia cho camera.zoom: màn hình hẹp khai mayAnh.hep thì khung thu nhỏ cả cảnh, tia nhìn tự tính ở đây cũng thu theo
+      U.uTanNua.value = Math.tan((camera.fov * Math.PI) / 360) / camera.zoom;
       U.uTiSo.value = app.rong / app.cao;
       U.uLech.value.set((2 * app.lech[0]) / app.rong, (-2 * app.lech[1]) / app.cao);
       const r = camera.position.length();
@@ -930,22 +931,30 @@ export default {
       const keo = (C * C * 2) / (rs * rs * r * r * r);
       const g = keo / 9.81;
       const keoChu = g >= 100 ? chuCanh("canh.lan-trong-luc-trai-dat", "{0} lần trọng lực Trái Đất", [soNghia(g, 2)]) : g >= 0.01 ? `${soNghia(g, 2)} g` : chuCanh("canh.g-khong-cam-thay-gi", "{0} g (không cảm thấy gì)", [soNghia(g, 2)]);
-      const dong = [
-        [chuCanh("canh.ban-cach-tam", "Bạn cách tâm"), chuCanh("canh.ban-kinh-chan-troi", "{0} bán kính chân trời = {1} ({2})", [so(r, 2), doDai(r * rs), loDen.ten])],
-        [chuCanh("canh.dong-ho-cua-ban", "Đồng hồ của bạn"), r > 1.0005 ? chuCanh("canh.chay-bang-dong-ho-o-xa", "chạy bằng {0}% đồng hồ ở xa", [so(nhip * 100, 1)]) : chuCanh("canh.gan-nhu-dung-lai-so-voi-o-xa", "gần như đứng lại so với ở xa")],
-        [chuCanh("canh.bong-den-chiem", "Bóng đen chiếm"), chuCanh("canh.tren-bau-troi", "{0}° trên bầu trời", [so(Math.min(360, bong), 1)])],
-        [chuCanh("canh.luc-keo-gian-co-the", "Lực kéo giãn cơ thể"), keoChu],
-        [chuCanh("canh.mot-vong-o-mep-trong-cua-dia", "Một vòng ở mép trong của đĩa"), thoiLuong((46.17 * rs) / C)],
-      ];
-      if (vong && !nhinRa) dong.push([chuCanh("canh.hai-vong-do", "Hai vòng đo"), chuCanh("canh.mep-bong-rong-chan-troi-neu-anh-sang", "mép bóng rộng {0}° · chân trời nếu ánh sáng đi thẳng {1}°", [so(Math.min(360, bong), 1), so((2 * Math.asin(Math.min(1, 1 / r)) * 180) / Math.PI, 1)])]);
+      // Ô số liệu tối đa 5 dòng, mỗi dòng dưới 60 ký tự; dòng đầu là con số chính của bước.
+      const dongCach = [chuCanh("canh.ban-cach-tam", "Bạn cách tâm"), chuCanh("canh.ban-kinh-chan-troi", "{0} rs = {1} ({2})", [so(r, 2), doDai(r * rs), loDen.ten])];
+      const dongDongHo = [chuCanh("canh.dong-ho-cua-ban", "Đồng hồ của bạn"), r > 1.0005 ? chuCanh("canh.chay-bang-dong-ho-o-xa", "chạy bằng {0}% đồng hồ ở xa", [so(nhip * 100, 1)]) : chuCanh("canh.gan-nhu-dung-lai-so-voi-o-xa", "gần như đứng lại so với ở xa")];
+      const dongBong = [chuCanh("canh.bong-den-chiem", "Bóng đen chiếm"), chuCanh("canh.tren-bau-troi", "{0}° trên bầu trời", [so(Math.min(360, bong), 1)])];
+      const dongKeo = [chuCanh("canh.luc-keo-gian-co-the", "Lực kéo giãn cơ thể"), keoChu];
+      // Máy phát đang rơi (bước chân trời): ô số liệu dành cho máy phát, kèm khoảng cách của bạn
       if (may.bat && may.trangThai === 'roi') {
         const L = may.lich;
         const truoc = may.T < L.bang[0].T;
-        dong.push([chuCanh("canh.may-phat-dong-ho-cua-no", "Máy phát (đồng hồ của nó)"), chuCanh("canh.tha-o-rs-qua-chan-troi-luc-toi", "thả ở {0} rs · qua chân trời lúc τ = {1} · tới kỳ dị lúc {2} rs/c", [so(may.R, 2), so(L.roi.tauCT, 1), so(L.roi.tauHet, 1)])]);
-        dong.push([chuCanh("canh.ban-dang-thay-no", "Bạn đang thấy nó"), truoc ? chuCanh("canh.van-treo-o-rs-tin-hieu-dau-tien", "vẫn treo ở {0} rs: tín hiệu đầu tiên còn đang bay tới", [so(may.R, 2)]) : may.gThay < 0.003 ? chuCanh("canh.khong-con-thay-gi-anh-sang-da-do", "không còn thấy gì: ánh sáng đã đỏ và mờ hết") : chuCanh("canh.o-r-rs-luc-dong-ho-cua-no", "ở r = {0} rs, lúc đồng hồ của nó chỉ τ = {1} rs/c", [so(may.rThay, may.rThay < 1.1 ? 4 : 2), so(may.tauThay, 2)])]);
-        if (!truoc) dong.push([chuCanh("canh.tin-hieu-nhan", "Tín hiệu nhận"), chuCanh("canh.g-hz-nm-tieng-bip", "g = {0} · {1} Hz · {2} nm · {3}/{4} tiếng bíp", [so(may.gThay, 3), so(TAN_SO_PHAT * may.gThay, 0), soNghia(BUOC_SONG_MAY / Math.max(1e-9, may.gThay), 3), may.k, L.xung.length])]);
+        const dong = [[chuCanh("canh.ban-dang-thay-no", "Đang thấy nó"), truoc ? chuCanh("canh.van-treo-o-rs-tin-hieu-dau-tien", "vẫn ở {0} rs: tín hiệu đầu còn đang bay tới", [so(may.R, 2)]) : may.gThay < 0.003 ? chuCanh("canh.khong-con-thay-gi-anh-sang-da-do", "không còn thấy: ánh sáng đã đỏ và mờ hết") : chuCanh("canh.o-r-rs-luc-dong-ho-cua-no", "ở r = {0} rs, đồng hồ của nó chỉ τ = {1}", [so(may.rThay, may.rThay < 1.1 ? 4 : 2), so(may.tauThay, 2)])]];
+        dong.push([chuCanh("canh.may-phat-dong-ho-cua-no", "Máy phát"), chuCanh("canh.tha-o-rs-qua-chan-troi-luc-toi", "thả ở {0} rs · τ chân trời {1} · τ kỳ dị {2}", [so(may.R, 2), so(L.roi.tauCT, 1), so(L.roi.tauHet, 1)])]);
+        if (!truoc) dong.push([chuCanh("canh.tin-hieu-nhan", "Tín hiệu nhận"), chuCanh("canh.g-hz-nm-tieng-bip", "g = {0} · {1} Hz · {2} nm · bíp {3}/{4}", [so(may.gThay, 3), so(TAN_SO_PHAT * may.gThay, 0), soNghia(BUOC_SONG_MAY / Math.max(1e-9, may.gThay), 3), may.k, L.xung.length])]);
         dong.push([chuCanh("canh.dong-ho-cua-ban-tu-luc-tha", "Đồng hồ của bạn từ lúc thả"), chuCanh("canh.rs-c-1-giay-rs-c", "{0} rs/c (1 giây = {1} rs/c)", [so(may.T, 1), RS_MOI_GIAY])]);
+        dong.push(dongCach);
+        return dong;
       }
+      // Bật hai vòng đo (bước cái bóng): cỡ bóng lên đầu, bỏ dòng đĩa khí (đĩa đang tắt)
+      if (vong && !nhinRa) {
+        return [dongBong,
+          [chuCanh("canh.hai-vong-do", "Hai vòng đo"), chuCanh("canh.mep-bong-rong-chan-troi-neu-anh-sang", "mép bóng {0}° · chân trời nếu đi thẳng {1}°", [so(Math.min(360, bong), 1), so((2 * Math.asin(Math.min(1, 1 / r)) * 180) / Math.PI, 1)])],
+          dongCach, dongDongHo, dongKeo];
+      }
+      const dong = [dongCach, dongDongHo, dongBong, dongKeo];
+      if (U.uDia.value > 0.5) dong.push([chuCanh("canh.mot-vong-o-mep-trong-cua-dia", "Một vòng ở mép trong của đĩa"), thoiLuong((46.17 * rs) / C)]);
       return dong;
     }
 

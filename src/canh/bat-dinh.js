@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import loi from '../noi-dung/bat-dinh.js';
 import goc from '../ngon-ngu/vi/bat-dinh.json' with {type:'json'};
-import {banVe,gocBan,chuCuaBai,ghepBuoc} from './ban-do-luong-tu.js';
+import {gocBan,chuCuaBai,ghepBuoc} from './ban-do-luong-tu.js';
+import {taoBanDoThi} from '../khung/ban-thi-nghiem-luong-tu.js';
 import {kep,taoNgauNhien} from '../khung/ve.js';
 import {so} from '../vat-ly/hang-so.js';
 import {gauss,troiTuDo} from '../vat-ly/bat-dinh.js';
@@ -9,9 +10,9 @@ const id='bat-dinh',chu=chuCuaBai(id,goc);
 const thu=[c=>c.xoa(),c=>c.set('sx',1),c=>c.set('sx',1),c=>c.set('x0',1),c=>c.set('p0',0),c=>c.set('sx',1.75),c=>c.set('c',1),c=>c.set('c',0),c=>c.chay()];
 const thach={2:c=>c.dat(2),4:c=>c.dat(4),7:c=>c.dat(7),8:c=>c.dat(8)};
 const T_MAX=50;
-export default{id,...ghepBuoc(loi,thu,thach),mayAnh:gocBan,hinh:{quang:.22},nhacNen:null,
+export default{id,...ghepBuoc(loi,thu,thach),mayAnh:{...gocBan,hep:.5},hinh:{quang:.22},nhacNen:null,
 tao(app){
-  const {scene,hop,kim,net,nhan}=banVe(), rand=taoNgauNhien(2302);
+  const {scene,hop,kim,net,nhan}=taoBanDoThi(app), rand=taoNgauNhien(2302);
   // S là cách chuẩn bị lúc t = 0; D là trạng thái sau thời gian trôi tự do S.t (fs).
   const S={sx:1,x0:0,p0:0,c:0,t:0};let D=troiTuDo(1,0,0,0,0);
   let keoX=false,keoP=false,keoT=false,chayT=false,tCuoi=0,N=0,du=0,gio=0,cuoi=-2;
@@ -60,5 +61,5 @@ tao(app){
         // Mỗi 1 fs đo lại hai nhóm mới, để chấm luôn thuộc trạng thái của lúc đó.
         if(S.t-tCuoi>=1||S.t>=T_MAX){tCuoi=S.t;xoa();echantillon(40);}if(S.t>=T_MAX)chayT=false;}
       du+=24*dt;const k=Math.floor(du);if(k){du-=k;echantillon(k);if(gio-cuoi>.9){app.am.tich({tanSo:680,doTo:.15});cuoi=gio;}}},
-    hud(){return[[chu('sx'),so(D.sx,2)+' nm'],[chu('sp'),so(D.sp,3)+' ℏ/nm'],[chu('p0'),so(S.p0,2)+' ℏ/nm'],[chu('tich'),so(D.sp*D.sx,3)+' ℏ'],[chu('t'),so(S.t,1)+' fs'],[chu('dem'),so(N,0)]];}};
+    hud(){return[[chu('sx'),so(D.sx,2)+' nm'],[chu('sp'),so(D.sp,3)+' ℏ/nm'],[chu('p0'),so(S.p0,2)+' ℏ/nm'],[chu('tich'),so(D.sp*D.sx,3)+' ℏ'],[chu('t'),so(S.t,1)+' fs']];}};
 }};

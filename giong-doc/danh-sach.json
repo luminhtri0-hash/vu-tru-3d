@@ -1317,7 +1317,7 @@
    },
    "thoi-gian": {
     "soBuoc": 8,
-    "tongGiay": 353.9,
+    "tongGiay": 358.0,
     "tep": [
      {
       "buoc": 1,
@@ -1378,10 +1378,10 @@
      {
       "buoc": 8,
       "tep": "algieba/thoi-gian-8.mp3",
-      "giay": 45.11,
-      "soChu": 186,
-      "bam": "878ce15a32827836",
-      "choKhac": 6
+      "giay": 49.25,
+      "soChu": 190,
+      "bam": "3af856c6a32f5926",
+      "choKhac": 5
      }
     ]
    },

@@ -10,7 +10,8 @@
 //   ?tukiem=1         đi qua mọi bước của bài đang mở, bấm thử mọi nút, ghi kết quả vào <pre id="ket-qua-kiem">
 //   ?tukiem=tat-ca    như trên nhưng cho mọi bài
 //   ?im=1             chế độ im lặng: không bao giờ phát tiếng (các tham số tukiem, tua cũng tự bật chế độ này)
-//   ?xem=1            vào thẳng chế độ «Xem như video» (dùng được cho người xem thật, kèm ?bai= hoặc ?canh=)
+//   ?nghe=1           vào thẳng bài và nghe giảng luôn: giọng đọc, phụ đề, tự sang bước (dùng được cho người học thật, kèm
+//                     ?bai= hoặc ?canh=). ?xem=1 (đường dẫn chia sẻ của bản 3.7) làm như ?nghe=1 và ẩn sẵn bảng bài giảng
 //   ?goiy=1           lượt im lặng vẫn hiện dòng gợi ý thao tác dưới thanh trên (mặc định ẩn để ảnh soát bài không dính)
 
 import { UngDung } from './khung/ung-dung.js';
@@ -60,7 +61,7 @@ function khoiDong() {
   const buoc = tham.has('buoc') ? Number(tham.get('buoc')) - 1 : 0;
   // Chạy thật (không có tham số kiểm): hiện màn hình chào TRƯỚC rồi mới dựng bài sau một nhịp, vì dựng bài phải biên dịch
   // shader, có thể mất gần một giây (lâu hơn nữa khi máy đang bận) và trong lúc đó cửa sổ không vẽ được gì.
-  const chayThat = !['bai', 'canh', 'vao', 'xem', 'tukiem', 'tua', 'nut', 'tab', 'cuon', 'dotim', 'dongdung'].some((k) => tham.has(k));
+  const chayThat = !['bai', 'canh', 'vao', 'xem', 'nghe', 'tukiem', 'tua', 'nut', 'tab', 'cuon', 'dotim', 'dongdung'].some((k) => tham.has(k));
   if (chayThat) setTimeout(() => { if (app.chiSo < 0) app.moBai(bai, buoc); }, 80);
   else { app.moBai(bai, buoc); app.hienGoiY(); }
   // ?nut=tên: bấm sẵn một nút «thử ngay» của bước đang mở. ?tua=giây: cho mô hình chạy trước bấy nhiêu giây
@@ -70,9 +71,10 @@ function khoiDong() {
   // ?tab=tom|hoi: mở sẵn thẻ Tóm tắt hoặc Tự kiểm. ?cuon=600: cuộn bảng bài giảng xuống 600 điểm ảnh (để chụp phần dưới).
   if (tham.has('tab')) app.moTab(tham.get('tab'));
   if (tham.has('cuon')) document.getElementById('bai-hoc-cuon').scrollTop = Number(tham.get('cuon'));
-  // ?xem=1: vào thẳng chế độ «Xem như video» (đường dẫn chia sẻ kiểu …/vu-tru-3d/?bai=1&xem=1). Trình duyệt chưa cho
-  // phát tiếng khi chưa có lần bấm nào thì chế độ tự tạm dừng và mời bấm ▶.
-  if (tham.has('xem')) app.xemVideo.vao();
+  // ?nghe=1: vào bài là nghe giảng luôn (đường dẫn chia sẻ kiểu …/vu-tru-3d/?bai=1&nghe=1); ?xem=1 thì ẩn thêm bảng bài
+  // giảng. Trình duyệt chưa cho phát tiếng khi chưa có lần bấm nào thì lời tạm dừng và mời bấm ▶.
+  if (tham.has('xem')) app.anHienBang(true);
+  if (tham.has('nghe') || tham.has('xem')) app.nghe.batDau();
 
   // ?dotim=1: đo thời gian DÒ VẬT DƯỚI CON TRỎ (việc khung tương tác làm mỗi khi chuột nhúc nhích) ở từng bài, tại 25 điểm
   // trên màn hình. Viết sau khi app bị đơ trên máy thật: phần này chưa từng được đo vì bộ tự kiểm không có chuột.
@@ -168,7 +170,7 @@ function khoiDong() {
     return;
   }
 
-  if (!tham.has('bai') && !tham.has('canh') && !tham.has('vao') && !tham.has('xem')) {
+  if (!tham.has('bai') && !tham.has('canh') && !tham.has('vao') && !tham.has('xem') && !tham.has('nghe')) {
     const soBuoc = DS_CANH.reduce((s, c) => s + (c.baiGiang?.buoc?.length || 1), 0);
     // Lộ trình: mỗi phần một thẻ BẤM ĐƯỢC (vào bài đầu của phần), bên dưới là từng bài của phần đó, cũng bấm được.
     // (Bản 2 các thẻ này chỉ để đọc; người dùng bấm vào không thấy gì.)
@@ -190,7 +192,7 @@ function khoiDong() {
         <h1>${chu("gd.vu-tru-3d")}</h1>
         <p>${chu("gd.chao-gioi-thieu", [DS_CANH.length, soBuoc])}</p>
         <div class="lo-trinh">${loTrinh}</div>
-        <div class="chao-nut"><button class="dk-nut chinh" id="nut-bat-dau">${bai > 0 ? `${chu("gd.hoc-tiep-bai-0", [DS_CANH[bai].so])}` : chu("gd.bat-dau-hoc")}</button><button class="dk-nut xem-video" id="nut-chao-video" title="${chu("xv.nut-tren")}">${chu("xv.xem-nhu-video")}</button></div>
+        <div class="chao-nut"><button class="dk-nut chinh" id="nut-bat-dau">${bai > 0 ? `${chu("gd.hoc-tiep-bai-0", [DS_CANH[bai].so])}` : chu("gd.bat-dau-hoc")}</button><button class="dk-nut co-giong" id="nut-chao-nghe" title="${chu("xv.bat-dau-co-giong-mo-ta")}">${chu(bai > 0 ? "xv.hoc-tiep-co-giong" : "xv.bat-dau-co-giong")}</button></div>
         <div class="chon-goi-y">${chu("gd.bam-vao-mot-phan-hoac-mot-bai-o-tren-de-vao-thang-ch")}${bai > 0 ? ` · <button class="hoc-tu-dau" data-bai="0">${chu("gd.hoc-lai-tu-bai-1")}</button>` : ''}</div>
         <div class="phu">${chu("gd.keo-chuot-de-xoay-cuon-de-phong-to-thu-nho-re-chuot-")}</div>
       </div>`;
@@ -202,8 +204,9 @@ function khoiDong() {
     app.dk.autoRotate = true; app.dk.autoRotateSpeed = 0.35;
     const dong = () => { if (chao.classList.contains('tat')) return; app.dangChao = false; document.body.classList.remove('dang-chao'); app.dk.autoRotate = false; app.am.khoiDong(); app.am.phat('bat-dau'); app._datNen(); chao.classList.add('tat'); app.hienGoiY(); setTimeout(() => chao.remove(), 800); };
     document.getElementById('nut-bat-dau').addEventListener('click', dong);
-    // «Xem như video»: lần bấm này cũng là lần bấm trình duyệt cần để cho phát tiếng (xem xem-video.js).
-    document.getElementById('nut-chao-video').addEventListener('click', () => { dong(); app.xemVideo.vao(); });
+    // «Bắt đầu học có giọng đọc»: vào bài, giọng đọc tự phát, phụ đề chạy trên mô hình, đọc xong tự sang bước. Lần bấm này
+    // cũng là lần bấm trình duyệt cần để cho phát tiếng (nghe-giang.js).
+    document.getElementById('nut-chao-nghe').addEventListener('click', () => { dong(); app.nghe.batDau(); });
     for (const nut of chao.querySelectorAll('[data-bai]')) {
       nut.addEventListener('click', () => { const i = Number(nut.dataset.bai); dong(); if (i !== app.chiSo) app.moBai(i, 0, true); });
     }

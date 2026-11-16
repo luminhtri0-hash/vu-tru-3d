@@ -1,16 +1,17 @@
 import * as THREE from 'three';
 import loi from '../noi-dung/orbital-hydro.js';
 import goc from '../ngon-ngu/vi/orbital-hydro.json' with {type:'json'};
-import {banVe,gocBan,chuCuaBai,ghepBuoc} from './ban-do-luong-tu.js';
-import {taoNgauNhien,kep} from '../khung/ve.js';
+import {gocBan,chuCuaBai,ghepBuoc} from './ban-do-luong-tu.js';
+import {taoBanDoThi} from '../khung/ban-thi-nghiem-luong-tu.js';
+import {taoNgauNhien,kep,goNhanDeNhau} from '../khung/ve.js';
 import {so} from '../vat-ly/hang-so.js';
 import {banKinhMau,cosGocMau,xuyenTam,nangLuong} from '../vat-ly/orbital-hydro.js';
 const id='orbital-hydro',chu=chuCuaBai(id,goc);
 const thu=[c=>c.xoa(),c=>c.chon('1s'),c=>c.chon('1s'),c=>c.chon('2s'),c=>c.chon('2p'),c=>c.doiSP(),c=>c.chon('2p'),c=>c.chon('1s')];
 const thach={2:c=>c.dat('1s',1,.12),3:c=>c.dat('2s',2,.12),6:c=>c.dat('2p',4,.15)};
-export default {id,...ghepBuoc(loi,thu,thach),mayAnh:{...gocBan,viTri:[4,4.6,10.4],dich:[0,1.1,0]},hinh:{quang:.27},nhacNen:null,
+export default {id,...ghepBuoc(loi,thu,thach),mayAnh:{...gocBan,viTri:[4.9,5.0,11.6],dich:[0.9,1.1,0],hep:.6},hinh:{quang:.27},nhacNen:null,
 tao(app){
-  const {scene,nhan,net,kim,hop}=banVe(),rand=taoNgauNhien(2435);
+  const {scene,nhan,net,kim,hop}=taoBanDoThi(app),rand=taoNgauNhien(2435);
   const cx=-1.72,cy=1.65,donVi=.28,boDem=2200;
   const c1=new THREE.Color(0x80dfff).multiplyScalar(1.2),c2=new THREE.Color(0xffb073).multiplyScalar(1.2);
   const datHat=new THREE.Mesh(new THREE.SphereGeometry(.1,18,12),new THREE.MeshBasicMaterial({color:0xffdf95}));
@@ -31,9 +32,9 @@ tao(app){
   const line=net(0xffc878,180,3);
   const X0=.45,Xscale=.34,Y0=.3,Yscale=3.9;
   hop(3.65,.075,.48,2.2,Y0-.08,1.15,kim(0x527180));
-  nhan(chu('mat'),2.35,2.72,1.15,'vang');
-  for(const u of [0,2,4,6,8,10]){hop(.018,.12,.12,X0+u*Xscale,Y0,1.15,kim(0xb99a67));nhan(String(u),X0+u*Xscale,Y0-.08,1.55,'mo');}
-  nhan('r / a₀',X0+10.9*Xscale,Y0-.08,1.55,'mo');
+  const nhanMat=nhan(chu('mat'),2.35,2.72,1.15,'vang');
+  for(const u of [0,2,4,6,8,10]){hop(.018,.12,.12,X0+u*Xscale,Y0,1.15,kim(0xb99a67));nhan(u===10?'10 a₀':String(u),X0+u*Xscale,Y0-.08,1.55,'mo');}
+  // Đơn vị ghi luôn vào vạch cuối (10 a₀) thay cho nhãn trục riêng, để bước có 2p không quá 12 nhãn.
   // Thang năng lượng E_n = −13,6 eV/n²: vạch n = 1…4 và mức 0 (electron vừa thoát), vạch sáng là mức đang chọn.
   const LX=2.55,LZ=-2.15,LY=(E)=>2.95+E*(2.55/13.6);
   hop(.04,2.75,.04,LX+.7,1.6,LZ,kim(0x6f8796));
@@ -42,7 +43,9 @@ tao(app){
   nhan('0 eV',LX-.95,LY(0)+.1,LZ,'mo');
   const nhanN1=nhan('n = 1 · '+so(nangLuong(1),1)+' eV',LX-1.45,LY(nangLuong(1)),LZ,'mo');
   const nhanN2=nhan('n = 2 · '+so(nangLuong(2),1)+' eV',LX-1.45,LY(nangLuong(2))-.14,LZ,'mo');
-  nhan(chu('thang'),LX,LY(nangLuong(1))-.32,LZ,'vang');
+  const nhanThang=nhan(chu('thang'),LX,LY(nangLuong(1))-.32,LZ,'vang');
+  // Nhãn đồ thị và thang năng lượng nằm sát nhau khi nhìn trên điện thoại: cho chúng tránh nhau, ngang hàng.
+  const dsNhan=[nhanMat,nhanN1,nhanN2,nhanThang].map(o=>({nhan:o,uuTien:70}));
   const vlSang=kim(0xffc878),vlTat=vach[0].material;
   const dau=hop(.028,1.4,.06,X0,.96,1.15,kim(0xeabd83));
   let k='1s',r=.35,keo=false,n=0,du=0,gio=0,cuoi=-2;
@@ -69,6 +72,6 @@ tao(app){
   app.bang.nut([{nhan:chu('do'),khiBam:xoa}]);
   return{scene,chon,xoa,doiSP:()=>chon(k==='2s'?'2p':'2s'),dat:(m,v,t)=>keo&&k===m&&Math.abs(r-v)<t,
     buoc(i){keo=false;datR(.35);chon(['1s','1s','1s','2s','2p','2s','2p','2s'][i]);},
-    capNhat(dt){if(dt<=0)return;gio+=dt;du+=dt*130;const m=Math.floor(du);if(m){du-=m;them(m,true);}},
-    hud(){return [[chu('chon'),k],[chu('ban'),so(r,2)+' a₀'],[chu('mat'),so(xuyenTam(r,k),3)+' /a₀'],[chu('nang'),k==='1s'?'1':'1/4'],[chu('e'),so(nangLuong(k==='1s'?1:2),2)+' eV'],[chu('nut'),k==='2s'?'1':'0']];}};
+    capNhat(dt){goNhanDeNhau(dsNhan.slice(),app.camera,app.rong,app.cao);if(dt<=0)return;gio+=dt;du+=dt*130;const m=Math.floor(du);if(m){du-=m;them(m,true);}},
+    hud(){return [[chu('chon'),k],[chu('ban'),so(r,2)+' a₀'],[chu('mat'),so(xuyenTam(r,k),3)+' /a₀'],[chu('e'),so(nangLuong(k==='1s'?1:2),2)+' eV'],[chu('nut'),k==='2s'?'1':'0']];}};
 }};

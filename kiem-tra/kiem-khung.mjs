@@ -8,6 +8,7 @@
 //   5. công thức trong dòng thành chữ đọc được (src/khung/tex-thanh-chu.js): mẫu thường gặp, công thức viết dở không
 //      ném lỗi, và mọi công thức trong dòng của khoá học đổi ra không còn sót ký hiệu LaTeX.
 // Phần cần trình duyệt (nhãn thật trên trang, ô số liệu, điện thoại) nằm ở kiem-tra/kiem-giao-dien.mjs.
+import { DS_TIENG_DICH } from '../cong-cu/ngon-ngu.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -50,6 +51,30 @@ for (const [loi, cum] of [
     for (const c of cum) dat(ghep.includes(c), `phụ đề chữ vuông (dòng ${dai} chữ) ngắt giữa «${c}»: ${cau.join(' | ').replace(/\n/g, ' / ')}`);
     dat(cau.join('').replace(/\s+/g, '') === loi.replace(/\s+/g, ''), 'ghép các câu phụ đề không ra lời gốc');
   }
+}
+
+// Phụ đề chữ vuông không ngắt giữa một từ (bộ tách từ Intl.Segmenter; máy không có bộ này thì bỏ qua mục kiểm). Trước bản
+// 3.8 câu đầu ngắt «飞行方 | 向». Mọi chỗ ngắt dòng và ngắt câu phải rơi đúng ranh giới từ.
+if (typeof Intl.Segmenter === 'function') {
+  let soNgat = 0;
+  for (const [loi, tieng] of [
+    ['太阳正带着八大行星朝天鹅座的飞行方向运动，我们从银河系外面观察它的轨迹。', 'zh-CN'],
+    ['每颗行星的速度都是两部分之和：一部分是太阳的飞行速度，另一部分是行星自己的轨道速度。', 'zh-CN'],
+    ['太陽は八つの惑星を連れて、はくちょう座の方向へ飛んでいます。その軌跡を銀河系の外から見てみましょう。', 'ja'],
+    ['それぞれの惑星の速度は、太陽の飛行速度と惑星自身の軌道速度という二つの部分の和になります。', 'ja'],
+  ]) {
+    const dau = new Set([...new Intl.Segmenter(tieng, { granularity: 'word' }).segment(loi)].map((d) => d.index));
+    for (const dai of [20, 16, 12, 9]) {
+      const cau = chiaPhuDe(loi, { dai, tieng });
+      dat(cau.join('').replace(/\n/g, '') === loi, 'ghép các câu phụ đề không ra lời gốc');
+      let vt = 0;
+      for (const dong of cau.flatMap((c) => c.split('\n'))) {
+        if (vt > 0) { soNgat++; dat(dau.has(vt), `phụ đề ${tieng} (dòng ${dai} chữ) ngắt giữa một từ, trước «${loi.slice(vt, vt + 4)}»: ${cau.join(' | ').replace(/\n/g, ' / ')}`); }
+        vt += dong.length;
+      }
+    }
+  }
+  dat(soNgat > 20, 'mục kiểm ranh giới từ không xét được chỗ ngắt nào');
 }
 
 // ---------- 3. Bộ bố trí nhãn ----------
@@ -159,7 +184,7 @@ for (const tep of dsTep) {
 const html = readFileSync(`${GOC}src/index.html`, 'utf8');
 for (const m of html.matchAll(/data-dich(?:-title|-aria-label)?="([^"]+)"/g)) dat(Object.hasOwn(vi, m[1]), `src/index.html: khoá chữ «${m[1]}» không có trong vi/chung.json`);
 const khoaKhung = Object.keys(vi).filter((k) => /^(gd|xv|hop)\./.test(k));
-for (const ma of ['en', 'zh-CN', 'ja']) {
+for (const ma of DS_TIENG_DICH) {
   const d = doc(ma);
   const thieu = khoaKhung.filter((k) => !d[k]?.trim());
   dat(thieu.length === 0, `src/ngon-ngu/${ma}/chung.json thiếu ${thieu.length} khoá giao diện: ${thieu.slice(0, 8).join(', ')}`);

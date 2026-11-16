@@ -73,11 +73,11 @@ try {
     await c.goi('Page.navigate', { url: 'about:blank' });
     await c.goi('Page.navigate', { url: url.href });
     for (let i = 0; i < 1200 && !(await c.doc('!!window.__vt?.canh')); i++) await cho(50);
-    const dsBai = await c.doc(`__vt.dsCanh.map((b, i) => ({ i, id: b.id, so: b.so, buoc: (b.baiGiang?.buoc || []).length, loiDoc: typeof __vt.xemVideo._loiDoc === 'function' }))`);
+    const dsBai = await c.doc(`__vt.dsCanh.map((b, i) => ({ i, id: b.id, so: b.so, buoc: (b.baiGiang?.buoc || []).length, loiDoc: typeof __vt.nghe._loiDoc === 'function' }))`);
     for (const b of dsBai) {
       if (chiBai.length && !chiBai.includes(b.id)) continue;
       await c.doc(`__vt.moBai(${b.i}); true`);
-      const coLoiDoc = await c.doc(`(() => { const k = __vt.xemVideo; return !!(k._loiDoc && k._loiDoc(0)); })()`);
+      const coLoiDoc = await c.doc(`(() => { const k = __vt.nghe; return !!(k._loiDoc && k._loiDoc(0)); })()`);
       for (let k = 0; k < b.buoc; k++) {
         const kq = await c.doc(`(() => { __vt.moBuoc(${k}); for (let i = 0; i < 240; i++) __vt.buoc(1 / 60); return ${XET}; })()`);
         ((ketQua[b.id] ||= { so: b.so, coLoiDoc, buoc: [] }).buoc[k] ||= {})[co] = kq;

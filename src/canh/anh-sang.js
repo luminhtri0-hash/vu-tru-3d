@@ -11,7 +11,7 @@ import * as THREE from 'three';
 import { so } from '../vat-ly/hang-so.js';
 import { taoTia, buocTiaRK4, gocLechAnhSang, B_TOI_HAN } from '../vat-ly/schwarzschild.js';
 import { taoBangGocLech, SO_O_BANG, W_MAX, banKinhEinstein, doPhongDai } from '../vat-ly/anh-sang-cong.js';
-import { taoNhan, taoNenSao, texDom, taoDom, DuongDay, huyCanh, kep } from '../khung/ve.js';
+import { taoNhan, taoNenSao, texDom, taoDom, DuongDay, huyCanh, kep, goNhanDeNhau } from '../khung/ve.js';
 import { MAU } from '../khung/giao-dien.js';
 
 const chuCanh = (khoa, goc, thamSo) => dichChu('anh-sang', khoa, goc, thamSo);
@@ -155,7 +155,7 @@ export default {
     - Tín hiệu rađa đi sát Mặt Trời tới trễ khoảng 250 micro giây (trễ Shapiro); tàu Cassini năm 2002 kiểm điều này tới 2 phần trăm nghìn.
     - Thấu kính hấp dẫn: khi thẳng hàng, ảnh thành vòng Einstein bán kính $\theta_E = \sqrt{4GM D_{LS}/(c^2 D_L D_S)}$.
     - Mặt cầu photon ở 1,5 rs; tia có khoảng ngắm dưới $(3\sqrt3/2)\,r_s \approx 2{,}6\,r_s$ bị nuốt.`,
-  mayAnh: { viTri: [-4, 17, 54], dich: [2, 0, 0], fov: 42, min: 4, max: 160 },
+  mayAnh: { viTri: [-4, 17, 54], dich: [2, 0, 0], fov: 42, min: 4, max: 160, hep: 0.5 },
 
   baiGiang: {
     mucTieu: [
@@ -241,7 +241,9 @@ export default {
         noiDung: R`
           Áp công thức vào Mặt Trời. Bán kính Mặt Trời bằng khoảng **235 600 lần** bán kính Schwarzschild của nó (2,95 km). Tia sáng của một ngôi sao sượt mép Mặt Trời lệch
 
-          $$ \alpha = \frac{2r_s}{b} = \frac{2\times 2{,}95\ \text{km}}{695\,700\ \text{km}} = 8{,}5\times10^{-6}\ \text{rad} = 1{,}75″ $$
+          $$ \alpha = \frac{2r_s}{b} = \frac{2\times 2{,}95\ \text{km}}{695\,700\ \text{km}} $$
+
+          $$ \alpha = 8{,}5\times10^{-6}\ \text{rad} = 1{,}75″ $$
 
           Chừng một phần hai nghìn độ. Newton cho 0,88″.
 
@@ -638,7 +640,7 @@ export default {
     let coChop = false, coTH = false;
     let betaX = 0.35, betaY = 0;
     let daKeoTH = false, daKeoTia = false;
-    let xTay = -22;
+    let xTay = -22, gocHien = 'cheo';
     let moTia = 1;           // độ đậm của các tia phụ (bước cần nhìn kỹ tia đang xét thì hạ xuống)
     let thetaE = 0, rhoTH = 1;
     let coChinh = true;      // hiện tia đang xét (bước thấu kính tạm ẩn cho khỏi rối)
@@ -855,7 +857,7 @@ export default {
       if (o.beta != null) { betaX = o.beta; betaY = 0; dkBeta.dat(betaX); veThauKinh(); }
       if (o.chop != null) coChop = o.chop;
       if (o.th != null && o.th !== coTH) { coTH = o.th; tia = true; }
-      if (o.goc) { xTay = X_TAY[o.goc] ?? xTay; chon = true; }
+      if (o.goc) { xTay = X_TAY[o.goc] ?? xTay; gocHien = o.goc; chon = true; }
       if (o.tay != null) tayTia.an(!o.tay);
       if (o.troi != null) uTroi.uSangTroi.value = o.troi;
       if (o.chinh != null) { coChinh = o.chinh; chon = true; }
@@ -885,7 +887,23 @@ export default {
     }
     const X_THU = 24;        // «máy thu» tưởng tượng ở hoành độ này: tiếng tích khi chớp sáng tới
     let demXa = null, demGan = null;
+    // Bộ xếp nhãn: giữ nguyên ẩn/hiện mà cảnh đã đặt, chỉ cho các nhãn tránh nhau. Góc nhìn gần (bước 6): đầu đường
+    // «nếu không có khối lượng» nằm dưới bảng bài giảng, mà bước này không giảng về nó, nên tắt nhãn ấy. Bước thấu kính
+    // không giảng chân trời, nhãn ấy chỉ chen với nhãn thiên hà nền: tắt.
+    const dsNhan = [
+      { nhan: nhanLech, uuTien: 92, giu: true }, { nhan: nhanTH, uuTien: 80 }, { nhan: nhanChon, uuTien: 74 },
+      { nhan: nhanNewton, uuTien: 70 }, { nhan: nhanQS, uuTien: 68 }, { nhan: nhanToiHan, uuTien: 66 },
+      { nhan: nhanLoDen, uuTien: 62 }, { nhan: nhanPhoton, uuTien: 60 }, { nhan: nhanThang, uuTien: 56 },
+    ].map((k) => Object.assign(k, { tat: false }));
+    function xepNhan() {
+      for (let i = 0; i < dsNhan.length; i++) {
+        const k = dsNhan[i];
+        k.tat = !k.nhan.visible || (k.nhan === nhanThang && gocHien === 'gan') || (k.nhan === nhanLoDen && coTH);
+      }
+      goNhanDeNhau(dsNhan, app.camera, app.rong, app.cao);
+    }
     function capNhat(dtg) {
+      xepNhan();
       if (dtg === 0) { giongTia?.dat({ doTo: 0 }, 0.05); giongTH?.dat({ doTo: 0 }, 0.05); }
       tau += dtg * tocDo * 7;
       if (coChop && dtg > 0 && tocDo > 0) {
@@ -936,8 +954,9 @@ export default {
         dong.push([chuCanh("canh.cong-thuc-2r-s-b", "Công thức 2r<sub>s</sub>/b"), chuCanh("canh.chi-dung-khi-b-lon", "{0}° (chỉ đúng khi b lớn)", [so(2 / b / DO, 2)])]);
         dong.push([chuCanh("canh.newton", "Newton"), `${so((2 * Math.atan(0.5 / b)) / DO, 2)}°`]);
       }
-      if (coTH) dong.push([chuCanh("canh.thien-ha-nen", "Thiên hà nền"), chuCanh("canh.lech-e-e-nhin-tu-cho-nguoi-quan", "lệch {0} θ<sub>E</sub> · θ<sub>E</sub> = {1}° nhìn từ chỗ người quan sát", [so(Math.hypot(betaX, betaY), 2), so(thetaE / DO, 1)])]);
-      dong.push([chuCanh("canh.suot-mep-mat-troi-b-235-600-r", "Sượt mép Mặt Trời (b = 235 600 r<sub>s</sub>)"), chuCanh("canh.einstein-1-75-newton-0-88", "Einstein 1,75″ · Newton 0,88″")]);
+      if (coTH) dong.push([chuCanh("canh.thien-ha-nen", "Thiên hà nền"), chuCanh("canh.lech-e-e-nhin-tu-cho-nguoi-quan", "lệch {0} θ<sub>E</sub> · θ<sub>E</sub> = {1}°", [so(Math.hypot(betaX, betaY), 2), so(thetaE / DO, 1)])]);
+      // dòng so sánh với Mặt Trời không đổi theo thao tác: bỏ ở bước thấu kính để ô số liệu không quá 5 dòng
+      if (!coTH) dong.push([chuCanh("canh.suot-mep-mat-troi-b-235-600-r", "Sượt mép Mặt Trời"), chuCanh("canh.einstein-1-75-newton-0-88", "Einstein 1,75″ · Newton 0,88″")]);
       return dong;
     }
 

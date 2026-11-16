@@ -30,8 +30,10 @@ env TMPDIR="$(pwd)/dist/tmp-swift/" swiftc -O -module-cache-path "$(pwd)/dist/ca
 cp dist/vu-tru-3d "$APP/Contents/MacOS/vu-tru-3d"
 node --input-type=module - "$APP/Contents/Resources/thuc-don.json" <<'JS'
 import fs from 'node:fs';
+import { pathToFileURL } from 'node:url';
+const { DS_TIENG } = await import(pathToFileURL(process.cwd() + '/cong-cu/ngon-ngu.mjs').href);
 const bo = {};
-for (const ma of ['vi', 'en', 'zh-CN', 'ja']) {
+for (const ma of DS_TIENG) {
   const d = JSON.parse(fs.readFileSync('src/ngon-ngu/' + ma + '/chung.json', 'utf8'));
   bo[ma] = Object.fromEntries(Object.entries(d).filter(([k, v]) => k.startsWith('mac.') && typeof v === 'string' && v.trim()));
 }

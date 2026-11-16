@@ -2,13 +2,15 @@ import * as THREE from 'three';
 import loi from '../noi-dung/hat-trong-hop.js';
 import goc from '../ngon-ngu/vi/hat-trong-hop.json' with {type:'json'};
 import {gocBan,banVe,chuCuaBai,ghepBuoc} from './ban-do-luong-tu.js';
-import {kep,taoNgauNhien} from '../khung/ve.js';
+import {kep,taoNgauNhien,goNhanDeNhau} from '../khung/ve.js';
 import {so} from '../vat-ly/hang-so.js';
 import {psiHop,rhoHop,nangHop,xacSuatHop,mauHop,heSoPha} from '../vat-ly/hat-trong-hop.js';
 const id='hat-trong-hop',chu=chuCuaBai(id,goc);
+const HUD_BUOC=[[0,1,4,2,3],[0,1,4,2,3],[2,0,3,1,4],[3,2,0,1,5],[4,0,1,2,3],[4,1,0,2,3],[5,0,2,3,1],[2,0,3,4,1]];
 const thu=[c=>c.datMuc(1),c=>c.datMuc(2),c=>c.datMuc(2),c=>c.datDoc(0.5),c=>c.datMuc(3),c=>c.datRong(1),c=>c.xoa(),c=>{c.datMuc(3);c.xoa();}];
 const thach={2:c=>c.thu('giua'),5:c=>c.thu('rong'),7:c=>c.thu('nut')};
-export default {id,...ghepBuoc(loi,thu,thach),mayAnh:gocBan,hinh:{quang:0.25},nhacNen:null,
+export default {id,...ghepBuoc(loi,thu,thach),// Góc máy dời sang phải và lùi một chút so với bàn chung để cả thang năng lượng (n = 1 tới 5) nằm trong phần trống bên trái bảng.
+mayAnh:{...gocBan,viTri:[5.35,7.05,12.08],dich:[0.6,0.95,0.2],hep:0.45},hinh:{quang:0.25},nhacNen:null,
   tao(app){
     const {scene,hop,kim,nhan,net,nen,dong}=banVe(app);
     const left=-3.45,scale=3.45;
@@ -18,18 +20,23 @@ export default {id,...ghepBuoc(loi,thu,thach),mayAnh:gocBan,hinh:{quang:0.25},nh
     const vach=hop(0.14,2.4,3.4,0,1,0,kim(0x37647a));
     const B=1.15;
     // Thang năng lượng ở góc phải phía trước bàn: năm mức đầu của hộp đang chọn, chiều cao tỉ lệ E_n (đơn vị E₁ tham chiếu).
-    const XT=3.95, ZT=2.3, YT0=0.05, KT=0.09, YT1=2.4;
+    const XT=3.5, ZT=2.3, YT0=0.05, KT=0.09, YT1=2.4;
     hop(0.03,YT1-YT0,0.03,XT-0.33,(YT0+YT1)/2,ZT,kim(0x7e98a6));
     const vlMuc=new THREE.MeshBasicMaterial({color:new THREE.Color(0x5d7684)});
     const vlMucChon=new THREE.MeshBasicMaterial({color:new THREE.Color(0xffc577).multiplyScalar(2.2)});
     const mucBac=[1,2,3,4,5].map(k=>({o:hop(0.62,0.028,0.05,XT,0,ZT,vlMuc),nh:nhan('n = '+k,XT+0.62,0,ZT,'tran')}));
     hop(0.62,0.008,0.05,XT,YT0+KT,ZT,new THREE.MeshBasicMaterial({color:0x8fe3a8}));
     nhan('E',XT-0.33,YT1+0.18,ZT,'tran');
+    // Nhãn tránh nhau: hộp rộng thì các mức dồn sát nhau (mức đang chọn đặt trước, chênh dưới 15 bậc để mức khác dời chứ
+    // không ẩn); trên điện thoại hai nhãn đường cong nằm gần nhau. Hai nhãn đường cong được thêm vào ngay sau khi tạo.
+    const nhomMuc=mucBac.map(m=>({nhan:m.nh,uuTien:20,tat:false}));
     function veThang(){for(let k=1;k<=5;k++){const E=nangHop(k,L),y=YT0+KT*E,m=mucBac[k-1],hien=y<=YT1;
-      m.o.visible=hien;m.nh.hien(hien);m.o.position.y=y;m.nh.position.y=y;m.o.material=k===n?vlMucChon:vlMuc;}}
+      m.o.visible=hien;m.nh.hien(hien);m.o.position.y=y;m.nh.position.y=y;m.o.material=k===n?vlMucChon:vlMuc;
+      nhomMuc[k-1].tat=!hien;nhomMuc[k-1].uuTien=k===n?30:20;}}
     const nenChon=hop(1,0.022,0.42,0,-0.10,1.0,kim(0xc18a46));
     const chi=hop(.035,2.0,0.04,0,0.9,1.02,dong);
-    nhan(chu('bien'),-2.6,2.35,-1.05,'xanh');nhan(chu('mat'),-2.6,2.15,1.45,'vang');
+    const nhBien=nhan(chu('bien'),-2.6,2.35,-1.05,'xanh'),nhMat=nhan(chu('mat'),-2.6,2.15,1.45,'vang');
+    nhomMuc.push({nhan:nhBien,uuTien:60},{nhan:nhMat,uuTien:60});
     const hinh=new THREE.BufferGeometry(),a=new THREE.Float32BufferAttribute(new Float32Array(600*3),3).setUsage(THREE.DynamicDrawUsage);
     hinh.setAttribute('position',a);hinh.setDrawRange(0,0);
     const mau=new THREE.Points(hinh,new THREE.PointsMaterial({color:0xffcc79,size:0.052}));mau.frustumCulled=false;scene.add(mau);
@@ -54,9 +61,12 @@ export default {id,...ghepBuoc(loi,thu,thach),mayAnh:gocBan,hinh:{quang:0.25},nh
     return{scene,datMuc,datRong,datDoc,xoa,
       buoc(i){buocNay=i;tPha=0;L=1;n=[1,1,2,1,1,1,2,3][i];u=.18;keoDoc=keoRong=false;dkN.dat(n);dkL.dat(L);xoa();ve();hat(40,false);},
       thu(k){if(k==='rong')return keoRong&&n===1&&Math.abs(nangHop(n,L)-.25)<.02;return keoDoc&&(k==='giua'?n===2&&Math.abs(u-.5)<.03:n===3&&Math.abs(u-1/3)<.025);},
-      capNhat(dt){if(dt<=0)return;gio+=dt;du+=dt*26;const k=Math.floor(du);if(k){du-=k;hat(k);}
+      capNhat(dt){goNhanDeNhau(nhomMuc);if(dt<=0)return;gio+=dt;du+=dt*26;const k=Math.floor(du);if(k){du-=k;hat(k);}
         // Bước 8: đường lam là phần thực của ψ·e^{-iEt/ħ}, phập phồng tại chỗ; mức 3 có chu kỳ khoảng 3 giây trên hình.
         if(buocNay===7){tPha+=dt;const c=heSoPha(n,L,tPha,0.233);
           for(let i=0;i<180;i++){const z=i/179;blue.dat(i,left+z*L*scale,B+.62*psiHop(z,n,L)*c,-.86);}blue.xong(180);}},
-      hud(){return [[chu('muc'),so(n,0)],[chu('rong'),so(L,2)+' nm'],[chu('doc'),'b/L = '+so(u,3)],[chu('dien'),so(xacSuatHop(u,n),3)],[chu('nang'),so(nangHop(n,L),3)],[chu('dem'),so(N,0)]];}};
+      // Ô số liệu theo bước (tối đa 5 dòng), dòng đầu là số chính của bước. Chỉ số trỏ vào mảng dòng:
+      // 0 mức n · 1 chiều rộng · 2 đầu đọc · 3 P(0 < x < b) · 4 năng lượng · 5 số lần đo
+      hud(){const ds=[[chu('muc'),so(n,0)],[chu('rong'),so(L,2)+' nm'],[chu('doc'),'b/L = '+so(u,3)],[chu('dien'),so(xacSuatHop(u,n),3)],[chu('nang'),so(nangHop(n,L),3)],[chu('dem'),so(N,0)]];
+        return (HUD_BUOC[buocNay]||HUD_BUOC[0]).map(k=>ds[k]);}};
   }};

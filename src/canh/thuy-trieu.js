@@ -14,7 +14,7 @@ import {
   taoDamHat, truongCauDac, giaTocT, khoiGiaTocT, buocVerletT, vddvLucTha, doBienDang, taoKetQuaDo, huongDoc, tiSoCap,
   TT_TRUC_DOC, TT_KEO_GAP, TT_THE_TICH, TT_TRIEU, tiSoKeo, dinhBuou, F0_KEO_EP, tanSoTruc, tiengSong,
 } from '../vat-ly/dam-hat-roi.js';
-import { taoNhan, taoNenSao, taoDom, texDom, DuongDay, kep, lamMuot } from '../khung/ve.js';
+import { taoNhan, taoNenSao, taoDom, texDom, DuongDay, kep, lamMuot, goNhanDeNhau } from '../khung/ve.js';
 import { MAU_KTG } from '../khung/ktg.js';
 import { MAU, khungDoThi } from '../khung/giao-dien.js';
 import { taoTraiDat, taoMatTrang } from '../khung/hanh-tinh.js';
@@ -43,7 +43,7 @@ export default {
   ten: 'Độ cong thật và phương trình Einstein',
   moTa: 'Cái rơi tự do không xoá được: lực thủy triều',
   yChinh: 'Rơi tự do xoá được trọng lực tại một chỗ, nhưng không xoá được **sự khác nhau** của trọng lực giữa hai chỗ gần nhau: lực thủy triều. Một đám hạt rơi tự do bị kéo dài theo phương bán kính và bóp lại theo hai phương ngang. Đó chính là **độ cong** của không-thời gian. Phương trình Einstein nói: ở nơi có vật chất, thể tích của đám hạt ấy bắt đầu co lại với gia tốc tỉ lệ với mật độ năng lượng cộng ba lần áp suất.',
-  mayAnh: { viTri: [7.5, 7.8, 22.5], dich: [6.2, -0.4, 0], fov: 40, min: 2, max: 80, gan: 0.05, xa: 2000 },
+  mayAnh: { viTri: [7.5, 7.8, 22.5], dich: [6.2, -0.4, 0], fov: 40, min: 2, max: 80, gan: 0.05, xa: 2000, hep: 0.55 },
 
   baiGiang: {
     mucTieu: [
@@ -81,7 +81,9 @@ export default {
 
           Các mũi tên là **gia tốc tương đối** của mỗi hạt so với tâm đám: hướng **ra** ở hai đầu (hồng), hướng **vào** ở vòng ngang (xanh). Với một hạt cách tâm đám một đoạn nhỏ $\xi$:
 
-          $$ \ddot\xi_{\text{dọc}} = +\frac{2GM}{r^3}\,\xi_{\text{dọc}}, \qquad \ddot\xi_{\text{ngang}} = -\frac{GM}{r^3}\,\xi_{\text{ngang}} $$
+          $$ \ddot\xi_{\text{dọc}} = +\frac{2GM}{r^3}\,\xi_{\text{dọc}} $$
+
+          $$ \ddot\xi_{\text{ngang}} = -\frac{GM}{r^3}\,\xi_{\text{ngang}} $$
 
           $G$ là hằng số hấp dẫn, $M$ là khối lượng hành tinh, $r$ là khoảng cách từ tâm hành tinh tới đám hạt. Kéo dọc $2GM/r^3$, ép mỗi phương ngang $GM/r^3$: **tổng của ba số bằng không**. Đám hạt dài ra bao nhiêu thì hẹp lại bấy nhiêu, thể tích lúc đầu giữ nguyên.
 
@@ -116,7 +118,9 @@ export default {
           +++ Đi sâu: từ Newton tới tenxơ thủy triều
           Gia tốc của hạt ở vị trí $\vec r$ là $\vec a = -GM\vec r/r^3$. Hạt bên cạnh ở $\vec r + \vec\xi$ có gia tốc $\vec a(\vec r + \vec\xi) \approx \vec a(\vec r) + (\xi \cdot \nabla)\vec a$. Hiệu hai gia tốc là
 
-          $$ \ddot\xi_i = T_{ij}\,\xi_j, \qquad T_{ij} = \frac{\partial a_i}{\partial x_j} = \frac{GM}{r^5}\big(3x_ix_j - r^2\delta_{ij}\big) $$
+          $$ \ddot\xi_i = T_{ij}\,\xi_j $$
+
+          $$ T_{ij} = \frac{\partial a_i}{\partial x_j} = \frac{GM}{r^5}\big(3x_ix_j - r^2\delta_{ij}\big) $$
 
           Chọn trục $x$ theo phương bán kính ($\vec r = (r;\ 0;\ 0)$): $T = \tfrac{GM}{r^3}\,\mathrm{diag}(2;\ -1;\ -1)$. Tổng các phần tử trên đường chéo bằng 0, vì $\nabla \cdot \vec a = -4\pi G\rho = 0$ ngoài vật chất.
 
@@ -125,6 +129,8 @@ export default {
         vao: (c) => c.cauHinh({ macDinh: true, che: 'ngoai', hien: { cap: true, vet: true, elip: true, mui: false }, theo: false, mayAnh: 'toan' }),
         ra: (c) => c.imTieng(),
         nut: {},
+        // bước không có nút «thử ngay»: khi xem như video thì thả lại đám hạt cho thấy cặp ngang chụm, cặp dọc tách
+        trinhDien: (c) => c.thaLai(),
       },
       {
         ten: 'Thể tích: ngoài vật chất và trong vật chất',
@@ -480,12 +486,13 @@ export default {
     const trucElip = [0, 1, 2].map(() => { const d = new DuongDay(2, { mau: 0xffe2a8, rong: 2, quang: 0.12, sang: 1.5, cong: true }); scene.add(d.line); return d; });
     // quả cầu cỡ lúc thả (để so), đi theo tâm đám
     const cauGoc = new THREE.Group();
+    let nhanCoTha;
     {
       const g = new THREE.Mesh(new THREE.SphereGeometry(RC, 48, 32), kinh({ mau: 0xffffff, nen: 0, vien: 0.22, luoi: 0, mu: 3 }));
       cauGoc.add(g);
-      const n = taoNhan(chuCanh("canh.co-luc-tha", "cỡ lúc thả"), 'mo tran');
-      n.position.set(RC * 0.72, RC * 0.82, 0);
-      cauGoc.add(n);
+      nhanCoTha = taoNhan(chuCanh("canh.co-luc-tha", "cỡ lúc thả"), 'mo tran');
+      nhanCoTha.position.set(RC * 0.72, RC * 0.82, 0);
+      cauGoc.add(nhanCoTha);
     }
     scene.add(cauGoc);
 
@@ -961,30 +968,55 @@ export default {
       capNhatTieng(dt);
       choDoThi -= dt;
       if (choDoThi <= 0) { choDoThi = 0.1; veDoThi(); }
+      // nhãn chạm nhau thì nhãn kém quan trọng dời hoặc ẩn: đám hạt trước, rồi các vật lời giảng nhắc (cặp hạt,
+      // hành tinh, quả cầu vật chất, Mặt Trăng, hai bướu, thành phố), cuối cùng là chú thích phụ
+      choNhan -= dtThuc ?? dt;
+      if (choNhan <= 0) {
+        choNhan = 0.15;
+        dsNhan[dsNhan.length - 1].tat = !nhanTP.visible;
+        goNhanDeNhau(dsNhan, app.camera, app.rong, app.cao);
+      }
     }
+    let choNhan = 0;
+    const dsNhan = [
+      { nhan: nhanDam, uuTien: 80 }, { nhan: nhanDoc, uuTien: 70 }, { nhan: nhanNgang, uuTien: 70 },
+      { nhan: nhanHT, uuTien: 60 }, { nhan: nhanKhoi, uuTien: 60 }, { nhan: nhanTrang, uuTien: 70 },
+      { nhan: nhanBuou1, uuTien: 65 }, { nhan: nhanBuou2, uuTien: 60 },
+      { nhan: nhanPD, uuTien: 20 }, { nhan: nhanCoTha, uuTien: 20 },
+      { nhan: nhanTP, uuTien: 60 },   // luôn để cuối: bài tự ẩn nhãn này khi thành phố quay ra sau
+    ];
 
     function hud() {
       const cd = CD();
       if (S.che === 'trieu') {
+        // Dòng đầu là con số chính (trên điện thoại ô thu gọn chỉ còn dòng đầu).
         return [
-          [chuCanh("canh.che-do", "Chế độ"), chuCanh("canh.thuy-trieu-cua-mat-trang-tren-trai-dat", "Thủy triều của Mặt Trăng trên Trái Đất")],
-          [chuCanh("canh.thoi-gian", "Thời gian"), chuCanh("canh.gio-phut", "{0} giờ {1} phút", [so(Math.floor(S.t), 0), so(Math.floor((S.t % 1) * 60), 0)])],
           [chuCanh("canh.muc-nuoc-o-thanh-pho", "Mực nước ở thành phố"), chuCanh("canh.m-so-voi-trung-binh", "{0} m so với trung bình", [so(mucNuocTP(), 2)])],
+          [chuCanh("canh.thoi-gian", "Thời gian"), chuCanh("canh.gio-phut", "{0} giờ {1} phút", [so(Math.floor(S.t), 0), so(Math.floor((S.t % 1) * 60), 0)])],
+          [chuCanh("canh.che-do", "Chế độ"), chuCanh("canh.thuy-trieu-cua-mat-trang-tren-trai-dat", "Thủy triều của Mặt Trăng trên Trái Đất")],
           [chuCanh("canh.mat-trang", "Mặt Trăng"), chuCanh("canh.dinh-buou-m", "{0} · đỉnh bướu {1} m", [S.dTrang === D_HINH ? chuCanh("canh.o-khoang-cach-that-trung-binh", "ở khoảng cách thật trung bình") : chuCanh("canh.xa-gap-lan-that", "xa gấp {0} lần thật", [so(S.dTrang / D_HINH, 2)]), so(dinhBuou(S.dTrang), 3)])],
         ];
       }
-      const d = [[chuCanh("canh.che-do", "Chế độ"), cd.ten], [chuCanh("canh.thoi-gian-tu-luc-tha-c7eab9", "Thời gian từ lúc thả"), chuCanh("canh.don-vi-mo-phong", "{0} (đơn vị mô phỏng)", [so(S.t, 2)])]];
-      d.push([chuCanh("canh.truc-doc-ngang-so-voi-luc-tha", "Trục dọc / ngang so với lúc thả"), `${so(doDo.ar, 3)} / ${so(doDo.at, 3)}`]);
-      d.push([chuCanh("canh.the-tich-so-voi-luc-tha", "Thể tích so với lúc thả"), so(doDo.V, 3)]);
+      // Tối đa 5 dòng. Chế độ đã hiện ở bảng điều khiển nên không nhắc lại; dòng đầu là con số chính của chế độ:
+      // ngoài vật chất là hai trục (kéo, ép), trong vật chất và năng lượng tối là thể tích.
       const rTha = Math.hypot(...tamTha());
+      const dTruc = [chuCanh("canh.truc-doc-ngang-so-voi-luc-tha", "Trục dọc / ngang so với lúc thả"), `${so(doDo.ar, 3)} / ${so(doDo.at, 3)}`];
+      const dTheTich = [chuCanh("canh.the-tich-so-voi-luc-tha", "Thể tích so với lúc thả"), so(doDo.V, 3)];
+      const dGio = [chuCanh("canh.thoi-gian-tu-luc-tha-c7eab9", "Thời gian từ lúc thả"), chuCanh("canh.don-vi-mo-phong", "{0} (đơn vị mô phỏng)", [so(S.t, 2)])];
       if (S.che === 'ngoai') {
         const k = GM_HANH_TINH / Math.pow(doDo.r, 3);
-        d.push([chuCanh("canh.thuy-trieu-luc-nay", "Thủy triều lúc này"), chuCanh("canh.keo-ep-moi-phuong-ngang-tong-0", "kéo {0} · ép mỗi phương ngang {1} · tổng 0", [soNghia(2 * k, 3), soNghia(k, 3)])]);
-        d.push([chuCanh("canh.cho-tha", "Chỗ thả"), chuCanh("canh.r-keo-luc-tha-gap-lan-cho-mac", "r = {0} · kéo lúc thả gấp {1} lần chỗ mặc định", [so(rTha, 2), so(tiSoKeo(rTha), 2)])]);
-      } else if (S.che === 'trong') {
+        return [
+          dTruc, dGio, dTheTich,
+          [chuCanh("canh.thuy-trieu-luc-nay", "Thủy triều lúc này"), chuCanh("canh.keo-ep-moi-phuong-ngang-tong-0", "kéo {0} · ép ngang {1} · tổng 0", [soNghia(2 * k, 3), soNghia(k, 3)])],
+          [chuCanh("canh.cho-tha", "Chỗ thả"), chuCanh("canh.r-keo-luc-tha-gap-lan-cho-mac", "r = {0} · kéo lúc thả gấp {1} lần chỗ mặc định", [so(rTha, 2), so(tiSoKeo(rTha), 2)])],
+        ];
+      }
+      const d = [dTheTich];
+      if (S.che === 'trong') {
         const vv = vddvLucTha(cd.truong, rTha);
         d.push([chuCanh("canh.v-v-luc-tha", "V̈/V lúc thả"), rTha + RC < R_KHOI ? `−4πGρ = −3·(4πGρ/3) = ${so(vv, 3)}` : rTha - RC >= R_KHOI ? chuCanh("canh.0-dam-hat-nam-ngoai-vat-chat", "0 (đám hạt nằm ngoài vật chất)") : chuCanh("canh.dam-hat-vat-qua-mat-qua-cau", "đám hạt vắt qua mặt quả cầu")]);
       } else d.push([chuCanh("canh.v-v-luc-tha", "V̈/V lúc thả"), `+Λc² = 3·(Λc²/3) = ${so(3 * cd.truong.H2, 3)}`]);
+      d.push(dTruc, dGio, [chuCanh("canh.che-do", "Chế độ"), cd.ten]);
       return d;
     }
 

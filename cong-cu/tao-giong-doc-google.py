@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
-"""Tạo giọng đọc lời giảng bằng giọng Google Chirp 3 HD (giọng dùng cho mọi lời giảng tiếng Việt của Trí Lữ).
+"""Tạo giọng đọc lời giảng bằng giọng Google Chirp 3 HD (giọng dùng cho mọi lời giảng của Trí Lữ).
 
-Giọng đã chọn sau khi nghe thử (12/11/2026): giọng nam «Algieba», tốc độ 1,2.
+GIỌNG (chủ dự án duyệt ngày 16/11/2026, dùng cho mọi thứ tiếng, tốc độ 1,05): «Aoede» (nữ, giọng mặc định của app) và
+«Achird» (nam). Giọng «Algieba» (nam, tốc độ 1,2) là giọng của bản 3.7, app giữ làm dự phòng tới khi hai giọng mới thu đủ.
+PHẢI nêu giọng bằng --giong: công cụ không tự chọn. Mỗi giọng một thư mục: giong-doc/<giọng>/ (tiếng Việt),
+giong-doc/<giọng>-<mã tiếng>/ (thứ tiếng khác); mục cùng tên trong giong-doc/danh-sach.json.
 Giọng Microsoft (edge-tts, tệp tao-giong-doc.py) nghe còn máy: không dùng cho lời giảng nữa.
 
 Chạy (từ thư mục dự án; máy đã đăng nhập gcloud, có ffmpeg):
-    uvx --from mlx-whisper python cong-cu/tao-giong-doc-google.py              mọi bài có lời trong src/loi-doc/vi/
+    uvx --from mlx-whisper python cong-cu/tao-giong-doc-google.py --giong aoede      mọi bài có lời trong src/loi-doc/vi/
+    … --giong achird         giọng nam               … --toc-do 1.05  tốc độ đọc (mặc định theo giọng: 1,05; Algieba 1,2)
+    … --tieng ko             thứ tiếng khác: lời đọc lấy ở src/loi-doc/<mã>/, mã vùng của giọng (ko-KR…) lấy ở
+                             src/ngon-ngu/danh-sach.json
+    … --dem                  CHỈ ĐẾM số ký tự sẽ gửi cho các bước chưa có tiếng, không gọi dịch vụ, không ghi gì
     … --bai he-mat-troi      chỉ một bài            … --lam-lai      tạo lại hết
     … --tran 230000          trần số ký tự gửi đi mỗi tháng (mặc định 230 000; chạm trần thì dừng, không gửi)
     … --khong-phu-de         không tạo mốc phụ đề sau khi tạo tiếng
@@ -26,12 +33,37 @@ sys.modules.setdefault('edge_tts', types.ModuleType('edge_tts'))        # công 
 _spec = importlib.util.spec_from_file_location('cong_cu_cu', GOC / 'cong-cu' / 'tao-giong-doc.py')
 cu = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(cu)
 
-GIONG = os.environ.get('GIONG', 'Algieba')            # tên giọng Chirp 3 HD
-TOC_DO = float(os.environ.get('TOCDO', '1.2'))
+# Giọng và tốc độ mặc định của từng giọng. Thêm giọng: thêm một dòng ở đây và một mục trong DS_GIONG của
+# src/khung/ung-dung-giong-doc.js (danh sách giọng người học chọn được).
+BANG_GIONG = {'aoede': ('Aoede', 1.05), 'achird': ('Achird', 1.05), 'algieba': ('Algieba', 1.2)}
+
+
+def _tham_so_som():
+    """Giọng, tốc độ, thứ tiếng phải biết ngay lúc nạp tệp (tên thư mục, tên giọng của máy): đọc trước từ dòng lệnh."""
+    ap = argparse.ArgumentParser(add_help=False)
+    ap.add_argument('--giong'); ap.add_argument('--toc-do', type=float); ap.add_argument('--tieng', default='vi')
+    return ap.parse_known_args()[0]
+
+
+_SOM = _tham_so_som()
+_CAU_HINH = json.loads((GOC / 'src' / 'ngon-ngu' / 'danh-sach.json').read_text('utf-8'))
+_MUC_TIENG = next((n for n in _CAU_HINH['ngonNgu'] if n['ma'] == _SOM.tieng), None)
+if _MUC_TIENG is None:
+    sys.exit(f'Không có thứ tiếng «{_SOM.tieng}» trong src/ngon-ngu/danh-sach.json.')
+_MA_GIONG = (_SOM.giong or os.environ.get('GIONG') or '').lower()
+if _MA_GIONG not in BANG_GIONG:
+    if any(a in ('-h', '--help') for a in sys.argv[1:]):
+        _MA_GIONG = 'aoede'
+    else:
+        sys.exit('Phải nêu giọng: --giong aoede (nữ) hoặc --giong achird (nam); --giong algieba là giọng cũ của bản 3.7.')
+GIONG = BANG_GIONG[_MA_GIONG][0]                  # tên giọng Chirp 3 HD
+TOC_DO = _SOM.toc_do or float(os.environ.get('TOCDO', BANG_GIONG[_MA_GIONG][1]))
+TIENG = _SOM.tieng
+VUNG = _MUC_TIENG['giong']                        # mã vùng của giọng: vi-VN, en-US, cmn-CN, ja-JP, ko-KR
 LUOT = int(os.environ.get('LUOT', '2'))
 NGUONG = int(os.environ.get('NGUONG', '3'))      # số chỗ lệch từ đó trở lên mới đọc lại
-KHOA = GIONG.lower()
-TEN_MAY = f'vi-VN-Chirp3-HD-{GIONG}'
+KHOA = _MA_GIONG if TIENG == 'vi' else f'{_MA_GIONG}-{TIENG}'     # tên thư mục tiếng và tên mục trong danh-sach.json
+TEN_MAY = f'{VUNG}-Chirp3-HD-{GIONG}'
 PHIEN_BAN = 'google-chirp3hd-ca-doan-loudnorm2-mono-44k-96k'
 cu.MA_HOA = ['-ac', '1', '-ar', '44100', '-c:a', 'libmp3lame', '-b:a', '96k']     # giọng tốt thì giữ dải cao, đừng nén 24 kHz
 ENV = dict(os.environ, PATH='/opt/homebrew/share/google-cloud-sdk/bin:/opt/homebrew/bin:' + os.environ.get('PATH', ''))
@@ -78,7 +110,7 @@ def goi_google(loi):
     if TK is None:
         TK = lenh('gcloud', 'auth', 'print-access-token'); PRJ = lenh('gcloud', 'config', 'get-value', 'project')
         if not TK: sys.exit('Không lấy được đăng nhập gcloud.')
-    than = {'input': {'text': loi}, 'voice': {'languageCode': 'vi-VN', 'name': TEN_MAY},
+    than = {'input': {'text': loi}, 'voice': {'languageCode': VUNG, 'name': TEN_MAY},
             'audioConfig': {'audioEncoding': 'LINEAR16', 'sampleRateHertz': 48000, 'speakingRate': TOC_DO}}
     loi_cuoi = ''
     for lan in range(5):
@@ -125,7 +157,7 @@ def nghe_va_cham(tep_wav, loi):
     with wave.open(str(tep_wav)) as w:
         sr = w.getframerate(); x = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float32) / 32768
     x16 = np.interp(np.arange(0, len(x), sr / 16000), np.arange(len(x)), x).astype(np.float32)
-    kq = mlx_whisper.transcribe(x16, path_or_hf_repo='mlx-community/whisper-large-v3-turbo', language='vi', condition_on_previous_text=False)
+    kq = mlx_whisper.transcribe(x16, path_or_hf_repo='mlx-community/whisper-large-v3-turbo', language=TIENG.split('-')[0], condition_on_previous_text=False)
     co_so = lambda t: any(c.isdigit() for c in t)
     goc = [t for t in chuan(loi) if not co_so(t)]; nghe = [t for t in chuan(kq['text']) if not co_so(t)]
     sm = difflib.SequenceMatcher(None, goc, nghe, autojunk=False)
@@ -138,6 +170,10 @@ def main():
     ap.add_argument('--bai', action='append'); ap.add_argument('--lam-lai', action='store_true'); ap.add_argument('--khong-nghe', action='store_true')
     ap.add_argument('--tran', type=int, default=230000, help='trần số ký tự gửi đi mỗi tháng (mặc định 230 000)')
     ap.add_argument('--khong-phu-de', action='store_true', help='không tạo mốc phụ đề sau khi tạo tiếng')
+    ap.add_argument('--giong', help='BẮT BUỘC: aoede (nữ), achird (nam) hoặc algieba (giọng cũ)')
+    ap.add_argument('--toc-do', type=float, help='tốc độ đọc (mặc định theo giọng: 1,05; Algieba 1,2)')
+    ap.add_argument('--tieng', default='vi', help='mã thứ tiếng trong src/ngon-ngu/danh-sach.json (mặc định vi)')
+    ap.add_argument('--dem', action='store_true', help='chỉ đếm số ký tự sẽ gửi, không gọi dịch vụ, không ghi gì')
     tham = ap.parse_args()
     global TRAN
     TRAN = tham.tran
@@ -147,7 +183,8 @@ def main():
         _chay(tham, vua_tao)
     except ChamTran as e:
         print('DỪNG:', e, flush=True)
-    if vua_tao and not tham.khong_phu_de:
+    # Mốc phụ đề từng câu mới làm được cho tiếng Việt (tao-phu-de.py); thứ tiếng khác thì trang tự dàn phụ đề theo độ dài.
+    if vua_tao and not tham.khong_phu_de and TIENG == 'vi':
         _sp = importlib.util.spec_from_file_location('tao_phu_de', GOC / 'cong-cu' / 'tao-phu-de.py')
         pd = importlib.util.module_from_spec(_sp); _sp.loader.exec_module(pd)
         cau = pd.chia_cau([l for l, _ in vua_tao])
@@ -157,23 +194,35 @@ def main():
     print(f'Xong. Số ký tự đã gửi đi lần này: {SO_KY_TU}. Giọng: {TEN_MAY}, tốc độ {TOC_DO}.')
 
 
+def doc_loi_doc_tieng():
+    """Lời đọc của thứ tiếng đang làm: { id bài: [lời bước 1, …] }. Tiếng Việt dùng hàm của công cụ cũ."""
+    if TIENG == 'vi': return cu.doc_loi_doc()
+    thu_muc = GOC / 'src' / 'loi-doc' / TIENG
+    if not thu_muc.is_dir(): sys.exit(f'Chưa có lời đọc cho thứ tiếng «{TIENG}»: thiếu thư mục src/loi-doc/{TIENG}/')
+    return {t.stem: json.loads(t.read_text('utf-8'))['buoc'] for t in sorted(thu_muc.glob('*.json'))}
+
+
 def _chay(tham, vua_tao):
-    loi_doc = cu.doc_loi_doc()
+    loi_doc = doc_loi_doc_tieng()
     ds_bai = tham.bai or list(loi_doc)
-    TAM.mkdir(parents=True, exist_ok=True)
     danh_sach = json.loads(cu.DANH_SACH.read_text('utf-8')) if cu.DANH_SACH.exists() else {}
     muc = danh_sach.setdefault(KHOA, {'bai': {}})
-    muc.update({'giongMay': TEN_MAY, 'tocDo': TOC_DO, 'ten': 'Giọng đọc'})
+    if not tham.dem:
+        TAM.mkdir(parents=True, exist_ok=True)
+        muc.update({'giong': _MA_GIONG, 'ngonNgu': TIENG, 'giongMay': TEN_MAY, 'tocDo': TOC_DO, 'ten': 'Giọng đọc'})
+    tong_dem = 0
     for id_bai in ds_bai:
-        if id_bai not in loi_doc: sys.exit(f'Không có bài «{id_bai}» trong src/loi-doc/vi/')
+        if id_bai not in loi_doc: sys.exit(f'Không có bài «{id_bai}» trong src/loi-doc/{TIENG}/')
         cu_tep = {b['buoc']: b for b in muc['bai'].get(id_bai, {}).get('tep', [])}
         moi = []
+        dem_bai = 0
         for i, loi in enumerate(loi_doc[id_bai], 1):
-            loi_may = cu.loi_cho_may(loi)
+            loi_may = cu.loi_cho_may(loi) if TIENG == 'vi' else re.sub(r'\s+', ' ', loi).strip()      # đổi số, ký hiệu thành chữ đọc: mới có luật cho tiếng Việt
             bam = hashlib.sha256('\n'.join([loi_may, TEN_MAY, str(TOC_DO), PHIEN_BAN]).encode()).hexdigest()[:16]
             ten = f'{id_bai}-{i}.mp3'; ra = cu.THU_MUC_RA / KHOA / ten
             c = cu_tep.get(i)
             if not tham.lam_lai and c and c.get('bam') == bam and ra.exists(): moi.append(c); continue
+            if tham.dem: dem_bai += len(loi_may); continue
             tot = None
             for luot in range(1, LUOT + 1):
                 tep = TAM / f'{id_bai}-{i}.luot{luot}.wav'
@@ -188,7 +237,13 @@ def _chay(tham, vua_tao):
             print(f'  → giữ lượt có {tot[0]} chỗ khác · {moi[-1]["giay"]} giây', flush=True)
             # Ghi ngay sau mỗi bước (chạm trần ký tự giữa chừng thì các tệp đã tạo vẫn có trong danh sách).
             ghi_ds(danh_sach, muc, id_bai, moi + [cu_tep[j] for j in sorted(cu_tep) if j > i])
+        if tham.dem:
+            tong_dem += dem_bai
+            if dem_bai: print(f'  {id_bai}: {dem_bai} ký tự chưa có tiếng', flush=True)
+            continue
         ghi_ds(danh_sach, muc, id_bai, moi)
+    if tham.dem:
+        print(f'CHỈ ĐẾM (chưa gửi gì): giọng {TEN_MAY}, tốc độ {TOC_DO}, thư mục giong-doc/{KHOA}/. Cần gửi {tong_dem} ký tự cho một lượt đọc (mỗi bước có thể đọc tới {LUOT} lượt).', flush=True)
 
 
 def ghi_ds(danh_sach, muc, id_bai, ds):

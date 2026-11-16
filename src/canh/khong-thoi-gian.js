@@ -29,9 +29,9 @@ const DO = Math.PI / 180;
 const VAT = [
   { id: 'dat', ten: chuCanh("canh.trai-dat", "Trái Đất"), C: 0.00887 / 6.371e6, Rkm: 6371, mau: 0x4f8dff, moTa: chuCanh("canh.ban-kinh-6-371-km", "bán kính 6 371 km") },
   { id: 'mt', ten: chuCanh("canh.mat-troi", "Mặt Trời"), C: 2.953 / 695700, Rkm: 695700, mau: 0xffc65c, moTa: chuCanh("canh.ban-kinh-695-700-km", "bán kính 695 700 km") },
-  { id: 'lt', ten: chuCanh("canh.sao-lun-trang", "Sao lùn trắng"), C: 3.012 / 5900, Rkm: 5900, mau: 0xdfeaff, moTa: chuCanh("canh.nhu-sao-sirius-b-nang-co-mat-troi", "như sao Sirius B: nặng cỡ Mặt Trời, to cỡ Trái Đất") },
+  { id: 'lt', ten: chuCanh("canh.sao-lun-trang", "Sao lùn trắng"), C: 3.012 / 5900, Rkm: 5900, mau: 0xdfeaff, moTa: chuCanh("canh.nhu-sao-sirius-b-nang-co-mat-troi", "nặng cỡ Mặt Trời, to cỡ Trái Đất") },
   { id: 'nt', ten: chuCanh("canh.sao-neutron", "Sao neutron"), C: 4.134 / 12, Rkm: 12, mau: 0x9fe8ff, moTa: chuCanh("canh.nang-1-4-mat-troi-ban-kinh-chi", "nặng 1,4 Mặt Trời, bán kính chỉ 12 km") },
-  { id: 'ld', ten: chuCanh("canh.lo-den", "Lỗ đen"), C: 1, Rkm: null, mau: 0x000000, moTa: chuCanh("canh.toan-bo-khoi-luong-nam-trong-chan-troi", "toàn bộ khối lượng nằm trong chân trời sự kiện") },
+  { id: 'ld', ten: chuCanh("canh.lo-den", "Lỗ đen"), C: 1, Rkm: null, mau: 0x000000, moTa: chuCanh("canh.toan-bo-khoi-luong-nam-trong-chan-troi", "mọi khối lượng ở trong chân trời") },
 ];
 const C_NT = VAT[3].C;
 // Đích của các thử thách (tính lại trong kiem-tra/kiem-phan-3-cu.mjs)
@@ -191,7 +191,7 @@ export default {
   ten: 'Không gian cong quanh một khối lượng',
   moTa: 'Phần không gian của độ cong: mặt Flamm, thước đo dài hơn hiệu bán kính',
   yChinh: 'Quanh một khối lượng, chu vi vòng tròn vẫn là $2\\pi r$, nhưng khoảng cách đo bằng thước giữa hai vòng **dài hơn** hiệu hai bán kính: $\\dd\\ell = \\dd r/\\sqrt{1 - r_s/r}$. Mặt cong trên hình (mặt Flamm) là lát cắt «cùng lúc» qua xích đạo, nhúng vào không gian ba chiều để thấy được phần dư ấy. Nó là phần **không gian** của độ cong; phần thời gian (Bài 9, Bài 10) mới là thứ chính làm vật chậm rơi.',
-  mayAnh: { viTri: [0, 6.6, 13.6], dich: [0, -0.7, 0], fov: 42, min: 2.5, max: 40, gocMax: Math.PI * 0.62 },
+  mayAnh: { viTri: [0, 6.6, 13.6], dich: [0, -0.7, 0], fov: 42, min: 2.5, max: 40, gocMax: Math.PI * 0.62, hep: 0.55 },
   giaiThich: R`
     - Mặt cong là **lát cắt «cùng lúc»** ($t$ = hằng số) qua mặt phẳng xích đạo của không gian quanh khối lượng, nhúng vào không gian ba chiều tưởng tượng. Chiều đứng chỉ để vẽ, không có thật.
     - $r$ được định nghĩa qua chu vi: vòng tròn có chu vi $2\pi r$. Nhưng khoảng cách thật theo phương bán kính là $\dd\ell = \dd r/\sqrt{1 - r_s/r}$, dài hơn $\dd r$.
@@ -264,7 +264,9 @@ export default {
           +++ Đi sâu: lấy công thức từ metric Schwarzschild
           Metric Schwarzschild (Bài 9) là
 
-          $$ \dd s^2 = -\left(1 - \frac{r_s}{r}\right)c^2\dd t^2 + \frac{\dd r^2}{1 - r_s/r} + r^2\left(\dd\theta^2 + \sin^2\theta\,\dd\phi^2\right). $$
+          $$ \dd s^2 = -\left(1 - \frac{r_s}{r}\right)c^2\dd t^2 + \frac{\dd r^2}{1 - r_s/r} $$
+
+          $$ \qquad +\, r^2\left(\dd\theta^2 + \sin^2\theta\,\dd\phi^2\right). $$
 
           Lát cắt «cùng lúc» có $\dd t = 0$; mặt phẳng xích đạo có $\theta = 90°$, $\dd\theta = 0$. Còn lại hình học của một mặt hai chiều:
 
@@ -318,7 +320,9 @@ export default {
           +++ Đi sâu: công thức trường yếu
           Khi $r_s/r$ nhỏ, $1/\sqrt{1 - x} \approx 1 + x/2$, nên
 
-          $$ \dd\ell \approx \left(1 + \frac{r_s}{2r}\right)\dd r \ \Rightarrow\ \ell \approx (r_2 - r_1) + \frac{r_s}{2}\ln\frac{r_2}{r_1}. $$
+          $$ \dd\ell \approx \left(1 + \frac{r_s}{2r}\right)\dd r $$
+
+          $$ \Rightarrow\ \ell \approx (r_2 - r_1) + \frac{r_s}{2}\ln\frac{r_2}{r_1}. $$
 
           Với Mặt Trời ($r_s = 2{,}95$ km) đi từ bề mặt ($695\,700$ km) tới 1 AU: $\ln(149{,}6 \times 10^6 / 695\,700) \approx 5{,}37$, phần dư $\approx 1{,}48\ \text{km} \times 5{,}37 \approx 7{,}9$ km.
           +++`,
@@ -350,11 +354,15 @@ export default {
           +++ Đi sâu: suy ra mặt Flamm
           Đặt một mặt tròn xoay $z(r)$ trong không gian phẳng ba chiều với tọa độ trụ $(r;\ \phi;\ z)$. Khoảng cách trên mặt:
 
-          $$ \dd\ell^2 = \dd r^2 + \dd z^2 + r^2\dd\phi^2 = \left(1 + z'^2\right)\dd r^2 + r^2\dd\phi^2. $$
+          $$ \dd\ell^2 = \dd r^2 + \dd z^2 + r^2\dd\phi^2 $$
+
+          $$ \dd\ell^2 = \left(1 + z'^2\right)\dd r^2 + r^2\dd\phi^2. $$
 
           Muốn khớp với lát cắt Schwarzschild $\dd\ell^2 = \dd r^2/(1 - r_s/r) + r^2\dd\phi^2$, cần
 
-          $$ 1 + z'^2 = \frac{1}{1 - r_s/r} \ \Rightarrow\ z'^2 = \frac{r_s}{r - r_s} \ \Rightarrow\ z' = \sqrt{\frac{r_s}{r - r_s}}. $$
+          $$ 1 + z'^2 = \frac{1}{1 - r_s/r} $$
+
+          $$ \Rightarrow\ z'^2 = \frac{r_s}{r - r_s} \ \Rightarrow\ z' = \sqrt{\frac{r_s}{r - r_s}}. $$
 
           Tích phân: $z = 2\sqrt{r_s(r - r_s)}$, tức $r = r_s + z^2/(4r_s)$: một parabol quay quanh trục đứng. Ví dụ $z(2\,r_s) = 2\,r_s$, $z(5\,r_s) = 4\,r_s$. Phần chiều dài dư nằm hết ở độ dốc $z'$; phần xa tâm thoải nên gần như không dư.
           +++`,
@@ -408,7 +416,11 @@ export default {
           +++ Đi sâu: so hai phần trong metric trường yếu
           Ở trường yếu, viết trong một hệ tọa độ thuận tiện (Hartle, chương 6), metric quanh khối lượng có dạng
 
-          $$ \dd s^2 = -\left(1 + \frac{2\Phi}{c^2}\right)c^2\dd t^2 + \left(1 - \frac{2\Phi}{c^2}\right)\left(\dd x^2 + \dd y^2 + \dd z^2\right), \qquad \Phi = -\frac{GM}{r}. $$
+          $$ \dd s^2 = -\left(1 + \frac{2\Phi}{c^2}\right)c^2\dd t^2 $$
+
+          $$ \qquad +\left(1 - \frac{2\Phi}{c^2}\right)\left(\dd x^2 + \dd y^2 + \dd z^2\right), $$
+
+          $$ \Phi = -\frac{GM}{r}. $$
 
           Hai chỗ lệch khỏi phẳng có cùng độ lớn $2|\Phi|/c^2$. Với một vật đi quãng $\dd x = v\,\dd t$:
 
@@ -523,7 +535,7 @@ export default {
     for (let r = 1; r <= R_MAX; r++) phang.add(duongTron(r, { mau: 0xffffff, doMo: 0.07 }));
     scene.add(phang);
     // nhãn lát cắt và mũi tên «chiều phụ chỉ để vẽ»
-    const nhanLat = taoNhan(chuCanh("canh.lat-cat-cung-luc-t-hang-so-qua", "Lát cắt «cùng lúc» (t = hằng số) qua mặt phẳng xích đạo<small>hai chiều không gian; chiều thời gian và một chiều không gian đã bỏ</small>"), 'mo', { giua: true });
+    const nhanLat = taoNhan(chuCanh("canh.lat-cat-cung-luc-t-hang-so-qua", "Lát cắt «cùng lúc»<small>t = hằng số, mặt phẳng xích đạo</small>"), 'mo', { giua: true });
     nhanLat.position.set(0, 0.3, -R_MAX - 0.3);
     const chieuPhu = muiTen([4.9, -2.0, -4.9], [4.9, 1.0, -4.9], { mau: 0xc8aaff, rong: 2, dau: 0.28 });
     const nhanChieuPhu = taoNhan(chuCanh("canh.chieu-phu-chi-de-ve-khong-phai-mot", "chiều phụ chỉ để vẽ<small>không phải một chiều thật</small>"), 'tran');
@@ -879,15 +891,19 @@ export default {
         const ds = [
           { nhan: nhanDo, uuTien: 10, tat: !coTay, giu: true }, { nhan: nhanVat, uuTien: 9 },
           { nhan: nhanThuoc, uuTien: 6 }, { nhan: nhanPh, uuTien: 6 }, { nhan: nhanOng, uuTien: 5, tat: !coTay },
-          { nhan: nhanGioiHan, uuTien: 4, tat: !coTay }, ...nhanMoc.map((n) => ({ nhan: n, uuTien: 4, tat: !coTay })),
+          // giới hạn 8/9 chỉ ở bước nhìn vào trong ngôi sao; thang «Nén» chỉ ghi tên ở hai đầu và ở vật đang chọn
+          { nhan: nhanGioiHan, uuTien: 4, tat: !coTay || coCau }, ...nhanMoc.map((n, i) => ({ nhan: n, uuTien: 4, tat: !coTay || !(i === 0 || i === nhanMoc.length - 1 || i === iMocHien()) })),
           // nhìn từ trên xuống: nhãn lát cắt chạm mép trên khung hình, mũi tên chiều phụ chĩa thẳng vào mắt nên ẩn cả hai
-          { nhan: nhanLat, uuTien: 3, tat: app.camera.position.y > 12 }, { nhan: nhanChieuPhu, uuTien: 3, tat: app.camera.position.y > 12 }, ...nhanVong.map(([n]) => ({ nhan: n, uuTien: 2 })),
-          ...nhanSo.map((n, i) => ({ nhan: n, uuTien: 1, tat: nhanSoTat[i] })),
+          // nhãn lát cắt, chiều phụ: chỉ ở hai bước đầu (giới thiệu mặt), khi chưa có thước kéo
+          { nhan: nhanLat, uuTien: 3, tat: coTay || app.camera.position.y > 12 }, { nhan: nhanChieuPhu, uuTien: 3, tat: coTay || app.camera.position.y > 12 }, ...nhanVong.map(([n, r]) => ({ nhan: n, uuTien: 2, tat: r % 2 === 1 || r > 4 })),
+          ...nhanSo.map((n, i) => ({ nhan: n, uuTien: 1, tat: nhanSoTat[i] || i % 2 === 0 })),   // số trên thước: mỗi hai vạch một số
         ];
         goNhanDeNhau(ds, app.camera, app.rong, app.cao);
       }
     }
     let choNhan = 0;
+    // chỉ số của vật đang chọn trên thang «Nén» (−1 nếu độ đặc không trùng vật nào)
+    const iMocHien = () => (laLoDen ? MOC_NEN.length - 1 : MOC_NEN.findIndex(([v]) => v.C && Math.abs(Math.log(v.C / C)) < 0.02));
 
     // Tham số riêng khi chụp ảnh kiểm thử (chỉ ở chế độ im lặng): ?thu=b3 | b4 | b5 | b6 đặt mô hình vào trạng thái đạt thử thách.
     const thuChup = app.imLang ? new URLSearchParams(location.search).get('thu') : null;
@@ -908,19 +924,22 @@ export default {
       const rs = laLoDen ? 1 : C;
       const d12 = khoangCachThat(1, 2, rs);
       const du = d12 - 1;
-      const dong = [
-        [chuCanh("canh.do-dac-ban-kinh-schwarzschild-ban-kinh", "Độ đặc (bán kính Schwarzschild / bán kính)"), laLoDen ? chuCanh("canh.1-lo-den", "1 (lỗ đen)") : (C < 1e-3 ? soNghia(C, 3) : so(C, 3))],
-        [chuCanh("canh.tu-vong-1-toi-vong-2", "Từ vòng 1 tới vòng 2"), chuCanh("canh.phang-1-don-vi-do-bang-thuoc-don", "phẳng: 1 đơn vị · đo bằng thước: {0} đơn vị", [du < 1e-3 ? `1 + ${soNghia(du, 2)}` : so(d12, 3)])],
-      ];
-      if (vat?.Rkm) dong.push([chuCanh("canh.voi-that", "Với {0} thật", [vat.ten]), chuCanh("canh.thuoc-dai-hon-tren-quang", "thước dài hơn {0} trên quãng {1}", [doDaiKm(du * vat.Rkm), doDaiKm(vat.Rkm)])]);
+      // Tối đa 5 dòng (trên điện thoại ô thu gọn chỉ còn dòng đầu): dòng đầu là đoạn vòng 1 → vòng 2 đo bằng thước,
+      // các dòng khác chọn theo mức quan trọng ở bước đang mở rồi giữ thứ tự cố định.
+      const dong = [];
+      dong.push([100, chuCanh("canh.tu-vong-1-toi-vong-2", "Từ vòng 1 tới vòng 2"), chuCanh("canh.phang-1-don-vi-do-bang-thuoc-don", "đo bằng thước {0} · phẳng: 1", [du < 1e-3 ? `1 + ${soNghia(du, 2)}` : so(d12, 3)])]);
+      dong.push([90, chuCanh("canh.do-dac-ban-kinh-schwarzschild-ban-kinh", "Độ đặc (bán kính Schwarzschild / bán kính)"), laLoDen ? chuCanh("canh.1-lo-den", "1 (lỗ đen)") : (C < 1e-3 ? soNghia(C, 3) : so(C, 3))]);
+      if (vat?.Rkm) dong.push([70, chuCanh("canh.voi-that", "Với {0} thật", [vat.ten]), chuCanh("canh.thuoc-dai-hon-tren-quang", "thước dư {0} trên {1}", [doDaiKm(du * vat.Rkm), doDaiKm(vat.Rkm)])]);
       if (coTay) {
         const a = Math.min(rA, rB), b = Math.max(rA, rB), l = doDaiThuoc(a, b, rs);
-        dong.push([chuCanh("canh.thuoc-keo-hai-dau", "Thước (kéo hai đầu)"), `ℓ = ${so(l, 3)} · Δr = ${so(b - a, 3)} · ${b - a > 1e-6 ? chuCanh("canh.dai-hon", "dài hơn {0}%", [so((l / (b - a) - 1) * 100, 1)]) : ''}`]);
+        dong.push([80, chuCanh("canh.thuoc-keo-hai-dau", "Thước (kéo hai đầu)"), `ℓ = ${so(l, 3)} · Δr = ${so(b - a, 3)} · ${b - a > 1e-6 ? chuCanh("canh.dai-hon", "dài hơn {0}%", [so((l / (b - a) - 1) * 100, 1)]) : ''}`]);
       }
-      if (!laLoDen && coTay) dong.push([chuCanh("canh.do-doc-o-mep-sao", "Độ dốc ở mép sao"), chuCanh("canh.thuoc-hieu-ban-kinh", "{0}° · thước/hiệu bán kính = {1}", [so(Math.atan(Math.sqrt(C / (1 - C))) / DO, 1), so(1 / Math.sqrt(1 - C), 3)])]);
-      dong.push([chuCanh("canh.dong-ho-o-be-mat", "Đồng hồ ở bề mặt"), laLoDen ? chuCanh("canh.dung-lai-o-chan-troi-so-voi-o", "đứng lại ở chân trời (so với ở xa)") : (1 - nhipDongHo(1, C) < 1e-3 ? chuCanh("canh.cham", "chậm {0}%", [soNghia((1 - nhipDongHo(1, C)) * 100, 2)]) : chuCanh("canh.chay-bang-dong-ho-o-xa", "chạy bằng {0}% đồng hồ ở xa", [so(nhipDongHo(1, C) * 100, 1)]))]);
-      if (kDich(rs, laLoDen) > 1.01) dong.push([chuCanh("canh.do-trung-tren-hinh", "Độ trũng trên hình"), chuCanh("canh.dang-phong-dai-lan", "đang phóng đại {0} lần", [soNghia(kDich(rs, laLoDen), 2)])]);
-      return dong;
+      // độ dốc ở mép sao: chính của bước nhìn ngang (không vẽ quả cầu); đồng hồ: chính của bước tô màu nhịp đồng hồ
+      if (!laLoDen && coTay) dong.push([coCau ? 40 : 75, chuCanh("canh.do-doc-o-mep-sao", "Độ dốc ở mép sao"), chuCanh("canh.thuoc-hieu-ban-kinh", "{0}° · thước/hiệu bán kính = {1}", [so(Math.atan(Math.sqrt(C / (1 - C))) / DO, 1), so(1 / Math.sqrt(1 - C), 3)])]);
+      dong.push([toMau ? 95 : 30, chuCanh("canh.dong-ho-o-be-mat", "Đồng hồ ở bề mặt"), laLoDen ? chuCanh("canh.dung-lai-o-chan-troi-so-voi-o", "đứng lại ở chân trời (so với ở xa)") : (1 - nhipDongHo(1, C) < 1e-3 ? chuCanh("canh.cham", "chậm {0}%", [soNghia((1 - nhipDongHo(1, C)) * 100, 2)]) : chuCanh("canh.chay-bang-dong-ho-o-xa", "chạy bằng {0}% đồng hồ ở xa", [so(nhipDongHo(1, C) * 100, 1)]))]);
+      if (kDich(rs, laLoDen) > 1.01) dong.push([55, chuCanh("canh.do-trung-tren-hinh", "Độ trũng trên hình"), chuCanh("canh.dang-phong-dai-lan", "đang phóng đại {0} lần", [soNghia(kDich(rs, laLoDen), 2)])]);
+      const giu = dong.slice().sort((x, y) => y[0] - x[0]).slice(0, 5);
+      return dong.filter((x) => giu.includes(x)).map((x) => [x[1], x[2]]);
     }
 
     // Đọc trạng thái cho thử thách.

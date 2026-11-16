@@ -61,7 +61,7 @@ export const PT_BANG = {
         ${sau ? `<button class="sau" data-di="${i + 1}"><small>${chu("gd.bai-sau")}</small>${sau.ten}</button>` : '<span style="flex:1"></span>'}
       </div>`;
     this.el.bang.scrollTop = 0;
-    for (const b of this.el.bang.querySelectorAll('button[data-di]')) b.addEventListener('click', () => this.moBai(Number(b.dataset.di), 0, true));
+    for (const b of this.el.bang.querySelectorAll('button[data-di]')) b.addEventListener('click', () => this.chuyenBai(Number(b.dataset.di)));
     for (const b of this.el.bang.querySelectorAll('.tab button')) b.addEventListener('click', () => { this.am.phat('gat'); this.moTab(b.dataset.tab); });
     $('buoc-truoc').addEventListener('click', () => this.buocTruoc());
     $('buoc-sau').addEventListener('click', () => this.buocSau());
@@ -95,7 +95,7 @@ export const PT_BANG = {
       <div class="chan">${chu("gd.mo-hinh-va-loi-giang-do-tri-lu-soan-thang-11-2026-ng")}</div>`;
     this.el.mucLuc.innerHTML = html;
     for (const b of this.el.mucLuc.querySelectorAll('button[data-i]')) {
-      b.addEventListener('click', () => { this.moBai(Number(b.dataset.i), 0, true); this.el.mucLuc.hidden = true; });
+      b.addEventListener('click', () => { this.chuyenBai(Number(b.dataset.i)); this.el.mucLuc.hidden = true; });
     }
   },
 };

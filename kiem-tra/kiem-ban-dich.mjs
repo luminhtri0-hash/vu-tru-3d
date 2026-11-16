@@ -9,6 +9,7 @@ import { join } from 'node:path';
 import { docBai } from '../cong-cu/doc-bai.mjs';
 import { KHOA_HOC, SO_BAI } from '../src/noi-dung/khoa-hoc.js';
 import { THUAT_NGU } from '../src/noi-dung/thuat-ngu.js';
+import { DS_TIENG_DICH } from '../cong-cu/ngon-ngu.mjs';
 
 const thamSo = process.argv.slice(2);
 const docTham = (ten) => {
@@ -21,7 +22,7 @@ const goc = fileURLToPath(new URL('../src/ngon-ngu/', import.meta.url));
 const thuMucDich = docTham('--thu-muc-dich') || goc;
 const doc = (tep) => JSON.parse(readFileSync(tep, 'utf8'));
 const tieng = docTham('--tieng'), phamVi = docTham('--bai'), du = thamSo.includes('--du');
-const dsTieng = ['en', 'zh-CN', 'ja'];
+const dsTieng = DS_TIENG_DICH;
 if (tieng && !dsTieng.includes(tieng)) throw Error('Ngôn ngữ không hợp lệ');
 const cacBai = KHOA_HOC.flatMap((p) => p.bai);
 if (phamVi && !['chung', ...cacBai].includes(phamVi)) throw Error('Không tìm thấy bài ' + phamVi);
@@ -109,11 +110,33 @@ function tachChu(chu, ma) {
   return { ct, nut, tu, nhan, lienKet, deCap, so, leDau };
 }
 const giongTap = (a, b) => JSON.stringify([...a].sort()) === JSON.stringify([...b].sort());
+// Công thức phải giữ nguyên từng lệnh; riêng chữ tiếng Việt trong \text{…} (ví dụ
+// \text{quỹ đạo}, và các chữ không dấu: \text{ngang}, \text{sk} «sự kiện», \text{qt} «quán
+// tính», \text{hd} «hấp dẫn») PHẢI được dịch. Mọi \text{…} khác (đơn vị như \text{km})
+// vẫn phải trùng y nguyên.
+const CHU_VIET = /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/iu;
+const VIET_KHONG_DAU = new Set(['sk', 'ngang', 'qt', 'hd']);
+const laChuViet = (x) => CHU_VIET.test(x) || VIET_KHONG_DAU.has(x.trim());
+const khungCT = (ct) => {
+  const chu = [];
+  return { khung: ct.replace(/\\text\{([^{}]*)\}/g, (_, x) => { chu.push(x); return '\\text{#}'; }), chu };
+};
+function khopCongThuc(goc, dich) {
+  const con = dich.map(khungCT);
+  for (const ct of goc) {
+    const a = khungCT(ct);
+    const i = con.findIndex((b) => b.khung === a.khung
+      && a.chu.every((x, j) => (laChuViet(x) ? b.chu[j].trim() !== '' && !laChuViet(b.chu[j]) : b.chu[j] === x)));
+    if (i < 0) return false;
+    con.splice(i, 1);
+  }
+  return con.length === 0;
+}
 function doiChieu(chu, dich, ma) {
   const a = tachChu(chu, 'vi'), b = tachChu(dich, ma);
   const loi = [], xem = [];
   const muc = { ct: 'công thức KaTeX', nut: 'ID nút', tu: 'ID thuật ngữ', nhan: 'nhãn hộp', lienKet: 'URL/DOI', deCap: 'số bài tham chiếu' };
-  for (const [k, ten] of Object.entries(muc)) if (!giongTap(a[k], b[k])) loi.push(ten);
+  for (const [k, ten] of Object.entries(muc)) if (k === 'ct' ? !khopCongThuc(a.ct, b.ct) : !giongTap(a[k], b[k])) loi.push(ten);
   if (a.leDau !== b.leDau) loi.push('dấu $ lẻ');
   if (!giongTap(a.so, b.so)) {
     // Cùng số lượng nhóm số nhưng khác giá trị là một phép đổi số phải sửa.
@@ -126,6 +149,10 @@ function doiChieu(chu, dich, ma) {
 }
 // Mẫu cố ý sai để bảo đảm bộ kiểm bắt được lỗi dù các trang dịch còn trống.
 assert(doiChieu('Giá \\$5, $x=2$ và $$y=3$$', 'Cost \\$5, $x=3$ and $$y=2$$', 'en').loi.includes('công thức KaTeX'));
+assert.deepEqual(doiChieu('$v_{\\text{quỹ đạo}} = 3\\ \\text{km}$', '$v_{\\text{orbit}} = 3\\ \\text{km}$', 'en'), { loi: [], xem: [] });
+assert(doiChieu('$v_{\\text{quỹ đạo}}$', '$v_{\\text{quỹ đạo}}$', 'en').loi.includes('công thức KaTeX'));
+assert(doiChieu('$3\\ \\text{km}$', '$3\\ \\text{m}$', 'en').loi.includes('công thức KaTeX'));
+assert(doiChieu('$\\chi_{\\text{sk}}$', '$\\chi_{\\text{sk}}$', 'ja').loi.includes('công thức KaTeX'));
 assert.deepEqual(doiChieu('Bài 9, [[Kéo|keo]], {{độ cong}}: 1 200,5', '1,200.5, {{độ cong|curvature}}, [[Drag|keo]], Lesson 9', 'en'), { loi: [], xem: [] });
 assert(doiChieu('[[Kéo|keo]] {{độ cong}}', '[[Drag|x]] {{độ cong khác|curvature}}', 'en').loi.length === 2);
 assert.deepEqual(doiChieu('13,8 tỉ năm', '138億年', 'ja'), { loi: [], xem: [] });

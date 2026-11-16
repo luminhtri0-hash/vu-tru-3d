@@ -1,6 +1,6 @@
 // Chụp bộ ảnh GIAO DIỆN (không phải ảnh từng bước của mô hình) để soát thiết kế: màn hình chào, thanh trên, bảng bài
 // giảng (ba thẻ), sổ tay, mục lục, bảng tiếng và hình, thanh nghe giảng, hộp thử thách, dòng «Đang dựng mô hình 3D»,
-// chế độ «Xem như video» (--man xem-video).
+// lúc nghe giảng có phụ đề (--man nghe).
 // Chrome chạy ẩn, tắt tiếng, không mở cửa sổ. Lệnh nặng: chạy qua kiem-tra/co-khoa.sh.
 //
 //   node kiem-tra/chup-giao-dien.mjs <tệp HTML> <thư mục ra> [--tieng vi,en,zh-CN,ja] [--co 1600x1000,1280x800]
@@ -59,7 +59,7 @@ const CHAY = (n) => `for (let i = 0; i < ${n}; i++) { window.__mocAnh += 1000 / 
 const BUOC_TT = `(() => { const k = __vt._dsBuoc().findIndex((b) => b.thuThach); return k; })()`;
 
 // Bảng màn hình: ma (để lọc), ten (tên tệp), mo (tham số đường dẫn), luu (tiến độ đặt sẵn), lam (mã chạy trong trang trước khi chụp),
-// re (bộ chọn phần tử để rê chuột vào), cat (bộ chọn phần tử để chụp cận cảnh nét gấp đôi), chiTieng (chỉ chụp ở các tiếng này).
+// re (bộ chọn phần tử để rê chuột vào), khongRe (không rê chuột: rê là thanh phát hiện lại), cat (bộ chọn phần tử để chụp cận cảnh nét gấp đôi), chiTieng (chỉ chụp ở các tiếng này).
 const MAN = [
   { ma: 'chao', ten: '01 - Màn hình chào', mo: {}, lam: CHAY(90) },
   { ma: 'chao', ten: '02 - Màn hình chào - rê vào một bài', mo: {}, lam: CHAY(90), re: '#chao .ct-bai[data-bai="5"]' },
@@ -116,13 +116,13 @@ const MAN = [
   { ma: 'nhan', ten: '38 - Nhãn - Bài 18 bước 3', mo: { canh: 'gian-no', buoc: 3 }, lam: CHAY(300) },
   { ma: 'nhan', ten: '39 - Nhãn - Bài 26 bước 3', mo: { canh: 'spin-stern-gerlach', buoc: 3 }, lam: CHAY(300) },
   { ma: 'nhan', ten: '40 - Nhãn - Bài 1 bước 3 - ẩn bài giảng', mo: { canh: 'he-mat-troi', buoc: 3 }, lam: `__vt.anHienBang(true); ${CHAY(300)}` },
-  // Chế độ «Xem như video» (xem-video.js): đồng hồ của chế độ đẩy bằng tien(giây); ảnh chụp ở trạng thái cuối.
-  { ma: 'xem-video', ten: '24 - Xem như video - giữa bước, có điều khiển', mo: { canh: baiChinh, buoc: 5 }, lam: `${CHAY(120)} __vt.xemVideo.vao(); __vt.xemVideo.tien(10); ${CHAY(180)} __vt.xemVideo._hienDieuKhien(true);` },
-  { ma: 'xem-video', ten: '25 - Xem như video - đầu bước, thẻ tên bước, điều khiển đã ẩn', mo: { canh: baiChinh, buoc: 2 }, lam: `${CHAY(120)} __vt.xemVideo.vao(); __vt.xemVideo.tien(2.4); ${CHAY(120)} document.body.classList.add('xv-an-dk');` },
-  { ma: 'xem-video', ten: '26 - Xem như video - hết bài, mời xem bài tiếp', mo: { canh: baiChinh, buoc: 8 }, lam: `${CHAY(120)} __vt.xemVideo.vao(); __vt.xemVideo.tien(__vt.xemVideo.trangThai().dai + 2.2); ${CHAY(60)}` },
-  { ma: 'xem-video', ten: '27 - Xem như video - mở đầu bài, thẻ mở đầu', mo: { canh: baiChinh, buoc: 1 }, lam: `${CHAY(120)} __vt.xemVideo.vao(); __vt.xemVideo.tien(1.2); ${CHAY(90)} document.body.classList.add('xv-an-dk');` },
-  { ma: 'xem-video', ten: '28 - Xem như video - bài chưa có giọng đọc, có dòng báo', mo: { canh: 'lo-den', buoc: 2 }, lam: `${CHAY(120)} __vt.xemVideo.vao(); __vt.xemVideo.tien(6); ${CHAY(120)} __vt.xemVideo._hienDieuKhien(true);` },
-  { ma: 'xem-video', ten: '29 - Xem như video - tạm dừng', mo: { canh: baiChinh, buoc: 3 }, lam: `${CHAY(120)} __vt.xemVideo.vao(); __vt.xemVideo.tien(9); ${CHAY(120)} __vt.xemVideo.phatDung(false);` },
+  // Nghe giảng có phụ đề (nghe-giang.js): đồng hồ đẩy bằng tien(giây); ảnh chụp ở trạng thái cuối.
+  { ma: 'nghe', ten: '24 - Nghe giảng - màn hình thường, phụ đề trên mô hình', mo: { canh: baiChinh, buoc: 3 }, lam: `${CHAY(120)} __vt.nghe.phatDung(true); __vt.nghe.tien(10); ${CHAY(180)}` },
+  { ma: 'nghe', ten: '25 - Nghe giảng - ẩn bảng, có thanh phát', mo: { canh: baiChinh, buoc: 5 }, lam: `${CHAY(120)} __vt.nghe.phatDung(true); __vt.anHienBang(true); __vt.nghe.tien(10); ${CHAY(180)} __vt.nghe._hienDieuKhien(true); ${CHAY(20)}` },
+  { ma: 'nghe', ten: '26 - Nghe giảng - ẩn bảng, đầu bước, thẻ tên bước, thanh phát đã ẩn', khongRe: true, mo: { canh: baiChinh, buoc: 2 }, lam: `${CHAY(120)} __vt.nghe.phatDung(true); __vt.anHienBang(true); __vt.nghe.tien(2.4); ${CHAY(120)} document.body.classList.add('xv-an-dk'); __vt._vungCho = 0; ${CHAY(20)}` },
+  { ma: 'nghe', ten: '27 - Nghe giảng - hết bài, mời học bài tiếp', mo: { canh: baiChinh, buoc: 8 }, lam: `${CHAY(120)} __vt.nghe.batTatTuSang(true); __vt.nghe.phatDung(true); __vt.nghe.tien(__vt.nghe.trangThai().dai + 2.2); ${CHAY(60)}` },
+  { ma: 'nghe', ten: '28 - Nghe giảng - ẩn bảng, mở đầu bài, thẻ mở đầu', khongRe: true, mo: { canh: baiChinh, buoc: 1 }, lam: `${CHAY(120)} __vt.anHienBang(true); __vt.nghe.phatDung(true); __vt.chuyenBai(__vt.chiSo); __vt.nghe.tien(1.2); ${CHAY(90)} document.body.classList.add('xv-an-dk'); __vt._vungCho = 0; ${CHAY(20)}` },
+  { ma: 'nghe', ten: '29 - Nghe giảng - màn hình thường, tạm dừng', mo: { canh: baiChinh, buoc: 3 }, lam: `${CHAY(120)} __vt.nghe.phatDung(true); __vt.nghe.tien(9); ${CHAY(120)} __vt.nghe.phatDung(false); ${CHAY(10)}` },
 ];
 
 const dsMan = MAN.filter((m) => !chiMan.length || chiMan.includes(m.ma));
@@ -170,7 +170,7 @@ try {
           const p = await c.doc(`(() => { const e = document.querySelector(${JSON.stringify(man.re)}); if (!e) return null; e.scrollIntoView({ block: 'nearest' }); const r = e.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; })()`);
           if (p) await c.goi('Input.dispatchMouseEvent', { type: 'mouseMoved', x: p[0], y: p[1] });
           else canhBao.push(`${rong}x${cao} ${tieng} «${man.ten}»: không thấy phần tử để rê (${man.re})`);
-        } else await c.goi('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 2, y: cao - 2 });
+        } else if (!man.khongRe) await c.goi('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 2, y: cao - 2 });
         let clip;
         if (man.cat) {
           const r = await c.doc(`(() => { const e = document.querySelector(${JSON.stringify(man.cat)}); if (!e || e.hidden) return null; const r = e.getBoundingClientRect(); return [r.left, r.top, r.width, r.height]; })()`);

@@ -6,9 +6,9 @@ import { boNhan } from './bo-nhan.js';
 import { $ } from './ung-dung-luu.js';
 
 export const PT_BO_CUC = {
-  // Đọc lại các vùng đang bị che: bảng bài giảng, các khối của thanh trên, ô số liệu, dòng gợi ý; ở chế độ «Xem như
-  // video» là thẻ tên bước, phụ đề, thanh điều khiển, thẻ hết bài. Việc này đọc bố cục của trang nên chỉ làm vài lần mỗi
-  // giây, ở ĐẦU khung hình (lúc trang chưa bị sửa gì, đọc không tốn), và ngay khi bố cục đổi (đổi cỡ cửa sổ, ẩn hiện bảng).
+  // Đọc lại các vùng đang bị che: bảng bài giảng, các khối của thanh trên, ô số liệu, dòng gợi ý, và phần của việc nghe
+  // giảng (phụ đề, thẻ tên bước, thẻ hết bài, thanh phát ở đáy khi bảng ẩn). Việc này đọc bố cục của trang nên chỉ làm vài
+  // lần mỗi giây, ở ĐẦU khung hình (lúc trang chưa bị sửa gì, đọc không tốn), và ngay khi bố cục đổi (đổi cỡ cửa sổ, ẩn hiện bảng).
   // Vùng «mềm» (số 1 ở cuối) là vùng nhỏ: nhãn có điểm neo nằm dưới nó được đẩy ra mép vùng thay vì ẩn.
   _capNhatVungChe() {
     const ds = [];
@@ -19,20 +19,15 @@ export const PT_BO_CUC = {
       ds.push([r.left, r.top, r.right, r.bottom, mem]);
     };
     const lop = document.body.classList;
-    if (lop.contains('xem-video')) {
-      const xv = this.xemVideo?.el;
-      if (xv) {
-        if (xv.the.classList.contains('mo')) them(xv.the, 1);
-        if (!xv.phuDe.hidden && xv.phuDe.textContent) them(xv.phuDe, 1);
-        if (!xv.het.hidden) them(xv.het, 1);
-        if (!lop.contains('xv-an-dk')) { them(xv.dk); them(xv.thoat); }
-      }
-    } else if (!lop.contains('dang-chao')) {
+    if (!lop.contains('dang-chao')) {
       if (!lop.contains('an-bang')) them($('bai-hoc'));
-      them($('nut-muc-luc')); them($('chon-bai')); them($('ngon-ngu-tren')); them($('nut-phai'));
+      // Bảng ẩn và đang nghe: thanh trên tự ẩn cùng thanh phát, khi đó nhãn không cần tránh nó.
+      if (!lop.contains('xv-an-dk')) { them($('nut-muc-luc')); them($('chon-bai')); them($('ngon-ngu-tren')); them($('nut-phai')); }
       if (!this.el.goiY.classList.contains('mo')) them(this.el.goiY, 1);
     }
     them(this.el.hud, 1);
+    // Đặt chỗ phụ đề vào phần khung 3D còn trống (việc này GHI vào trang nên làm sau cùng) và nhận các vùng của nó.
+    for (const v of this.nghe?.datCho() || []) ds.push(v);
     boNhan.datVung(ds, this.rong, this.cao);
     boNhan.doLai();
   },

@@ -9,18 +9,11 @@ import goc from '../ngon-ngu/vi/vuong-viu-bell.json' with {type:'json'};
 import noiDung from '../noi-dung/vuong-viu-bell.js';
 const chu=k=>dich('vuong-viu-bell','canh.'+k,goc['canh.'+k]);
 
-// Mặt cắt hai cực nam châm Stern–Gerlach (mặt phẳng z–y), kéo dài dọc chùm (trục x).
-function cucNamChau(diem, dai) {
-  const g=new THREE.ExtrudeGeometry(new THREE.Shape(diem.map(([u,v])=>new THREE.Vector2(u,v))),{depth:dai,bevelEnabled:false});
-  g.translate(0,0,-dai/2); g.rotateY(Math.PI/2); return g;
-}
-const CUC_TREN=[[-.46,.98],[.46,.98],[.46,.46],[.07,.2],[-.07,.2],[-.46,.46]];
-const CUC_DUOI=[[-.46,-.98],[.46,-.98],[.46,-.26],[.15,-.26],[.15,-.44],[-.15,-.44],[-.15,-.26],[-.46,-.26]];
 const TO_HOP=[[0,0],[0,1],[1,0],[1,1]]; // (a hoặc a′, b hoặc b′)
 
-export default {id:'vuong-viu-bell', ...noiDung, mayAnh:{viTri:[3.6,5.6,12.6],dich:[0,1.75,0],fov:38,min:4,max:24},nhacNen:null,
+export default {id:'vuong-viu-bell', ...noiDung, mayAnh:{viTri:[3.6,5.6,12.6],dich:[0,1.75,0],fov:38,min:4,max:24,hep:.55},nhacNen:null,
   tao(app) {
-    const {scene,mat,hop,cau,vong,nhan,themThongTin,thanhKeo}=taoBan(app,chu);
+    const {scene,mat,hop,cau,vong,nhan,themThongTin,thanhKeo,namCham,hatBay}=taoBan(app,chu);
     const Y0=1.62, XM=3.1, XD=3.95;
     hop(10.2,.24,3.7,0,-.1,0,mat.den);hop(8.6,.13,.27,0,.22,0,mat.thep);
     const source=cau(.36,0,Y0,0,mat.tim);vong(.47,.05,0,Y0,0,mat.dong);hop(.5,1.25,.5,0,.85,0,mat.thep);
@@ -31,9 +24,9 @@ export default {id:'vuong-viu-bell', ...noiDung, mayAnh:{viTri:[3.6,5.6,12.6],di
       const x=side*XM;
       hop(.8,1.0,.7,x,.55,0,mat.thep);
       const o=new THREE.Group();o.position.set(x,Y0,0);scene.add(o);
-      const nam=new THREE.Group();nam.scale.set(1,.55,.55);o.add(nam);
-      const tren=new THREE.Mesh(cucNamChau(CUC_TREN,.9),mat.do),duoi=new THREE.Mesh(cucNamChau(CUC_DUOI,.9),mat.xanh);
-      const khung=new THREE.Mesh(new THREE.BoxGeometry(.9,2.1,.16),mat.thep);khung.position.z=-.56;nam.add(tren,duoi,khung);
+      // Hai cực nam châm của bàn chung (cùng kiểu Bài 26), giữ màu tự sáng mat.do, mat.xanh như Bài 26.
+      const {nhom:nam,cucTren:tren,cucDuoi:duoi}=namCham({dai:.9},o);nam.scale.set(1,.55,.55);
+      for(const [c,vl] of [[tren,mat.do],[duoi,mat.xanh]]){c.material.dispose();c.material=vl;}
       const ring=vong(.62,.025,0,0,0,mat.dong,o);ring.rotation.y=Math.PI/2;
       const den=[1,-1].map(k=>{const d=cau(.09,side*(XD-x),k*.45,0,k>0?mat.do:mat.xanh,o);return d;});
       for(const k of [1,-1])hop(.05,.05,.05,side*(XD-x+.12),k*.45,0,mat.thep,o);
@@ -48,12 +41,10 @@ export default {id:'vuong-viu-bell', ...noiDung, mayAnh:{viTri:[3.6,5.6,12.6],di
     so0.position.set(0,3.75,-1.4);scene.add(so0);themThongTin(so0,'so-ghi','tt-so-ghi');
 
     // Cặp hạt đang bay: hai hạt cùng một màu. Nguồn biến ẩn: màu chính là hướng λ mang theo.
-    const K=48, hG=new THREE.SphereGeometry(.065,10,8);
-    const hat=new THREE.InstancedMesh(hG,new THREE.MeshBasicMaterial({color:0xffffff}),2*K);
-    hat.frustumCulled=false;hat.instanceMatrix.setUsage(THREE.DynamicDrawUsage);scene.add(hat);
-    const M4=new THREE.Matrix4(),Q=new THREE.Quaternion(),V=new THREE.Vector3(),S1=new THREE.Vector3(1,1,1),S0=new THREE.Vector3(0,0,0),C=new THREE.Color();
+    // Nhóm hạt bay của bàn chung: mọi hạt trong một lượt vẽ.
+    const K=48, hat=hatBay(2*K,{banKinh:.065});
+    const C=new THREE.Color();
     const cap=Array.from({length:K},()=>({song:false,t:0,kq:[1,-1],g:[0,0],to:0,da:[false,false],so:0}));
-    for(let i=0;i<2*K;i++){hat.setMatrixAt(i,M4.compose(V.set(0,-50,0),Q,S0));hat.setColorAt(i,C.set(0xffffff));}
     const rng=taoNgauNhien(2703);
 
     let a=0,b=0,che='mot',an=false,gio=0,cuoi=-1,tich=0,soPhat=0,keo=[false,false];
@@ -61,7 +52,10 @@ export default {id:'vuong-viu-bell', ...noiDung, mayAnh:{viTri:[3.6,5.6,12.6],di
     const ghi=[];
     const tay=[];
     const goc4=()=>[[0,90],[b,-b]];
-    function xoaDem(){N=tong=nA=nB=0;N4.fill(0);T4.fill(0);ghi.length=0;veSo();}
+    // Đếm lại từ đầu: bỏ cả các cặp đang bay, vì kết quả của chúng đã rút theo nguồn và trục cũ.
+    function xoaDem(){N=tong=nA=nB=0;N4.fill(0);T4.fill(0);ghi.length=0;
+      for(let i=0;i<K;i++)if(cap[i].song){cap[i].song=false;hat.an(2*i).an(2*i+1);}
+      hat.xong();veSo();}
     function quay(i,v){may[i].o.rotation.x=v*Math.PI/180;}
     const doi=(i,v,drag)=>{if(i===0){a=v;if(che==='chsh'&&drag){che='mot';chonChe.dat('mot');}}else b=v;
       if(drag)keo[i]=true;tay[i](v);quay(0,che==='chsh'?0:a);quay(1,b);xoaDem();};
@@ -74,7 +68,17 @@ export default {id:'vuong-viu-bell', ...noiDung, mayAnh:{viTri:[3.6,5.6,12.6],di
     const dt2=app.bang.doThi(160);
 
     function datTatCa({aa=a,bb=b,ch=che,nguon=an}){a=aa;b=bb;che=ch;an=nguon;tay[0](a);tay[1](b);chonChe.dat(che);chonNguon.dat(an?'an':'lt');
-      quay(0,che==='chsh'?0:a);quay(1,b);keo=[false,false];xoaDem();}
+      quay(0,che==='chsh'?0:a);quay(1,b);keo=[false,false];xoaDem();
+      // Bốn cách đặt máy: đếm sẵn một loạt cặp (cùng mô hình, cùng bộ số ngẫu nhiên) để |S| đếm được đã ổn định ngay khi
+      // vào bước. Với vài chục cặp, sai số còn cỡ ±0,4 nên nguồn biến ẩn có thể ra |S| > 2 chỉ vì thăng giáng.
+      if(che==='chsh')demSan(an?DEM_SAN_AN:DEM_SAN);}
+    const DEM_SAN=1200, DEM_SAN_AN=4000, N_DU=100;
+    function demSan(n){const G=goc4();
+      for(let k=0;k<n;k++){const to=Math.floor(rng()*4),ga=G[0][TO_HOP[to][0]],gb=G[1][TO_HOP[to][1]];
+        const [A,B]=an?layCapAn(ga,gb,rng()*360):layCap(ga,gb,rng);
+        N++;tong+=A*B;nA+=A>0;nB+=B>0;N4[to]++;T4[to]+=A*B;soPhat++;
+        if(k>=n-7)ghi.unshift([soPhat,ga,A,gb,B]);}
+      if(ghi.length>7)ghi.length=7;veSo();}
     function lenh(k){
       const g={song:[0,0],vuong:[0,90],nguoc:[0,180],toiUu:[0,45],doiA:[90,b],latB:[a,-b]};
       if(g[k])datTatCa({aa:g[k][0],bb:g[k][1]});
@@ -94,8 +98,7 @@ export default {id:'vuong-viu-bell', ...noiDung, mayAnh:{viTri:[3.6,5.6,12.6],di
       const lambda=rng()*360;
       p.kq=an?layCapAn(ga,gb,lambda):layCap(ga,gb,rng);
       p.g=[ga,gb];p.to=to;p.t=0;p.song=true;p.da=[false,false];p.so=++soPhat;
-      const i=cap.indexOf(p);C.setHSL(an?lambda/360:rng(),.75,.68);hat.setColorAt(2*i,C);hat.setColorAt(2*i+1,C);
-      if(hat.instanceColor)hat.instanceColor.needsUpdate=true;
+      const i=cap.indexOf(p);C.setHSL(an?lambda/360:rng(),.75,.68);hat.datMau(2*i,C).datMau(2*i+1,C);
     }
     function ghiCap(p){
       const [A,B]=p.kq;N++;tong+=A*B;nA+=A>0;nB+=B>0;
@@ -132,16 +135,16 @@ export default {id:'vuong-viu-bell', ...noiDung, mayAnh:{viTri:[3.6,5.6,12.6],di
         if(!p.song)continue;
         p.t+=dt*.95;
         if(p.t>=1.25){p.song=false;ghiCap(p);
-          for(const j of [0,1]){hat.setMatrixAt(2*i+j,M4.compose(V.set(0,-50,0),Q,S0));may[j].sang[p.kq[j]>0?0:1]=1;}
+          for(const j of [0,1]){hat.an(2*i+j);may[j].sang[p.kq[j]>0?0:1]=1;}
           continue;}
         for(const j of [0,1]){const side=j?1:-1;
           if(p.t>=1&&!p.da[j]){p.da[j]=true;quay(j,p.g[j]);}
           const th=p.g[j]*Math.PI/180;
           const x=side*(p.t<1?XM*p.t:XM+(XD-XM)*(p.t-1)/.25), d=p.t<1?0:.45*(p.t-1)/.25*p.kq[j];
-          hat.setMatrixAt(2*i+j,M4.compose(V.set(x,Y0+d*Math.cos(th),d*Math.sin(th)),Q,S1));
+          hat.dat(2*i+j,x,Y0+d*Math.cos(th),d*Math.sin(th));
         }
       }
-      hat.instanceMatrix.needsUpdate=true;
+      hat.xong();
     }
     const Ef=()=>an?tuongQuanAn:tuongQuan;
     function veDoThi(){
@@ -166,15 +169,19 @@ export default {id:'vuong-viu-bell', ...noiDung, mayAnh:{viTri:[3.6,5.6,12.6],di
       return k==='bell'&&keo[1]&&!an&&Math.abs(chsh(b))>2.8;
     }
     const qt=v=>N?so(v/N,3):'—';
+    // Ô số liệu 5 dòng, dòng đầu là đại lượng lý thuyết của bước; số cặp đã ghi đi kèm giá trị đếm được (N = …).
+    const soCap=()=>' (N = '+so(N,0)+')';
     function hud(){veDoThi();
-      const dong=[[chu('loai-nguon'),chu(an?'bien-an':'luong-tu')]];
       if(che==='chsh'){const [S,e,nMin]=sDem();
-        dong.push([chu('truc')+' A',"0° / 90°"],[chu('truc')+' B',so(b,0)+'° / '+so(-b,0)+'°'],[chu('cap'),so(N,0)],
-          ['|S| '+chu('ly-thuyet'),so(Math.abs(chshVoi(Ef(),b)),3)],['|S| ('+chu('dem')+')',nMin?so(Math.abs(S),3)+' ± '+so(e,3):'—']);
-      } else {const E=Ef()(a,b);
-        dong.push([chu('goc-a'),so(a,0)+'°'],[chu('goc-b'),so(b,0)+'°'],['E(a,b) '+chu('ly-thuyet'),so(E,3)],[chu('cap'),so(N,0)],
-          ['E ('+chu('dem')+')',N?so(tong/N,3)+' ± '+so(saiSoE(tong/N,N),3):'—'],['P(A+) / P(B+) ('+chu('dem')+')',qt(nA)+' / '+qt(nB)]);}
-      return dong;}
+        return [['|S| '+chu('ly-thuyet'),so(Math.abs(chshVoi(Ef(),b)),3)],[chu('loai-nguon'),chu(an?'bien-an':'luong-tu')],
+          [chu('truc')+' A',"0° / 90°"],[chu('truc')+' B',so(b,0)+'° / '+so(-b,0)+'°'],
+          // Chưa đủ mỗi cách đặt máy N_DU cặp thì chưa hiện |S|: sai số lớn, con số dễ làm hiểu sai.
+          ['|S| ('+chu('dem')+')',nMin>=N_DU?so(Math.abs(S),3)+' ± '+so(e,3)+soCap():N?chu('chua-du')+soCap():'—']];
+      }
+      const E=Ef()(a,b);
+      return [['E(a,b) '+chu('ly-thuyet'),so(E,3)],[chu('goc-a'),so(a,0)+'°'],[chu('goc-b'),so(b,0)+'°'],
+        ['E ('+chu('dem')+')',N?so(tong/N,3)+' ± '+so(saiSoE(tong/N,N),3)+soCap():'—'],['P(A+) / P(B+) ('+chu('dem')+')',qt(nA)+' / '+qt(nB)]];
+    }
     return {scene,buoc,capNhat,lenh,dat,hud};
   }
 };

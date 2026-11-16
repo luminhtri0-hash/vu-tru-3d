@@ -13,12 +13,12 @@ import { CHIA_NHIP } from './bau-troi.js';
 import { huyCanh } from './ve.js';
 import { dinhDang, trongDong, coCongThucVua } from './bai-giang.js';
 import { NhatKy } from './nhat-ky.js';
-import { XemVideo } from './xem-video.js';
+import { NgheGiang } from './nghe-giang.js';
 import { boNhan } from './bo-nhan.js';
 import { datAppDangChay } from './app-dang-chay.js';
 import { amThanh } from 'ao:am-thanh';
 import { TuongTac } from 'ao:tuong-tac';
-import { $, luu, ghepPhuongThuc, KHOA_LUU, KHOA_RONG, KHOA_XONG, KHOA_TT, KHOA_HINH, KHOA_GIONG, KHOA_TU_SANG } from './ung-dung-luu.js';
+import { $, luu, ghepPhuongThuc, KHOA_LUU, KHOA_RONG, KHOA_XONG, KHOA_TT, KHOA_HINH } from './ung-dung-luu.js';
 import { AM_RONG, TT_RONG } from './ung-dung-rong.js';
 import { PT_LAM_NONG } from './ung-dung-lam-nong.js';
 import { PT_THU_THACH } from './ung-dung-thu-thach.js';
@@ -103,10 +103,7 @@ export class UngDung {
     this.tt = TuongTac ? new TuongTac(this) : TT_RONG;
     this.thuThachDat = new Set((luu.doc(KHOA_TT) || '').split(',').filter(Boolean));
     this._tt = null;             // thử thách của bước đang mở
-    this._gdGiong = luu.doc(KHOA_GIONG) || 'algieba';     // giọng đọc đang chọn
-    this._gdTuSang = luu.doc(KHOA_TU_SANG) === '1';       // đọc xong tự sang bước sau
-    this._gdDangPhat = false;
-    this._gdAm = null;
+    this._gdGiong = this._gdGiongLuu();                    // giọng đọc đang chọn (ung-dung-giong-doc.js)
 
     this.hud = new Hud(this.el.hud);
     this.hud.datChuNut(chu("gd.o-so-lieu-thu-gon"));
@@ -129,7 +126,7 @@ export class UngDung {
 
     this._gomThuatNgu();
     this._ganSuKien();
-    this.xemVideo = new XemVideo(this);      // chế độ «Xem như video» (xem-video.js): nút trên thanh trên, phím V
+    this.nghe = new NgheGiang(this);         // nghe giảng: giọng đọc, phụ đề trên mô hình, tự sang bước (nghe-giang.js)
     this._veMucLuc();
     this._doiKichThuoc();
     this._vong = this._vong.bind(this);
@@ -150,7 +147,7 @@ export class UngDung {
       this.canh = null;
     }
     this.am.dungHet();
-    this._gdDung();
+    this.nghe.khiMoBai();
     this._tt = null;
     this.el.lopNhan.innerHTML = '';
     boNhan.xoaHet();
@@ -245,6 +242,7 @@ export class UngDung {
   moBuoc(k) {
     const ds = this._dsBuoc();
     k = Math.max(0, Math.min(ds.length - 1, k | 0));
+    const truocNghe = this.nghe.truocMoBuoc();       // đang nghe giảng: ghi góc máy để lát nữa bay tới góc mới cho êm
     const cu = ds[this.chiSoBuoc];
     if (cu && this.chiSoBuoc !== k && this.canh) {
       try { cu.ra?.(this.canh, this); } catch (e) { console.error(e); this.loiGhi.push(`ra(): ${e?.message || e}`); }
@@ -263,10 +261,10 @@ export class UngDung {
     nd.innerHTML = dinhDang(b.noiDung || '') + this._htmlThuThach(b, k);
     coCongThucVua(nd);           // công thức dài hơn bảng thì co cho vừa
     this._ganThuThach(b, k);
-    this._veGiongDoc();
     for (const nut of nd.querySelectorAll('.nut-thu')) {
       nut.addEventListener('click', () => {
         this.am.phat('bam');
+        this.nghe.daThu();
         const ham = b.nut?.[nut.dataset.nut];
         if (!ham) { console.warn(`Bước «${b.ten}» không có nút «${nut.dataset.nut}»`); this.loiGhi.push(`thiếu nút «${nut.dataset.nut}»`); return; }
         try { ham(this.canh, this); } catch (e) { console.error(e); this.loiGhi.push(`nút «${nut.dataset.nut}»: ${e?.message || e}`); }
@@ -280,20 +278,36 @@ export class UngDung {
     else if (baiSau) { sau.innerHTML = `${chu("gd.bai-sau-ten", [baiSau.ten])}`; sau.disabled = false; }
     else { sau.innerHTML = chu("gd.het-khoa-hoc"); sau.disabled = true; }
     if (k === n - 1) this._danhDauXong(this.dsCanh[this.chiSo].id);
-    this.el.bang.scrollTop = 0;
+    // Bảng nằm dưới (điện thoại): sang bước thì cuộn tới ngay tên bước, khỏi phải vuốt qua tên bài và hàng thẻ mỗi lần.
+    // Vừa mở bài thì ở đầu bảng, để thấy tên bài một lần.
+    const toiBuoc = this._lechDich[1] > 0 && !this.nghe._baiMoi;
+    this.el.bang.scrollTop = toiBuoc ? Math.max(0, (so.closest('.buoc-thanh')?.offsetTop ?? 0) - this.el.bang.offsetTop - 8) : 0;
     if (this.canh) {
       try { b.vao?.(this.canh, this); } catch (e) { console.error(e); this.loiGhi.push(`vao(): ${e?.stack || e}`); }
     }
+    this.nghe.khiMoBuoc(k, truocNghe);       // thanh «Nghe giảng» của bước mới; đang nghe thì nghe tiếp (nghe-giang.js)
   }
   buocSau() {
     this.moTab('hoc');
     if (this.chiSoBuoc < this._dsBuoc().length - 1) { this.am.phat('buoc'); this.moBuoc(this.chiSoBuoc + 1); }
-    else if (this.chiSo < this.dsCanh.length - 1) this.moBai(this.chiSo + 1, 0, true);
+    else if (this.chiSo < this.dsCanh.length - 1) this.chuyenBai(this.chiSo + 1);
   }
   buocTruoc() {
     this.moTab('hoc');
     if (this.chiSoBuoc > 0) { this.am.phat('buoc-lui'); this.moBuoc(this.chiSoBuoc - 1); }
-    else if (this.chiSo > 0) this.moBai(this.chiSo - 1, 0, true);
+    else if (this.chiSo > 0) this.chuyenBai(this.chiSo - 1);
+  }
+  // Người học đổi bài (nút, phím, mục lục). Đang nghe giảng thì đổi qua một nhịp màn tối và nghe tiếp ở bài mới
+  // (nghe-giang.js); không thì mở bài như thường, có tiếng báo.
+  chuyenBai(i, buoc = 0) {
+    if (this.nghe.dangPhat) this.nghe._doiBai(Math.max(0, Math.min(this.dsCanh.length - 1, i | 0)), buoc);
+    else this.moBai(i, buoc, true);
+  }
+  // Phím cách và nút tạm dừng trên thanh trên: đang trong một lượt nghe giảng thì tạm dừng hoặc chạy tiếp cả lời lẫn mô
+  // hình; chưa nghe thì chỉ là mô hình.
+  tamDungChay() {
+    if (this.nghe.dangPhat || this.nghe.tamDung) this.nghe.phatDung();
+    else this.datChay(!this.dangChay);
   }
 
   // ---------- Vòng lặp ----------
@@ -402,8 +416,12 @@ export class UngDung {
     this.canh?.khiDoiKichThuoc?.(w, h);
   }
 
+  // Ẩn bảng bài giảng cho mô hình chiếm cả cửa sổ (phím V hoặc B), hoặc hiện lại. Đây không phải một chế độ khác: bài,
+  // bước, lời đang nghe và phụ đề giữ nguyên; lúc bảng ẩn có thêm thanh phát ở đáy (nghe-giang.js).
   anHienBang(an = !document.body.classList.contains('an-bang')) {
+    an = !!an;
     document.body.classList.toggle('an-bang', an);
+    this.nghe.khiAnHienBang(an);
     this._tinhLech();
   }
 

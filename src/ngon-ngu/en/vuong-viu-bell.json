@@ -82,5 +82,6 @@
   "canh.do-thi": "Graph: correlation E versus the angle difference a − b. Gold: quantum singlet, −cos(a − b). Pink dashed: the model's local hidden-variable source, a zigzag line. Red dots: counted E, red bars their standard errors.",
   "canh.truc": "Axis",
   "canh.ly-thuyet": "theory",
+  "canh.chua-du": "not enough samples",
   "bai.conSo.3": "|S| = 2√2 ≈ 2.83 is the largest value quantum mechanics allows (the Tsirelson bound); every local hidden-variable model is capped at 2."
 }

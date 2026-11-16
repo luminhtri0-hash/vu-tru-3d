@@ -19,7 +19,7 @@ import * as THREE from 'three';
 import { so, soNghia, C, G, M_MAT_TROI, DO } from '../vat-ly/hang-so.js';
 import { khoiLuongChirp } from '../vat-ly/song-hap-dan.js';
 import * as TC from '../vat-ly/tieng-chirp.js';
-import { taoNhan, taoNenSao, taoDom, DuongDay, DuongDong, duongTron } from '../khung/ve.js';
+import { taoNhan, taoNenSao, taoDom, DuongDay, DuongDong, duongTron, goNhanDeNhau } from '../khung/ve.js';
 import { muiTen } from '../khung/ktg.js';
 import { taoLoDenNho } from '../khung/hanh-tinh.js';
 import { MAU } from '../khung/giao-dien.js';
@@ -245,7 +245,9 @@ $$ h = \begin{pmatrix} h_+ & h_\times \\ h_\times & -h_+ \end{pmatrix}. $$
 
 Ma trận như thế chỉ có hai số tự do: đó là hai phân cực. Xoay hệ trục một góc $\theta$, hai thành phần đổi theo
 
-$$ h_+' = h_+\cos 2\theta + h_\times \sin 2\theta, \qquad h_\times' = -h_+\sin 2\theta + h_\times\cos 2\theta . $$
+$$ h_+' = h_+\cos 2\theta + h_\times \sin 2\theta, $$
+
+$$ h_\times' = -h_+\sin 2\theta + h_\times\cos 2\theta . $$
 
 Góc xuất hiện dưới dạng $2\theta$: xoay $45°$ biến «+» thành «×», xoay $90°$ đổi dấu, xoay $180°$ về như cũ. Với sóng điện từ, điện trường là một vectơ và đổi theo $\theta$ chứ không phải $2\theta$, nên hai phân cực của nó lệch $90°$.
 +++`,
@@ -331,7 +333,9 @@ $$ E = -\tfrac12 \,\mu\, (GM\omega)^{2/3}, \qquad \mu = \frac{m_1 m_2}{M}. $$
 
 Viết công suất tứ cực ở bước 4 theo $\omega$: $P = \dfrac{32}{5}\dfrac{G}{c^5}\mu^2 a^4 \omega^6$. Để ý $\mu M^{2/3} = \mathcal{M}^{5/3}$, ta được
 
-$$ E = -\tfrac12 (G\mathcal{M}\omega)^{2/3}\,\mathcal{M}, \qquad P = \frac{32}{5}\,\frac{(G\mathcal{M}\omega)^{10/3}}{G\,c^5}. $$
+$$ E = -\tfrac12 (G\mathcal{M}\omega)^{2/3}\,\mathcal{M}, $$
+
+$$ P = \frac{32}{5}\,\frac{(G\mathcal{M}\omega)^{10/3}}{G\,c^5}. $$
 
 Cho $\dd E/\dd t = -P$:
 
@@ -513,7 +517,7 @@ Năm 2023, các mảng định thời pulsar công bố bằng chứng về mộ
   ],
   hieuDung: '**Tấm lưới chỉ là cách vẽ.** Sóng hấp dẫn không làm không gian «nhô lên» theo chiều nào; nó làm khoảng cách giãn và co theo các phương **vuông góc** với hướng sóng đi, như vòng hạt thử ở trạm đo. Độ cao của lưới chỉ cho biết sóng mạnh hay yếu. Vòng hạt và giao thoa kế được phóng đại khoảng 10²⁰ lần; hai vật được vẽ to hơn thật so với bước sóng; mọi thứ được chiếu chậm.',
   nguon: 'GW150914: Abbott và cộng sự (LIGO và Virgo) 2016, Phys. Rev. Lett. 116, 061102 (khối lượng, năng lượng, công suất đỉnh, khoảng cách, biên độ, tần số, độ trễ giữa hai máy). GW170817: LIGO và Virgo 2017, cùng các đài quan sát tia gamma (khối lượng, khoảng cách, độ trễ 1,7 giây). Pulsar đôi và công thức tứ cực: Hartle (2003) ch. 16. Hằng số: CODATA 2018, IAU 2015. Các con số tính lại trong kiem-tra/kiem-song-va-gian-no.mjs.',
-  mayAnh: { viTri: [0, 30, 50], dich: [0, -1, 0], fov: 42, min: 8, max: 200, gocMax: Math.PI * 0.62 },
+  mayAnh: { viTri: [0, 30, 50], dich: [0, -1, 0], fov: 42, min: 8, max: 200, gocMax: Math.PI * 0.62, hep: 0.55 },
 
   tao(app) {
     const scene = new THREE.Scene();
@@ -596,7 +600,7 @@ Năm 2023, các mảng định thời pulsar công bố bằng chứng về mộ
     // mũi tên «lan ra với tốc độ ánh sáng» trên tấm
     const nhomLan = new THREE.Group();
     nhomLan.add(muiTen([0, 3.2, -13], [0, 3.2, -24], { mau: 0xf3c66f, rong: 2, dau: 1.1, doMo: 0.85 }));
-    const nhanLan = taoNhan(chuCanh("canh.lan-ra-voi-toc-do-anh-sang-gon", "lan ra với tốc độ ánh sáng<small>gợn ở xa phát ra từ lúc hai vật còn quay chậm</small>"), 'vang tran');
+    const nhanLan = taoNhan(chuCanh("canh.lan-ra-voi-toc-do-anh-sang-gon", "lan ra với tốc độ ánh sáng<small>gợn ở xa phát ra từ lúc còn quay chậm</small>"), 'vang tran');
     nhanLan.position.set(0.8, 3.6, -21);
     nhomLan.add(nhanLan);
     scene.add(nhomLan);
@@ -757,7 +761,7 @@ Năm 2023, các mảng định thời pulsar công bố bằng chứng về mộ
       nhomVong.add(l.line, dau);
       return { l, dau };
     });
-    const nhanVong = taoNhan(chuCanh("canh.vong-hat-thu-roi-tu-do-nam-vuong", "Vòng hạt thử rơi tự do<small>nằm vuông góc với hướng sóng · phóng đại ~10²⁰ lần</small>"), 'dam');
+    const nhanVong = taoNhan(chuCanh("canh.vong-hat-thu-roi-tu-do-nam-vuong", "Vòng hạt thử rơi tự do<small>nằm vuông góc với hướng sóng</small>"), 'dam');
     nhanVong.position.set(0, R_VONG * 1.42 + 0.6, 0);
     const nhanNgang = taoNhan('ngang', 'mo tran'), nhanDoc = taoNhan(chuCanh("canh.doc", "dọc"), 'mo tran');
     nhanNgang.position.set(0, 0.3, -R_VONG * 1.42 - 0.2); nhanDoc.position.set(0, R_VONG * 1.42 - 0.4, 0.3);
@@ -825,6 +829,7 @@ Năm 2023, các mảng định thời pulsar công bố bằng chứng về mộ
     thuoc.line.renderOrder = nenThuoc.line.renderOrder = vachThuoc.line.renderOrder = dauThuoc.renderOrder = 5;
     nhomThuoc.add(thuoc.line, nenThuoc.line, vachThuoc.line, dauThuoc, nhanThuoc);
     scene.add(nhomThuoc);
+    const dsNhan = [];
     const nhomCot = new THREE.Group();
     const dsCot = COT.map((p, i) => {
       const truc = new DuongDay(2, { mau: i ? 0x9fd4ff : 0xffc98a, rong: 1.8, doMo: 0.7, sang: 1.2 });
@@ -837,7 +842,7 @@ Năm 2023, các mảng định thời pulsar công bố bằng chứng về mộ
       const day = new DuongDay(2, { mau: i ? 0x9fd4ff : 0xffc98a, rong: 1.2, doMo: 0.3, net: [0.4, 0.4] });
       const nhanKL = taoNhan('', 'dam');
       nhomCot.add(truc.line, vach.line, day.line, nhanKL, ...nhanMoc);
-      return { day, nhanKL };
+      return { day, nhanKL, nhanMoc };
     });
     scene.add(nhomCot);
 
@@ -1374,11 +1379,32 @@ Năm 2023, các mảng định thời pulsar công bố bằng chứng về mộ
           if (dangKeoCot !== i) tayCot[i].dat([p[0], y, p[2]]);
           const vt = i ? vat2 : vat1;
           dsCot[i].day.dat(0, p[0], y, p[2]); dsCot[i].day.dat(1, vt.visible ? vt.position.x : 0, Y_VAT, vt.visible ? vt.position.z : 0); dsCot[i].day.xong(2);
-          dsCot[i].nhanKL.position.set(p[0] + (i ? 0.8 : -0.8), y + 0.9, p[2]);
+          // phía trong cột (phía hai vật), bên kia các chữ số của vạch chia, để không che số 50
+          dsCot[i].nhanKL.position.set(p[0] + (i ? -0.8 : 0.8), y + 0.9, p[2]);
           dsCot[i].nhanKL.datChu(`${so(m, m < 5 ? 2 : m < 10 ? 1 : 0)} M☉`);
         });
       }
       if (hien.canh && !tt.dangKeo) { nhomVong.updateMatrixWorld(true); tayXoay.dat(viTriTayXoay(theta)); }
+
+      // Nhãn tránh nhau: vật chính (hai vật, khối lượng đang kéo) giữ chỗ; nhãn của dụng cụ ở 50–85; chữ số trên cột,
+      // chú thích phụ ở 15–40. Bước cột khối lượng: mỗi khối lượng chỉ một nhãn (ở tay nắm của cột), nhãn cạnh hai vật tắt.
+      const oTram = hien.vong || hien.ligo;
+      dsNhan.length = 0;
+      dsNhan.push({ nhan: nhanCuoi, uuTien: 95, giu: true, tat: !daNhap });
+      dsNhan.push({ nhan: nhan1, uuTien: 90, tat: daNhap || oTram || hien.cot }, { nhan: nhan2, uuTien: 90, tat: daNhap || oTram || hien.cot });
+      for (const c of dsCot) {
+        dsNhan.push({ nhan: c.nhanKL, uuTien: 92, giu: true, tat: !hien.cot });
+        for (const n of c.nhanMoc) dsNhan.push({ nhan: n, uuTien: 15, tat: !hien.cot });
+      }
+      dsNhan.push({ nhan: nhanThuoc, uuTien: 85, tat: !hien.thuoc });
+      dsNhan.push({ nhan: nhanMayDo, uuTien: 80, tat: !hien.mayDo }, { nhan: nhanTH, uuTien: 70, tat: !hien.mayDo }, { nhan: nhanTruc, uuTien: 40, tat: !hien.mayDo });
+      dsNhan.push({ nhan: nhanLan, uuTien: 30, tat: !nhomLan.visible });
+      dsNhan.push({ nhan: nhanHuong, uuTien: 55, tat: !oTram });
+      dsNhan.push({ nhan: nhanVong, uuTien: 75, tat: !hien.vong }, { nhan: nhanCanh, uuTien: 85, tat: !hien.vong || !hien.canh }, { nhan: nhanTT, uuTien: 60, tat: !hien.vong || !hien.lucTT });
+      dsNhan.push({ nhan: nhanNgang, uuTien: 50, tat: !hien.vong }, { nhan: nhanDoc, uuTien: 50, tat: !hien.vong });
+      dsNhan.push({ nhan: nhanRa, uuTien: 85, tat: !hien.ligo }, { nhan: nhanTay, uuTien: 70, tat: !hien.ligo }, { nhan: nhanBS, uuTien: 60, tat: !hien.ligo });
+      dsNhan.push({ nhan: nhanLaser, uuTien: 50, tat: !hien.ligo }, { nhan: nhanG1, uuTien: 50, tat: !hien.ligo }, { nhan: nhanG2, uuTien: 50, tat: !hien.ligo });
+      goNhanDeNhau(dsNhan, app.camera, app.rong, app.cao);
 
       // tiếng: chỉ khi mô hình đang chạy (hoặc đang kéo thước, cột: tiếng theo tay kéo); im khi tạm dừng
       const chay = dtg > 0 && (v > 0 || giu);
@@ -1387,17 +1413,20 @@ Năm 2023, các mảng định thời pulsar công bố bằng chứng về mộ
 
     function tanSoNguon() { return tau > 0 ? TC.tanSoThat(tau, ts) : 0; }
     function hud() {
-      const them = [];
+      // Ô số liệu tối đa 5 dòng: bốn dòng đổi theo thời gian, rồi một dòng riêng của bước (trạm đo, máy dò hay cột khối
+      // lượng). «Chiếu chậm» và «Tiếng» chỉ hiện khi còn chỗ; lời giảng đã nói hai điều này.
+      const rieng = [];
       if (hien.vong || hien.ligo) {
         const [hp, hx] = bienDangHienThi();
-        them.push([chuCanh("canh.tram-do", "Trạm đo"), chuCanh("canh.bien-dang-ve-tren-hinh-song-that-chi", "biến dạng vẽ trên hình {0}%, sóng thật chỉ cỡ 10⁻¹⁹ %", [so(Math.max(Math.abs(hp), Math.abs(hx)) * 50, 0)])]);
+        rieng.push([chuCanh("canh.tram-do", "Trạm đo"), chuCanh("canh.bien-dang-ve-tren-hinh-song-that-chi", "biến dạng vẽ trên hình {0}%, sóng thật chỉ cỡ 10⁻¹⁹ %", [so(Math.max(Math.abs(hp), Math.abs(hx)) * 50, 0)])]);
       }
       if (hien.mayDo) {
         const h = TC.heSoHuong(cosI());
-        them.push([chuCanh("canh.may-do", "Máy dò"), chuCanh("canh.lech-truc-quay-bien-do-so-voi-doc", "lệch trục quay {0}° · biên độ «+» {1}%, «×» {2}% so với dọc trục", [so(Math.acos(cosI()) / DO, 0), so(h.cong * 100, 0), so(Math.abs(h.cheo) * 100, 0)])]);
+        rieng.push([chuCanh("canh.may-do", "Máy dò"), chuCanh("canh.lech-truc-quay-bien-do-so-voi-doc", "lệch trục {0}° · biên độ «+» {1}%, «×» {2}%", [so(Math.acos(cosI()) / DO, 0), so(h.cong * 100, 0), so(Math.abs(h.cheo) * 100, 0)])]);
       }
-      if (batTieng && tinTieng.doTo > 0.001) them.push([chuCanh("canh.tieng", "Tiếng"), `${so(tinTieng.f, 0)} Hz${heSoCao > 1 ? chuCanh("canh.da-nang-4", " (đã nâng ×4)") : chuCanh("canh.dung-tan-so-that", " (đúng tần số thật)")}${nhuThat ? chuCanh("canh.nhanh-nhu-that", " · nhanh như thật") : ''}`]);
-      if (tau <= 0) return [[chuCanh("canh.trang-thai", "Trạng thái"), chuCanh("canh.da-sap-nhap-song-cuoi-cung-dang-lan", "đã sáp nhập; sóng cuối cùng đang lan ra")], [chuCanh("canh.tan-so-luc-nhap-mo-hinh", "Tần số lúc nhập (mô hình)"), `${so(ts.fNhap, 0)} Hz`], [chuCanh("canh.chieu-cham", "Chiếu chậm"), nhuThat ? chuCanh("canh.khong-nhanh-nhu-that", "không: nhanh như thật") : chuCanh("canh.lan", "{0} lần", [soNghia(TC.soLanChamLai(ts, 1), 2)])], ...them];
+      const cham = [chuCanh("canh.chieu-cham", "Chiếu chậm"), nhuThat ? chuCanh("canh.khong-nhanh-nhu-that", "không: nhanh như thật") : chuCanh("canh.lan", "{0} lần", [soNghia(TC.soLanChamLai(ts, 1), 2)])];
+      const tieng = batTieng && tinTieng.doTo > 0.001 ? [[chuCanh("canh.tieng", "Tiếng"), `${so(tinTieng.f, 0)} Hz${heSoCao > 1 ? chuCanh("canh.da-nang-4", " (đã nâng ×4)") : chuCanh("canh.dung-tan-so-that", " (đúng tần số thật)")}${nhuThat ? chuCanh("canh.nhanh-nhu-that", " · nhanh như thật") : ''}`]] : [];
+      if (tau <= 0) return [[chuCanh("canh.trang-thai", "Trạng thái"), chuCanh("canh.da-sap-nhap-song-cuoi-cung-dang-lan", "đã sáp nhập; sóng cuối cùng đang lan ra")], [chuCanh("canh.tan-so-luc-nhap-mo-hinh", "Tần số lúc nhập (mô hình)"), `${so(ts.fNhap, 0)} Hz`], ...rieng, cham, ...tieng].slice(0, 5);
       const tThat = tau * ts.sTL;                            // giây thật còn lại
       const f = tanSoNguon();
       const omT = Math.PI * f;                               // tốc độ góc quỹ đạo thật
@@ -1410,9 +1439,8 @@ Năm 2023, các mảng định thời pulsar công bố bằng chứng về mộ
         [chuCanh("canh.hai-vat-cach-nhau", "Hai vật cách nhau"), `${so(a / 1000, 0)} km`],
         [chuCanh("canh.toc-do-tuong-doi", "Tốc độ tương đối"), chuCanh("canh.toc-do-anh-sang", "{0}% tốc độ ánh sáng", [so(v * 100, 0)])],
         ...(hien.cot ? [[chuCanh("canh.tan-so-luc-nhap-mo-hinh", "Tần số lúc nhập (mô hình)"), chuCanh("canh.hz-tong-m", "{0} Hz · tổng {1} M☉", [so(ts.fNhap, 0), so(m1 + m2, 1)])]] : []),
-        [chuCanh("canh.chieu-cham", "Chiếu chậm"), nhuThat ? chuCanh("canh.khong-nhanh-nhu-that", "không: nhanh như thật") : chuCanh("canh.lan", "{0} lần", [soNghia(TC.soLanChamLai(ts, 1), 2)])],
-        ...them,
-      ];
+        ...rieng, cham, ...tieng,
+      ].slice(0, 5);
     }
 
     return {

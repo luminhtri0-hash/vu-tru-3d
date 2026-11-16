@@ -18,7 +18,7 @@ import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js
 import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
 import { so } from '../vat-ly/hang-so.js';
 import * as EF from '../vat-ly/eddington-finkelstein.js';
-import { taoNhan, taoNenSao, DuongDay, duongDayTinh } from '../khung/ve.js';
+import { taoNhan, taoNenSao, DuongDay, duongDayTinh, goNhanDeNhau } from '../khung/ve.js';
 import { MAU_KTG, muiTen, nonAnhSang, suKien } from '../khung/ktg.js';
 import { MAU, khungDoThi } from '../khung/giao-dien.js';
 
@@ -118,7 +118,7 @@ export default {
   ten: 'Nón ánh sáng quanh lỗ đen',
   moTa: 'Nón nghiêng dần vào trong; chân trời là mặt do ánh sáng dệt nên',
   yChinh: 'Càng gần lỗ đen, nón ánh sáng càng nghiêng vào trong. Tại chân trời, mép ngoài của nón dựng đứng: ánh sáng hướng ra cũng chỉ đứng yên tại chỗ. Bên trong, cả nón chĩa về tâm: bán kính r đóng vai thời gian và kỳ dị là một thời điểm chắc chắn sẽ tới, không phải một nơi có thể tránh.',
-  mayAnh: { viTri: [-2.6, 8.2, 19], dich: [-3.2, 5.6, 0], fov: 40, min: 3, max: 90, gan: 0.05, xa: 2000 },
+  mayAnh: { viTri: [-2.6, 8.2, 19], dich: [-3.2, 5.6, 0], fov: 40, min: 3, max: 90, gan: 0.05, xa: 2000, hep: 0.45 },
   hinh: { quang: 0.3, nguong: 1.3, banKinh: 0.35 },
 
   baiGiang: {
@@ -181,11 +181,15 @@ export default {
 
           Từ $t = t^* - \ln|r - 1|$ có $\dd t = \dd t^* - \dd r/(r - 1)$. Thay vào và dùng $(1 - 1/r)/(r - 1) = 1/r$:
 
-          $$ \dd s^2 = -\left(1 - \tfrac{1}{r}\right)\dd t^{*2} + \tfrac{2}{r}\,\dd t^*\dd r + \left[\tfrac{r}{r-1} - \tfrac{1}{r(r-1)}\right]\dd r^2 $$
+          $$ \dd s^2 = -\left(1 - \tfrac{1}{r}\right)\dd t^{*2} + \tfrac{2}{r}\,\dd t^*\dd r $$
+
+          $$ \qquad + \left[\tfrac{r}{r-1} - \tfrac{1}{r(r-1)}\right]\dd r^2 $$
 
           Ngoặc vuông bằng $(r^2 - 1)/(r(r-1)) = 1 + 1/r$. Vậy
 
-          $$ \dd s^2 = -\left(1 - \tfrac{1}{r}\right)\dd t^{*2} + \tfrac{2}{r}\,\dd t^*\dd r + \left(1 + \tfrac{1}{r}\right)\dd r^2 + r^2\dd\varphi^2 $$
+          $$ \dd s^2 = -\left(1 - \tfrac{1}{r}\right)\dd t^{*2} + \tfrac{2}{r}\,\dd t^*\dd r $$
+
+          $$ \qquad + \left(1 + \tfrac{1}{r}\right)\dd r^2 + r^2\dd\varphi^2 $$
 
           Không hệ số nào vô hạn tại $r = 1$. Tia rơi vào: thử $\dd r = -\dd t^*$, được $-(1 - 1/r) - 2/r + 1 + 1/r = 0$ với mọi $r$.
           +++`,
@@ -361,13 +365,13 @@ export default {
         noiDung: R`
           Mọi kết quả trên tính theo đơn vị $r_s$ và $r_s/c$. Đổi sang lỗ đen thật bằng $r_s = 2GM/c^2$ (khoảng 2,95 km cho mỗi khối lượng Mặt Trời):
 
-          Sgr A* nặng 4,3 triệu, M87* nặng 6,5 tỉ khối lượng Mặt Trời ($M_\odot$).
+          Sgr A* nặng 4,3 triệu, M87* nặng 6,5 tỉ khối lượng Mặt Trời ($M_\odot$). Bán kính $r_s$ của ba lỗ đen trong bảng lần lượt là 12,7 triệu km, 128 AU và 29,5 km.
 
-          | Lỗ đen | $r_s$ · $r_s/c$ | Rơi từ xa: chân trời → kỳ dị | Lâu nhất có thể |
-          |---|---|---|---|
-          | Sgr A* | 12,7 triệu km · 42 s | 28 s | 67 s |
-          | M87* | 128 AU · 17,8 giờ | 12 giờ | 28 giờ |
-          | 10 $M_\odot$ | 29,5 km · 98 µs | 66 µs | 155 µs |
+          | Lỗ đen ($r_s/c$) | Rơi từ xa: chân trời → kỳ dị | Lâu nhất |
+          |---|---|---|
+          | Sgr A* (42 s) | 28 s | 67 s |
+          | M87* (17,8 giờ) | 12 giờ | 28 giờ |
+          | 10 $M_\odot$ (98 µs) | 66 µs | 155 µs |
 
           (µs: micro giây, một phần triệu giây.)
 
@@ -470,6 +474,9 @@ export default {
     // =====================================================================
     const nhomNen = new THREE.Group();
     scene.add(nhomNen);
+    // nhãn số trên hai trục: giữ lại để bộ xếp nhãn chọn số nào hiện (mục «Nhãn» cuối tệp)
+    const nhanSoR = [], nhanSoT = [];
+    let nhanDonViR = null, nhanPhoton = null, nhanKyDi = null;
     {
       // Sàn: đĩa tối có lưới cực vẽ trong shader (vòng mỗi 1 rs đậm, mỗi 0,5 rs mờ, tia mỗi 15°), mờ dần ra mép,
       // quầng vàng nhẹ quanh vòng chân trời.
@@ -501,10 +508,12 @@ export default {
         const n = taoNhan(k === 1 ? '1 rs' : String(k), 'mo tran giua');
         n.position.set(-k, 0, 0.42);
         nhomNen.add(n);
+        nhanSoR.push(n);
       }
       const nr = taoNhan(chuCanh("canh.r-don-vi-rs", "r (đơn vị rs)"), 'mo tran');
       nr.position.set(-R_SAN - 1.1, 0, 0.42);           // đứng riêng bên trái số 7, không đè lên số
       nhomNen.add(nr);
+      nhanDonViR = nr;
     }
     // trục thời gian
     const xTruc = -R_SAN - 0.4;
@@ -514,7 +523,7 @@ export default {
     nhomNen.add(nhanTruc);
     for (let y = 2; y <= Y_MAX; y += 2) {
       const chinh = y % 4 === 0;
-      if (chinh) { const n = taoNhan(String(y), 'mo tran'); n.position.set(xTruc, y, 0); nhomNen.add(n); }
+      if (chinh) { const n = taoNhan(String(y), 'mo tran'); n.position.set(xTruc, y, 0); nhomNen.add(n); nhanSoT.push([y, n]); }
       nhomNen.add(duongDayTinh([xTruc - (chinh ? 0.2 : 0.1), y, 0, xTruc + (chinh ? 0.2 : 0.1), y, 0], { mau: MAU_KTG.thoiGian, rong: chinh ? 1.6 : 1.1, doMo: chinh ? 0.8 : 0.45 }).line);
     }
 
@@ -567,6 +576,7 @@ export default {
       n.element.style.color = '#c8aaff';
       n.position.set(1.5 * Math.cos(-1.2), 0.05, 1.5 * Math.sin(-1.2));   // lùi ra phía sau bên phải, tránh dãy số của trục r
       nhomPhoton.add(n);
+      nhanPhoton = n;
     }
     // Kỳ dị: đường răng cưa phát sáng dọc trục
     {
@@ -577,6 +587,7 @@ export default {
       n.element.style.color = '#ff8a73';
       n.position.set(-0.2, Y_MAX + 2.7, 0);
       scene.add(n);
+      nhanKyDi = n;
     }
     // Vật vô hình để rê chuột: trục kỳ dị (trụ mảnh)
     const vatKyDi = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, Y_MAX, 8, 1, true), new THREE.MeshBasicMaterial({ visible: false }));
@@ -797,10 +808,10 @@ export default {
     function datRDoNgay(r) {
       S.rDo = r;
       nonDo.datR(r);
-      const d = EF.docTiaRa(r);
       nhanDo.position.set(-r - EPS_DO * 0.95, T_DO + EPS_DO + 0.45, 0);
       nhanDo.element.style.color = r > 1.02 ? '#f3c66f' : r < 0.98 ? '#ff8a73' : '#ffffff';
-      nhanDo.datChu(chuCanh("canh.non-do-o-r-rs-mep-ngoai-dr", "Nón dò ở r = {0} rs<small>mép ngoài dr/dt* = {1} c · {2}</small>", [so(r, 2), so(d, 2), Math.abs(d) < 0.005 ? chuCanh("canh.dung-dung", "dựng đứng") : d > 0 ? chuCanh("canh.nghieng-ra-ngoai", "nghiêng {0}° ra ngoài", [so(goc(d), 1)]) : chuCanh("canh.nghieng-vao-trong", "nghiêng {0}° vào trong", [so(goc(-d), 1)])]));
+      // chỉ ghi chỗ đặt nón; độ nghiêng của mép ngoài đã có ở ô số liệu
+      nhanDo.datChu(chuCanh("canh.non-do-o-r", "Nón dò ở r = {0} rs", [so(r, 2)]));
       if (!tt.dangKeo) tayDo.dat([-r, yHien(T_DO, r), 0]);
     }
     let giongDo = null, tatGiongSau = 0, rTruocTieng = null;
@@ -1084,6 +1095,39 @@ export default {
       }
     }
 
+    // ----- Nhãn: tối đa 12 nhãn mỗi bước, không đè nhau -----
+    // Số trên trục r: 1 rs, 3, 5 khi xem nón; khi xem người rơi thì bỏ (chân trời đã ghi r = rs, người ở xa r = 7 rs).
+    // Số trên trục thời gian: mỗi bốn vạch một số (8, 16, 24); khi xem người rơi chỉ 12, 24. Số chớp nhận được: chỉ 1, 5, 10, 15;
+    // chớp cuối có nhãn riêng. Nhãn bài đặt ẩn/hiện ở chỗ khác thì giữ nguyên (tat theo visible lúc gọi).
+    const SO_R_NON = [1, 3, 5], SO_CHOP_HIEN = [1, 5, 10, 15];
+    const dsNhan = [];
+    const themNhan = (nhan, uuTien, tatRieng = null, giu = false) => { const k = { nhan, uuTien, tat: false, giu, tatRieng }; dsNhan.push(k); return k; };
+    themNhan(nhanDo, 95, null, true);
+    themNhan(nhanRoi, 90, null, true);
+    themNhan(nhanQS, 84);
+    themNhan(nhanChopCuoi, 82);
+    themNhan(nhanCT, 78);
+    themNhan(nhanKyDi, 76);
+    themNhan(kinh.userData.nhan, 70);
+    nhanVung.forEach((n) => themNhan(n, 72));
+    nhanNhan.forEach((n, i) => themNhan(n, 60, () => !SO_CHOP_HIEN.includes(i + 1)));
+    themNhan(nhanTruc, 40);
+    themNhan(nhanPhoton, 34, () => S.hien.roi);
+    themNhan(nhanTauDau, 20, () => true);
+    nhanSoR.forEach((n, i) => themNhan(n, i === 0 ? 30 : 22, () => S.hien.roi || !SO_R_NON.includes(i + 1)));
+    themNhan(nhanDonViR, 10, () => true);           // «1 rs» đã ghi đơn vị
+    for (const [y, n] of nhanSoT) themNhan(n, 18, () => (S.hien.roi ? y % 12 !== 0 : y % 8 !== 0));
+    // nhãn tự đặt ẩn/hiện (theo bước, theo thời gian) thì lấy visible; nhãn luôn có (số trục, kỳ dị…) chỉ theo luật riêng
+    const tuDatAnHien = new Set([nhanDo, nhanRoi, nhanChopCuoi, kinh.userData.nhan, ...nhanVung, ...nhanNhan]);
+    function xepNhan() {
+      for (let i = 0; i < dsNhan.length; i++) {
+        const k = dsNhan[i];
+        const an = tuDatAnHien.has(k.nhan) ? !k.nhan.visible : false;
+        k.tat = an || (k.tatRieng ? k.tatRieng() : false);
+      }
+      goNhanDeNhau(dsNhan, camera, app.rong, app.cao);
+    }
+
     function capNhat(dt, dtThuc) {
       GIO.value += dt;
       if (thu) chayThu(dtThuc);
@@ -1129,6 +1173,7 @@ export default {
         if (n !== soNhanDaVe) { soNhan = n; soNhanDaVe = n; veDoThi(); }
         tiengChop(dt);
       }
+      xepNhan();
     }
     let tCho = 0;
 
@@ -1136,18 +1181,20 @@ export default {
       const d = [[chuCanh("canh.thoi-gian", "Thời gian"), S.m < 0.005 ? chuCanh("canh.eddington-finkelstein-t-khong-hong-o-chan-troi", "Eddington–Finkelstein t* (không hỏng ở chân trời)") : S.m > 0.995 ? chuCanh("canh.schwarzschild-t-hong-o-chan-troi", "Schwarzschild t (hỏng ở chân trời)") : chuCanh("canh.tron", "trộn {0}%", [so(S.m * 100, 0)])]];
       if (S.rDo != null) {
         const r = S.rDo, dd = EF.docTiaRa(r);
-        d.push([chuCanh("canh.non-do", "Nón dò"), chuCanh("canh.r-rs-tia-ra-dr-dt-c-tia", "r = {0} rs · tia ra dr/dt* = {1} c ({2}) · tia vào −1 c", [so(r, 2), so(dd, 3), Math.abs(dd) < 0.0005 ? chuCanh("canh.dung-dung", "dựng đứng") : dd > 0 ? chuCanh("canh.ra-ngoai", "{0}° ra ngoài", [so(goc(dd), 1)]) : chuCanh("canh.vao-trong", "{0}° vào trong", [so(goc(-dd), 1)])])]);
+        d.push([chuCanh("canh.non-do", "Nón dò"), chuCanh("canh.r-rs-tia-ra-dr-dt-c-tia", "r = {0} rs · tia ra {1} c ({2})", [so(r, 2), so(dd, 3), Math.abs(dd) < 0.0005 ? chuCanh("canh.dung-dung", "dựng đứng") : dd > 0 ? chuCanh("canh.ra-ngoai", "{0}° ra ngoài", [so(goc(dd), 1)]) : chuCanh("canh.vao-trong", "{0}° vào trong", [so(goc(-dd), 1)])])]);
         d.push([chuCanh("canh.vung", "Vùng"), r > 1.005 ? chuCanh("canh.ngoai-chan-troi-con-huong-di-ra", "ngoài chân trời: còn hướng đi ra") : r < 0.995 ? chuCanh("canh.ben-trong-moi-huong-deu-ve-r-0", "bên trong: mọi hướng đều về r = 0") : chuCanh("canh.chan-troi-tia-ra-dung-yen", "chân trời: tia ra đứng yên")]);
-        if (r < 1) d.push([chuCanh("canh.nguoi-roi-tu-xa-di-qua-day", "Người rơi từ xa đi qua đây"), chuCanh("canh.con-rs-c-toi-ky-di-toi-da", "còn τ = {0} rs/c tới kỳ dị (tối đa từ chân trời: π/2 ≈ 1,571)", [so(EF.tauToiTam(r), 3)])]);
+        if (r < 1) d.push([chuCanh("canh.nguoi-roi-tu-xa-di-qua-day", "Người rơi từ xa qua đây"), chuCanh("canh.con-rs-c-toi-ky-di-toi-da", "còn τ = {0} rs/c tới kỳ dị", [so(EF.tauToiTam(r), 3)])]);
       }
       if (S.hien.roi) {
         const songT = S.T < CHOP.T0;
         let b = bangRoi[0];
         for (const x of bangRoi) if (x.ts <= S.T) b = x;
         d.push([chuCanh("canh.nguoi-roi", "Người rơi"), songT ? chuCanh("canh.r-rs-thoi-gian-rieng-rs-c", "r = {0} rs · thời gian riêng τ = {1} rs/c{2}", [so(b.r, 2), so(b.tau, 2), b.r < 1 ? chuCanh("canh.da-vao-trong", " · đã vào trong") : '']) : chuCanh("canh.da-toi-ky-di-sau-rs-c", "đã tới kỳ dị sau τ = {0} rs/c", [so(CHOP.tauHet, 2)])]);
-        d.push([chuCanh("canh.chop-da-nhan", "Chớp đã nhận"), chuCanh("canh.16-chop-17-phat-ben-trong-khong-bao", "{0} / 16 (chớp 17 phát bên trong, không bao giờ tới)", [soNhan])]);
-        if (soNhan >= 2) d.push([chuCanh("canh.khoang-nhan-gan-nhat", "Khoảng nhận gần nhất"), chuCanh("canh.rs-c-dong-ho-nguoi-o-xa-phat", "{0} rs/c đồng hồ người ở xa (phát cách 0,6)", [so(CHOP.khoang[soNhan - 2], 2)])]);
+        d.push([chuCanh("canh.chop-da-nhan", "Chớp đã nhận"), chuCanh("canh.16-chop-17-phat-ben-trong-khong-bao", "{0} / 16 (chớp 17 không bao giờ tới)", [soNhan])]);
+        if (soNhan >= 2) d.push([chuCanh("canh.khoang-nhan-gan-nhat", "Khoảng nhận gần nhất"), chuCanh("canh.rs-c-dong-ho-nguoi-o-xa-phat", "{0} rs/c (phát cách 0,6)", [so(CHOP.khoang[soNhan - 2], 2)])]);
       }
+      // dòng đầu là con số chính của bước (trên điện thoại ô số liệu thu gọn chỉ còn dòng đầu): cách đo thời gian xuống cuối
+      if (d.length > 1) d.push(d.shift());
       return d;
     }
 

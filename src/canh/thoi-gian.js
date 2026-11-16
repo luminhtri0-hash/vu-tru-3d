@@ -7,10 +7,11 @@ import { dich as dichChu } from '../ngon-ngu/dich.js';
 import * as THREE from 'three';
 import { so, luyThua, NGAY_GIAY, R_TRAI_DAT_KM, DO } from '../vat-ly/hang-so.js';
 import { nhipDongHo } from '../vat-ly/schwarzschild.js';
+import { G_BONG, T_BONG, dinhTracDia, doCao, loiDoCao, thietTocDo, thoiGianThem } from '../vat-ly/thoi-gian-bong.js';
 import { chenhDoCao, doCaoChoNsNgay, chenhVeTinh, usHapDan, usTocDo, vQuyDao, R_GPS } from '../vat-ly/dong-ho-trai-dat.js';
 import { MatCong, mauNhip, vongTrenMat } from '../khung/mat-cong.js';
 import { khungDoThi, MAU } from '../khung/giao-dien.js';
-import { taoNhan, taoNenSao, taoDom, DuongDay, kep } from '../khung/ve.js';
+import { taoNhan, taoNenSao, taoDom, DuongDay, kep, goNhanDeNhau } from '../khung/ve.js';
 import { taoDenCanh, taoDongHo, taoPhiHanhGia, taoThap, taoVeTinh } from '../khung/do-vat.js';
 import { LoXo, vlKimLoai, vlSang, ghep, dat, domSang } from '../khung/do-vat-chung.js';
 import { taoTraiDat, taoLoDenNho } from '../khung/hanh-tinh.js';
@@ -83,7 +84,7 @@ export default {
   ten: 'Thời gian trôi chậm gần khối lượng',
   moTa: 'Đồng hồ ở sâu chạy chậm; chớp sáng leo ra bị đỏ đi; GPS phải tính đến',
   yChinh: 'Càng gần một khối lượng lớn, thời gian riêng trôi càng chậm so với ở xa: $\\dd\\tau/\\dd t = \\sqrt{1 - r_s/r}$. Không phải đồng hồ hỏng: mọi quá trình ở đó, từ nguyên tử tới nhịp tim, đều chậm như nhau. Gần mặt đất, hai độ cao cách nhau $h$ chênh nhịp $gh/c^2$; đồng hồ quang học đo được cả chênh lệch 1 mm, và GPS phải bù 38,5 micro giây mỗi ngày. Chính sự chênh nhịp này làm vật rơi.',
-  mayAnh: { viTri: [2.5, 7.2, 15], dich: [0, -0.6, 0], fov: 42, min: 1.2, max: 50, gocMax: Math.PI * 0.6 },
+  mayAnh: { viTri: [2.5, 7.2, 15], dich: [0, -0.6, 0], fov: 42, min: 1.2, max: 50, gocMax: Math.PI * 0.6, hep: 0.6 },
   // mặt cong kính sáng lên ở góc nhìn sát: nâng ngưỡng quầng để mặt không bị mờ sữa
   hinh: { nguong: 1.05, quang: 0.45 },
   giaiThich: R`
@@ -120,7 +121,7 @@ export default {
 
           > [Thử ngay] Quả cầu đen trong họng mặt cong là lỗ đen; vòng đỏ cam phát sáng là chân trời sự kiện. Rê chuột lên một đồng hồ để đọc nhịp của nó, bấm vào đồng hồ để đưa phi hành gia (đồng hồ vàng) tới đúng bán kính ấy.
           > [[Nhìn gần chân trời|gan]] [[Nhìn toàn cảnh|tong]] [[Chiếu nhanh gấp 4|nhanh]]`,
-        vao: (c) => c.cauHinh({ canh: 'loden', r: 2, tocDo: 1.6, viDu: 'gps', mayAnh: 'tong' }),
+        vao: (c) => c.cauHinh({ canh: 'loden', r: 2, tocDo: 1.6, viDu: 'gps', mayAnh: 'tong', tram: false }),
         nut: { gan: (c) => c.goc('gan'), tong: (c) => c.goc('tong'), nhanh: (c) => c.cauHinh({ tocDo: 4 }) },
       },
       {
@@ -140,15 +141,19 @@ export default {
           +++ Đi sâu: công thức nhịp đồng hồ lấy từ đâu
           Bên ngoài một khối cầu không quay, không-thời gian được mô tả bằng {{metric Schwarzschild}} (Karl Schwarzschild tìm ra cuối năm 1915):
 
-          $$ \dd s^2 = -\left(1 - \frac{r_s}{r}\right)c^2\dd t^2 + \frac{\dd r^2}{1 - r_s/r} + r^2\left(\dd\theta^2 + \sin^2\theta\,\dd\phi^2\right). $$
+          $$ \dd s^2 = -\left(1 - \frac{r_s}{r}\right)c^2\dd t^2 + \frac{\dd r^2}{1 - r_s/r} $$
+
+          $$ \qquad + \, r^2\left(\dd\theta^2 + \sin^2\theta\,\dd\phi^2\right). $$
 
           Ở rất xa ($r \to \infty$) nó trở về khoảng không-thời gian phẳng của Bài 6, nên $t$ là thời gian của đồng hồ ở rất xa. Đồng hồ đứng yên có $\dd r = \dd\theta = \dd\phi = 0$, và thời gian riêng của nó là $c^2\dd\tau^2 = -\dd s^2$:
 
-          $$ c^2\dd\tau^2 = \left(1 - \frac{r_s}{r}\right)c^2\dd t^2 \ \Rightarrow\ \dd\tau = \sqrt{1 - \frac{r_s}{r}}\;\dd t. $$
+          $$ c^2\dd\tau^2 = \left(1 - \frac{r_s}{r}\right)c^2\dd t^2 $$
+
+          $$ \Rightarrow\ \dd\tau = \sqrt{1 - \frac{r_s}{r}}\;\dd t. $$
 
           Đó là toàn bộ phép tính. Thừa số đứng trước $c^2\dd t^2$ nhỏ hơn 1 ở gần khối lượng: đây là phần **thời gian** của độ cong.
           +++`,
-        vao: (c) => c.cauHinh({ canh: 'loden', r: 2, tocDo: 1.6, viDu: 'gps', mayAnh: 'tong' }),
+        vao: (c) => c.cauHinh({ canh: 'loden', r: 2, tocDo: 1.6, viDu: 'gps', mayAnh: 'tong', tram: false }),
         nut: { xa: (c) => c.cauHinh({ r: 8 }), gan12: (c) => c.cauHinh({ r: 1.2 }), ve2: (c) => c.cauHinh({ r: 2 }) },
         thuThach: {
           de: 'Kéo phi hành gia tới chỗ đồng hồ vàng chạy bằng **đúng một nửa** đồng hồ ở xa (nhịp 50%, lệch không quá 2%).',
@@ -175,7 +180,7 @@ export default {
           > [[Phi hành gia ở 1,1 rs|r11]] [[Ở 2 rs|r2]] [[Ở 5 rs|r5]]
 
           > [Lưu ý] Âm thanh: mỗi chớp tới trạm thu kêu một tiếng. Phi hành gia «phát» mọi tiếng ở cùng một cao độ, 880 Hz theo đồng hồ của mình; ở trạm thu tiếng trầm đi đúng theo tỉ số $\sqrt{1 - r_s/r}$ như ánh sáng (ở $2\,r_s$ còn 622 Hz). Con số 880 Hz chỉ chọn cho dễ nghe.`,
-        vao: (c) => c.cauHinh({ canh: 'loden', r: 2, tocDo: 2.5, viDu: 'gps', mayAnh: 'chop' }),
+        vao: (c) => c.cauHinh({ canh: 'loden', r: 2, tocDo: 2.5, viDu: 'gps', mayAnh: 'chop', tram: true }),
         nut: { r11: (c) => c.cauHinh({ r: 1.1 }), r2: (c) => c.cauHinh({ r: 2 }), r5: (c) => c.cauHinh({ r: 5 }) },
         thuThach: {
           de: 'Kéo phi hành gia tới chỗ trạm thu nhận các chớp cách nhau **2,5 giây**, tức $z = 0{,}25$ (lệch không quá 0,05 giây).',
@@ -206,11 +211,15 @@ export default {
           +++ Đi sâu: từ √(1 − rs/r) tới gh/c², từng dòng
           Gọi $R$ là bán kính Trái Đất. Nhịp ở $R$ và ở $R + h$:
 
-          $$ n(R) \approx 1 - \frac{GM}{Rc^2}, \qquad n(R+h) \approx 1 - \frac{GM}{(R+h)c^2}. $$
+          $$ n(R) \approx 1 - \frac{GM}{Rc^2}, $$
+
+          $$ n(R+h) \approx 1 - \frac{GM}{(R+h)c^2}. $$
 
           Hiệu hai nhịp:
 
-          $$ n(R+h) - n(R) \approx \frac{GM}{c^2}\left(\frac1R - \frac1{R+h}\right) = \frac{GM}{c^2}\cdot\frac{h}{R(R+h)} \approx \frac{GM}{R^2}\cdot\frac{h}{c^2} = \frac{gh}{c^2}. $$
+          $$ n(R+h) - n(R) \approx \frac{GM}{c^2}\left(\frac1R - \frac1{R+h}\right) $$
+
+          $$ = \frac{GM}{c^2}\cdot\frac{h}{R(R+h)} \approx \frac{GM}{R^2}\cdot\frac{h}{c^2} = \frac{gh}{c^2}. $$
 
           Bước cuối dùng $g = GM/R^2$ và $h \ll R$. Chia cho nhịp (gần bằng 1) được tỉ lệ chênh. Thay số với $h = 450$ m: công thức đầy đủ và công thức gần đúng khớp nhau tới một phần nghìn.
 
@@ -273,7 +282,11 @@ export default {
 
           **1. Phần hấp dẫn.** Nhịp ở bán kính $r$ là $1 - GM/(rc^2)$. Hiệu nhịp giữa vệ tinh và mặt đất:
 
-          $$ \frac{GM}{c^2}\left(\frac1R - \frac1r\right) = 4{,}435 \times 10^{-3}\ \text{m} \times \left(1{,}570 \times 10^{-7} - 3{,}765 \times 10^{-8}\right)\ \text{m}^{-1} \approx 5{,}29 \times 10^{-10}. $$
+          $$ \frac{GM}{c^2}\left(\frac1R - \frac1r\right) = 4{,}435 \times 10^{-3}\ \text{m} $$
+
+          $$ \times \left(1{,}570 \times 10^{-7} - 3{,}765 \times 10^{-8}\right)\ \text{m}^{-1} $$
+
+          $$ \approx 5{,}29 \times 10^{-10}. $$
 
           Nhân với 86 400 s: **+45,7 micro giây mỗi ngày**.
 
@@ -314,7 +327,7 @@ export default {
 
           > [Thử ngay] Kéo phi hành gia lại gần chân trời và xem đồ thị nhịp ở bảng điều khiển.
           > [[Bề mặt sao neutron (2,9 rs)|nt]] [[Ở 1,01 rs|sat]] [[Xem thẻ Mặt Trời|mt]]`,
-        vao: (c) => c.cauHinh({ canh: 'loden', r: 2.9, tocDo: 1.6, viDu: 'neutron', mayAnh: 'gan' }),
+        vao: (c) => c.cauHinh({ canh: 'loden', r: 2.9, tocDo: 1.6, viDu: 'neutron', mayAnh: 'gan', tram: false }),
         nut: {
           nt: (c) => c.cauHinh({ r: 2.9, viDu: 'neutron' }),
           sat: (c) => c.cauHinh({ r: 1.01, mayAnh: 'gan' }),
@@ -324,6 +337,8 @@ export default {
       {
         ten: 'Vì sao vật rơi: chênh nhịp bẻ cong đường thế giới',
         noiDung: R`
+          Mô hình đổi sang một sơ đồ: trục ngang là thời gian (2 giây), trục đứng là độ cao của một quả bóng. Ba đường cùng nối hai sự kiện «ném» và «bắt lại». Ba quả bóng chạy cùng lúc trên ba đường; cột bên phải là thời gian riêng mà đồng hồ trên mỗi quả bóng đếm **thêm** lúc được bắt lại, so với quả nằm yên trong tay.
+
           Ở Bài 6, giữa hai sự kiện cho trước, đường thế giới **thẳng** là đường có thời gian riêng **dài nhất**; mọi đường vòng vèo đều cho ít thời gian riêng hơn (anh em sinh đôi). Thuyết tương đối rộng giữ nguyên quy tắc ấy cho không-thời gian cong:
 
           > [Định nghĩa] Vật rơi tự do đi theo đường thế giới có **thời gian riêng dài nhất** giữa hai sự kiện (xét các đường đủ ngắn và nằm sát nhau). Đường ấy gọi là {{đường trắc địa}}.
@@ -335,14 +350,19 @@ export default {
 
           Đường cân bằng đúng lợi và thiệt là **đường parabol** mà Newton tính được: bóng lên cao 4,9 m. Đồng hồ trên quả bóng lợi $7{,}1 \times 10^{-16}$ giây nhờ độ cao, thiệt $3{,}6 \times 10^{-16}$ giây vì tốc độ. Lên cao hơn hay thấp hơn đều cho tổng ít hơn.
 
-          > [Tóm lại] Không cần lực nào kéo quả bóng xuống. Chỉ cần thời gian ở thấp trôi chậm hơn ở cao một chút xíu (cỡ $10^{-16}$ cho mỗi mét độ cao), đường thế giới «thẳng nhất» đã tự cong về phía mặt đất. Với vật chậm, gần như toàn bộ hấp dẫn đến từ **phần thời gian** của độ cong. Bài 10 vẽ đường ấy trên một mặt không-thời gian cong.
+          > [Thử ngay] Xanh lam: bóng nằm yên trong tay. Vàng: ném lên rồi rơi tự do. Hồng: vọt lên cao 7,35 m (gấp rưỡi) rồi lao về. Kéo đỉnh đường hồng lên xuống: cột hồng không bao giờ vượt cột vàng. Lên cao gấp đôi (9,8 m) thì lợi bao nhiêu thiệt bấy nhiêu, bằng đúng quả nằm yên.
+          > [[So ba đường|so]] [[Hồng cao gấp đôi|cao2]] [[Hồng thấp một nửa|nua]]
 
-          [[Phi hành gia ở 2 rs|r2]] [[Nhìn toàn cảnh|tong]]
+          > [Lưu ý] Sơ đồ chỉ cho thấy hình dạng của các đường; chênh lệch thời gian quá nhỏ nên cột được phóng đại. Con số ghi cạnh đường và ở ô số liệu là số thật, tính bằng công thức gần đúng cho vật chậm gần mặt đất ($g = 9{,}8$ m/s²).
+
+          > [Tóm lại] Không cần lực nào kéo quả bóng xuống. Chỉ cần thời gian ở thấp trôi chậm hơn ở cao một chút xíu (cỡ $10^{-16}$ cho mỗi mét độ cao), đường thế giới «thẳng nhất» đã tự cong về phía mặt đất. Với vật chậm, gần như toàn bộ hấp dẫn đến từ **phần thời gian** của độ cong. Bài 10 vẽ đường ấy trên một mặt không-thời gian cong.
 
           +++ Đi sâu: thời gian riêng cực đại cho ra định luật Newton
           Với vật chậm ở độ cao $z$ gần mặt đất, nhịp đồng hồ trên vật gồm hai phần: lợi $gz/c^2$ do độ cao, thiệt $v^2/(2c^2)$ do tốc độ. Thời gian riêng đi từ lúc ném tới lúc bắt:
 
-          $$ \tau \approx \int \left(1 + \frac{gz}{c^2} - \frac{v^2}{2c^2}\right)\dd t = T - \frac{1}{c^2}\int\left(\tfrac12 v^2 - gz\right)\dd t. $$
+          $$ \tau \approx \int \left(1 + \frac{gz}{c^2} - \frac{v^2}{2c^2}\right)\dd t $$
+
+          $$ = T - \frac{1}{c^2}\int\left(\tfrac12 v^2 - gz\right)\dd t. $$
 
           $T$ cố định, nên làm $\tau$ lớn nhất cũng là làm $\int(\tfrac12 v^2 - gz)\,\dd t$ nhỏ nhất. Biểu thức trong tích phân là động năng trừ thế năng (trên một đơn vị khối lượng): đó đúng là **tác dụng** của cơ học Newton. Phương trình Euler–Lagrange cho
 
@@ -350,8 +370,18 @@ export default {
 
           tức định luật rơi của Galilei và Newton. Thay số với $T = 2$ s: $v_0 = 9{,}8$ m/s, đỉnh cao 4,9 m; lợi do độ cao $\frac{g}{c^2}\int z\,\dd t \approx 7{,}1 \times 10^{-16}$ s; thiệt do tốc độ $\frac{1}{2c^2}\int v^2\,\dd t \approx 3{,}6 \times 10^{-16}$ s. Lợi gấp đôi thiệt đúng trên đường parabol. Bộ kiểm số của bài thử thêm đường cao gấp rưỡi và đường thấp một nửa: cả hai đều cho thời gian riêng ít hơn.
           +++`,
-        vao: (c) => c.cauHinh({ canh: 'loden', r: 2, tocDo: 1.6, viDu: 'gps', mayAnh: 'tong' }),
-        nut: { r2: (c) => c.cauHinh({ r: 2 }), tong: (c) => c.goc('tong') },
+        vao: (c) => c.cauHinh({ canh: 'nembong', vot: 1.5 * dinhTracDia(), chay: true, mayAnh: 'bong', datLaiKeo: true }),
+        nut: {
+          so: (c) => c.cauHinh({ chay: true }),
+          cao2: (c) => c.cauHinh({ vot: 2 * dinhTracDia(), chay: true }),
+          nua: (c) => c.cauHinh({ vot: 0.5 * dinhTracDia(), chay: true }),
+        },
+        thuThach: {
+          de: 'Kéo đỉnh đường hồng tới độ cao cho đồng hồ trên quả bóng **nhiều thời gian riêng nhất** (lệch dưới 0,15 m).',
+          kiem: (c) => c.lechDinhHong() <= 0.15,
+          giu: 0.5,
+          goiY: 'Theo dõi cột hồng và đồ thị ở bảng điều khiển: thời gian riêng thêm lớn nhất khi đường hồng trùng đường vàng, đỉnh 4,9 m.',
+        },
       },
     ],
     congThuc: [
@@ -493,7 +523,7 @@ export default {
         moTa: () => chuCanh("canh.nhip-so-voi-dong-ho-o-rat-xa", "Nhịp <span class=\"so\">{0}%</span> so với đồng hồ ở rất xa: 1 giờ ở đây bằng <span class=\"so\">{1} giờ</span> ở xa.<br>Bấm để đưa phi hành gia tới bán kính này.", [so(nhip * 100, 1), so(1 / nhip, 2)]),
         khiBam: () => { am.phat('bam'); cauHinh({ r }); },
       });
-      return { dh, nhip, r };
+      return { dh, nhip, r, nhan };
     });
     // ----- Đồng hồ ở rất xa -----
     const xa = taoDongHo({ mauVien: 0x7fcaff, mauKim: 0x8fd0ff, chuKy: VONG_GIAY });
@@ -665,8 +695,9 @@ export default {
     let rVT = R_GPS;           // bán kính quỹ đạo vệ tinh, theo bán kính Trái Đất
     let soSanh = 'thap';       // đồng hồ nào kêu cùng đồng hồ chân tháp: 'thap' | 'vetinh'
     let tThap = 0, tVT = 0, gocVT = 0.55;
-    const daKeo = { phg: false, thap: false, vt: false };
-    const sLD = new LoXo(1, 0.8), sTD = new LoXo(0, 0.8);
+    const daKeo = { phg: false, thap: false, vt: false, bong: false };
+    const sLD = new LoXo(1, 0.8), sTD = new LoXo(0, 0.8), sNB = new LoXo(0, 0.8);
+    let hienThu = false;       // nhãn «trạm thu ở xa»: chỉ ở bước nói về chớp sáng
     // nút bấm, bấm đồng hồ, đổi bước: phi hành gia bay mượt tới bán kính mới (theo log(r − 1) cho đều tay)
     const rLX = new LoXo(Math.log(rPhg - 1), 0.7);
 
@@ -695,7 +726,7 @@ export default {
       viTri: [rPhg * cs, mc.y(rPhg) + 0.03, rPhg * sn], mau: 0xf3c66f, co: 0.13,
       ten: chuCanh("canh.phi-hanh-gia", "Phi hành gia"), moTa: chuCanh("canh.keo-doc-mat-cong-lai-gan-hay-ra", "Kéo dọc mặt cong: lại gần hay ra xa lỗ đen"),
       rangBuoc: { kieu: 'ham', chieu: (ray) => { const r = rGanTia(ray); return new THREE.Vector3(r * cs, mc.y(r) + 0.03, r * sn); } },
-      nhan: chuCanh("canh.keo-phi-hanh-gia-doc-mat-cong", "Kéo phi hành gia dọc mặt cong"),
+      nhan: chuCanh("canh.keo-phi-hanh-gia-doc-mat-cong", "Kéo phi hành gia"),
       khiKeo: (p) => { const r = kep(Math.hypot(p.x, p.z), R_MIN, R_LON); daKeo.phg = true; dkR.dat(r); rLX.dat(Math.log(r - 1), true); datPhg(r, false); },
       khiTha: () => am.phat('tha'),
     });
@@ -731,6 +762,140 @@ export default {
       khiKeo: (p) => { daKeo.vt = true; const r = kep(p.distanceTo(TAM_TD) / RE_C, R_VT_MIN, R_VT_MAX); dkVT.dat(r); datVT(r, false); },
       khiTha: () => am.phat('tha'),
     });
+
+    // ================= Sân khấu 3: quả bóng ném lên, ba đường thế giới (bước 8) =================
+    // Sơ đồ độ cao theo thời gian: trục ngang là thời gian (0 tới 2 giây), trục đứng là độ cao của quả bóng. Ba đường
+    // nối cùng hai sự kiện «ném» và «bắt lại»: đứng yên ở tay (xanh lam), ném lên rồi rơi tự do, tức đường trắc địa
+    // (vàng), và một đường vọt lên cao hơn rồi lao về (hồng, kéo được đỉnh). Cột bên phải: thời gian riêng tích luỹ
+    // thêm so với đứng yên, chạy theo quả bóng. Số tính ở src/vat-ly/thoi-gian-bong.js.
+    const nhomNB = new THREE.Group();
+    scene.add(nhomNB);
+    const NB_SX = 3.0, NB_SZ = 0.42, NB_X0 = -3.0, NB_Y0 = -1.9;     // 1 giây = 3 đơn vị cảnh, 1 m = 0,42 đơn vị
+    const NB_ZMAX = 12, NB_N = 81;
+    const A_TD = dinhTracDia();                                      // 4,9 m
+    const nbX = (t) => NB_X0 + NB_SX * t, nbY = (z) => NB_Y0 + NB_SZ * z;
+    // thời gian riêng thêm (giây) viết gọn: 0 khi lợi vừa bằng thiệt, dấu trừ thật khi âm
+    const soThem = (A) => { const x = thoiGianThem(A); return Math.abs(x) < 1e-20 ? '0' : (x < 0 ? '−' : '') + luyThua(Math.abs(x), 2); };
+    // lưới mờ: mỗi 0,25 giây, mỗi mét
+    {
+      const ds = [];
+      for (let i = 0; i <= 8; i++) { const x = nbX((i * T_BONG) / 8); ds.push(x, nbY(0), -0.02, x, nbY(NB_ZMAX), -0.02); }
+      for (let z = 1; z <= NB_ZMAX; z++) ds.push(nbX(0), nbY(z), -0.02, nbX(T_BONG), nbY(z), -0.02);
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.Float32BufferAttribute(ds, 3));
+      nhomNB.add(new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: 0x9fb4d0, transparent: true, opacity: 0.13, depthWrite: false })));
+    }
+    const trucZ = new DuongDay(2, { mau: 0xffffff, rong: 1.4, doMo: 0.55 });
+    trucZ.dat(0, nbX(0), nbY(0), 0); trucZ.dat(1, nbX(0), nbY(NB_ZMAX + 0.6), 0); trucZ.xong(2);
+    nhomNB.add(trucZ.line);
+    // ba đường thế giới
+    const NB_MAU = { dung: 0x7fcaff, td: 0xf3c66f, vot: 0xff7aa8 };
+    const dgDung = new DuongDay(2, { mau: NB_MAU.dung, rong: 3, doMo: 0.95, quang: 0.1, sang: 1.4 });
+    dgDung.dat(0, nbX(0), nbY(0), 0); dgDung.dat(1, nbX(T_BONG) + 0.5, nbY(0), 0); dgDung.xong(2);
+    const dgTD = new DuongDay(NB_N, { mau: NB_MAU.td, rong: 3.4, doMo: 1, quang: 0.14, sang: 1.6 });
+    const dgVot = new DuongDay(NB_N, { mau: NB_MAU.vot, rong: 2.6, doMo: 0.95, quang: 0.1, sang: 1.4 });
+    const veDuong = (d, A) => { for (let i = 0; i < NB_N; i++) { const t = (i / (NB_N - 1)) * T_BONG; d.dat(i, nbX(t), nbY(doCao(A, t)), 0); } d.xong(NB_N); };
+    veDuong(dgTD, A_TD);
+    nhomNB.add(dgDung.line, dgTD.line, dgVot.line);
+    // hai sự kiện chung
+    const domNem = domSang(0xffffff, 0.55, 2.2), domBat = domSang(0xffffff, 0.55, 2.2);
+    domNem.position.set(nbX(0), nbY(0), 0.02); domBat.position.set(nbX(T_BONG), nbY(0), 0.02);
+    nhomNB.add(domNem, domBat);
+    // ba quả bóng chạy cùng lúc trên ba đường
+    const geoBong = new THREE.SphereGeometry(0.15, 24, 16);
+    const taoBongNB = (mau) => {
+      const m = new THREE.Mesh(geoBong, new THREE.MeshStandardMaterial({ color: mau, roughness: 0.35, metalness: 0.1, emissive: new THREE.Color(mau).multiplyScalar(0.55) }));
+      m.add(domSang(mau, 0.75, 1.6));
+      nhomNB.add(m);
+      return m;
+    };
+    const bongDung = taoBongNB(NB_MAU.dung), bongTD = taoBongNB(NB_MAU.td), bongVot = taoBongNB(NB_MAU.vot);
+    // cột: thời gian riêng thêm (so với đứng yên) khi bắt lại, cạnh phải sơ đồ; âm thì cột chúc xuống dưới vạch gốc
+    const NB_KC = 2.0 / thoiGianThem(A_TD);          // cột của đường trắc địa cao 2 đơn vị
+    const NB_YC = nbY(4);                            // vạch gốc của cột
+    const geoCotNB = new THREE.BoxGeometry(0.34, 1, 0.12);
+    geoCotNB.translate(0, 0.5, 0);
+    const taoCotNB = (mau, x) => {
+      const m = new THREE.Mesh(geoCotNB, new THREE.MeshStandardMaterial({ color: mau, roughness: 0.4, emissive: new THREE.Color(mau).multiplyScalar(0.45) }));
+      m.position.set(x, NB_YC, 0);
+      nhomNB.add(m);
+      return m;
+    };
+    const NB_XC = nbX(T_BONG) + 1.25;
+    const cotDung = taoCotNB(NB_MAU.dung, NB_XC), cotTD = taoCotNB(NB_MAU.td, NB_XC + 0.5), cotVot = taoCotNB(NB_MAU.vot, NB_XC + 1.0);
+    cotDung.scale.y = 0.02;
+    const vachDinhTD = new DuongDay(2, { mau: NB_MAU.td, rong: 1, doMo: 0.5, net: [0.08, 0.06] });
+    vachDinhTD.dat(0, NB_XC - 0.3, NB_YC + 2.0, 0); vachDinhTD.dat(1, NB_XC + 1.3, NB_YC + 2.0, 0); vachDinhTD.xong(2);
+    const vachGocCot = new DuongDay(2, { mau: 0xffffff, rong: 1.2, doMo: 0.5 });
+    vachGocCot.dat(0, NB_XC - 0.3, NB_YC, 0); vachGocCot.dat(1, NB_XC + 1.3, NB_YC, 0); vachGocCot.xong(2);
+    nhomNB.add(vachDinhTD.line, vachGocCot.line);
+    // nhãn
+    const nhanNem = taoNhan(chuCanh("canh.nem", "ném"), 'dam');
+    nhanNem.position.set(nbX(0) - 0.2, nbY(0), 0); nhanNem.center.set(1, 0.5);
+    const nhanBat = taoNhan(chuCanh("canh.bat-lai-sau-2-giay", "bắt lại<small>sau 2 giây</small>"), 'dam');
+    nhanBat.position.set(nbX(T_BONG), nbY(0) - 0.25, 0); nhanBat.center.set(0.5, 0);
+    const nhanTrucT = taoNhan(chuCanh("canh.thoi-gian-giay", "thời gian (giây)"), 'mo tran');
+    nhanTrucT.position.set(nbX(T_BONG * 0.75), nbY(0) - 0.3, 0); nhanTrucT.center.set(0.5, 0);
+    const nhanTrucZ = taoNhan(chuCanh("canh.do-cao-m", "độ cao (m)"), 'mo tran');
+    nhanTrucZ.position.set(nbX(0), nbY(NB_ZMAX + 0.6), 0);
+    const nhanZ5 = taoNhan('5 m', 'mo tran'), nhanZ10 = taoNhan('10 m', 'mo tran');
+    for (const [n, z] of [[nhanZ5, 5], [nhanZ10, 10]]) { n.position.set(nbX(0) - 0.12, nbY(z), 0); n.center.set(1, 0.5); }
+    const nhanDung = taoNhan(chuCanh("canh.dung-yen-o-tay-moc-de-so", "đứng yên ở tay<small>mốc để so</small>"), 'xanh dam');
+    nhanDung.position.set(nbX(T_BONG * 0.25), nbY(0) - 0.25, 0); nhanDung.center.set(0.5, 0);
+    const nhanTD = taoNhan(chuCanh("canh.nem-len-roi-tu-do-them-s", "Ném lên, rơi tự do<small>thêm {0} s · đỉnh {1} m</small>", [soThem(A_TD), so(A_TD, 1)]), 'vang dam');
+    nhanTD.position.set(nbX(T_BONG * 0.5) - 0.25, nbY(A_TD), 0); nhanTD.center.set(1, 0.5);
+    const nhanVot = taoNhan('', 'hong dam');
+    nhanVot.center.set(0, 0.5);
+    const nhanCot = taoNhan(chuCanh("canh.thoi-gian-rieng-them-so-voi-dung-yen", "thời gian riêng thêm<small>khi bắt lại, so với đứng yên</small>"), 'mo');
+    nhanCot.position.set(NB_XC + 0.5, NB_YC + 2.3, 0); nhanCot.center.set(0.5, 1);
+    nhomNB.add(nhanNem, nhanBat, nhanTrucT, nhanTrucZ, nhanZ5, nhanZ10, nhanDung, nhanTD, nhanVot, nhanCot);
+    let aVot = 1.5 * A_TD;        // đỉnh của đường hồng (m)
+    let uNB = 0;                  // thời gian chạy của lượt so (giây thật)
+    const NB_CHAY = 4.5, NB_DUNG = 1.6;   // 2 giây của sơ đồ chiếu trong 4,5 giây, rồi dừng ở cuối 1,6 giây
+    tt.them(bongTD, {
+      ten: chuCanh("canh.duong-trac-dia", "Đường trắc địa"), mau: NB_MAU.td, banKinhPx: 22,
+      moTa: () => chuCanh("canh.nem-len-m-s-loi-do-cao-thiet", "Ném lên {0} m/s, rơi tự do. Lợi do ở cao <span class=\"so\">+{1} s</span>, thiệt do tốc độ <span class=\"so\">−{2} s</span>: tổng lớn nhất trong mọi đường.", [so((G_BONG * T_BONG) / 2, 1), luyThua(loiDoCao(A_TD), 2), luyThua(thietTocDo(A_TD), 2)]),
+    });
+    tt.them(bongVot, {
+      ten: chuCanh("canh.duong-hong", "Đường hồng"), mau: NB_MAU.vot, banKinhPx: 22,
+      moTa: () => chuCanh("canh.dinh-m-loi-do-cao-thiet-do-toc-do", "Đỉnh {0} m. Lợi do ở cao <span class=\"so\">+{1} s</span>, thiệt do tốc độ <span class=\"so\">−{2} s</span>.", [so(aVot, 2), luyThua(loiDoCao(aVot), 2), luyThua(thietTocDo(aVot), 2)]),
+    });
+    tt.them(bongDung, {
+      ten: chuCanh("canh.dung-yen-o-tay", "Đứng yên ở tay"), mau: NB_MAU.dung, banKinhPx: 22,
+      moTa: chuCanh("canh.qua-bong-nam-yen-trong-tay-2-giay", "Quả bóng nằm yên trong tay suốt 2 giây: mốc để so thời gian riêng của hai đường kia."),
+    });
+    const tayVot = tt.tayNam({
+      viTri: [nbX(T_BONG / 2), nbY(aVot), 0], mau: NB_MAU.vot, co: 0.12,
+      ten: chuCanh("canh.dinh-duong-hong", "Đỉnh đường hồng"), moTa: chuCanh("canh.keo-len-xuong-doi-do-cao-dinh", "Kéo lên xuống: đổi độ cao đỉnh của đường hồng (0,5 tới 12 m)"),
+      rangBuoc: { kieu: 'duong', qua: [nbX(T_BONG / 2), 0, 0], huong: [0, 1, 0] },
+      gioiHan: (p) => { p.y = kep(p.y, nbY(0.5), nbY(NB_ZMAX)); return p; },
+      nhan: chuCanh("canh.keo-dinh-duong-hong", "Kéo đỉnh đường hồng"),
+      khiKeo: (p) => { daKeo.bong = true; datVot((p.y - NB_Y0) / NB_SZ, false); },
+      khiTha: () => am.phat('tha'),
+    });
+    function datVot(A, datTay = true) {
+      aVot = kep(A, 0.5, NB_ZMAX);
+      veDuong(dgVot, aVot);
+      nhanVot.position.set(nbX(T_BONG / 2) + 0.25, nbY(aVot), 0);
+      nhanVot.datChu(chuCanh("canh.duong-hong-them-s-dinh-m", "Đường hồng<small>thêm {0} s · đỉnh {1} m</small>", [soThem(aVot), so(aVot, 2)]));
+      if (datTay) tayVot.dat([nbX(T_BONG / 2), nbY(aVot), 0]);
+      datCotNB(cotVot, aVot);
+      veDoThiNB();
+    }
+    function datCotNB(c, A) {
+      const h = thoiGianThem(A) * NB_KC;
+      c.scale.y = Math.max(0.02, Math.abs(h));
+      c.rotation.z = h < 0 ? Math.PI : 0;
+    }
+    datCotNB(cotTD, A_TD);
+    function capNhatNB(dt) {
+      uNB += dt;
+      if (uNB > NB_CHAY + NB_DUNG) uNB = 0;
+      const s = Math.min(1, uNB / NB_CHAY) * T_BONG;
+      bongDung.position.set(nbX(s), nbY(0), 0.05);
+      bongTD.position.set(nbX(s), nbY(doCao(A_TD, s)), 0.05);
+      bongVot.position.set(nbX(s), nbY(doCao(aVot, s)), 0.05);
+    }
 
     // ================= Điều khiển =================
     const bang = app.bang;
@@ -791,7 +956,29 @@ export default {
       khiDoi: (v) => datViDu(v),
     });
     bang.el.append(theVD.el);
-    bang.chuThich(chuCanh("canh.keo-cac-cham-sang-trong-canh-chan-be", "Kéo các chấm sáng trong cảnh: chân bệ phi hành gia, đồng hồ trên tháp, vệ tinh. Rê chuột lên đồng hồ để xem nhịp. Tiếng: đồng hồ mốc tích bên trái, đồng hồ đang so tích bên phải."));
+    const chuThichKeo = bang.chuThich(chuCanh("canh.keo-cac-cham-sang-trong-canh-chan-be", "Kéo các chấm sáng trong cảnh: chân bệ phi hành gia, đồng hồ trên tháp, vệ tinh. Rê chuột lên đồng hồ để xem nhịp. Tiếng: đồng hồ mốc tích bên trái, đồng hồ đang so tích bên phải."));
+    // Sân khấu 3: thời gian riêng thêm theo độ cao đỉnh của đường (đường trắc địa ở đỉnh đồ thị)
+    const dtNB = bang.doThi(150);
+    function veDoThiNB() {
+      const g = dtNB.ctx, k = 1e16;
+      const { X, Y } = khungDoThi(g, {
+        rong: dtNB.rong, cao: dtNB.cao, x0: 0, x1: NB_ZMAX, y0: -4, y1: 4,
+        nhanX: chuCanh("canh.do-cao-dinh-m", "độ cao đỉnh (m)"), nhanY: chuCanh("canh.them-x10-16-s", "thêm (×10⁻¹⁶ s)"),
+        vachX: [[0, '0'], [4.9, '4,9'], [9.8, '9,8'], [12, '12']],
+        vachY: [[-4, '−4'], [0, '0'], [4, '4']],
+      });
+      g.strokeStyle = 'rgba(255,255,255,0.25)'; g.lineWidth = 1;
+      g.beginPath(); g.moveTo(X(0), Y(0)); g.lineTo(X(NB_ZMAX), Y(0)); g.stroke();
+      g.strokeStyle = MAU.vang; g.lineWidth = 2;
+      g.beginPath();
+      for (let i = 0; i <= 120; i++) { const A = (NB_ZMAX * i) / 120, y = thoiGianThem(A) * k; if (i) g.lineTo(X(A), Y(y)); else g.moveTo(X(A), Y(y)); }
+      g.stroke();
+      const cham = (A, mau, r) => { g.fillStyle = mau; g.beginPath(); g.arc(X(A), Y(thoiGianThem(A) * k), r, 0, 2 * Math.PI); g.fill(); };
+      cham(0, '#7fcaff', 4); cham(A_TD, '#f3c66f', 4.5); cham(aVot, '#ff7aa8', 4.5);
+      g.font = '11px -apple-system, "Helvetica Neue", sans-serif'; g.textAlign = 'left'; g.textBaseline = 'bottom';
+      g.fillStyle = MAU.vang;
+      g.fillText(chuCanh("canh.duong-trac-dia-cao-nhat", "đường trắc địa: cao nhất"), X(A_TD) + 7, Y(thoiGianThem(A_TD) * k) + 4);
+    }
     function datViDu(v) {
       viDu = v;
       dkVD.dat(v);
@@ -852,21 +1039,31 @@ export default {
       chop: [[8.2, 10.5, 15.5], [2.6, -1.0, 3.4]],
       thap: [[1.45, 1.05, 3.3], [0.05, 0.5, 0]],
       gps: [[2.5, 9.5, 23.5], [0, -2.6, 0]],
+      bong: [[0.9, 0.9, 13.5], [0.9, 0.75, 0]],
     };
-    const goc = (ten, giay = 1.4) => app.bayToi(GOC[ten][0], GOC[ten][1], giay);
+    // Sơ đồ ném bóng dàn ngang (sơ đồ và cột): trên màn hình hẹp lùi máy xa hơn cho đủ cả hai đầu.
+    const goc = (ten, giay = 1.4) => {
+      if (ten === 'bong' && app.rong < 700) { app.bayToi([1.1, 0.9, 21], [1.1, 0.9, 0], giay); return; }
+      app.bayToi(GOC[ten][0], GOC[ten][1], giay);
+    };
 
     function datCanh(ten, ngay = false) {
       canh = ten;
       sLD.dat(ten === 'loden' ? 1 : 0, ngay);
       sTD.dat(ten === 'traidat' ? 1 : 0, ngay);
-      const ld1 = ten === 'loden';
+      sNB.dat(ten === 'nembong' ? 1 : 0, ngay);
+      const ld1 = ten === 'loden', td1 = ten === 'traidat', nb1 = ten === 'nembong';
       dkR.el.hidden = !ld1;
       dt2.el.hidden = !ld1;
-      dkH.el.hidden = ld1;
-      dkVT.el.hidden = ld1;
+      dkH.el.hidden = !td1;
+      dkVT.el.hidden = !td1;
+      for (const o of [dkTocDo, theSS, theVD, dkVD, chuThichKeo]) o.el.hidden = nb1;
+      dtNB.el.hidden = !nb1;
       tayPhg.an(!ld1);
-      tayThap.an(ld1 || soSanh !== 'thap');
-      tayVT.an(ld1 || soSanh !== 'vetinh');
+      tayThap.an(!td1 || soSanh !== 'thap');
+      tayVT.an(!td1 || soSanh !== 'vetinh');
+      tayVot.an(!nb1);
+      uNB = 0;
       t = 0; tau = 0; tauChopCuoi = 0; tThap = 0; tVT = 0; dsChop = []; tNhanCuoi = null; khoangNhan = null;
     }
 
@@ -889,12 +1086,16 @@ export default {
       if (o.tocDo != null) { tocDo = o.tocDo; dkTocDo.dat(o.tocDo); }
       if (o.viDu) datViDu(o.viDu);
       if (o.mayAnh) goc(o.mayAnh);
-      if (o.datLaiKeo) { daKeo.phg = daKeo.thap = daKeo.vt = false; }
+      if (o.vot != null) datVot(o.vot);
+      if (o.chay) uNB = 0;
+      if (o.tram != null) hienThu = o.tram;
+      if (o.datLaiKeo) { daKeo.phg = daKeo.thap = daKeo.vt = daKeo.bong = false; }
     }
     datPhg(rPhg);
     datThap(hThap);
     datVT(rVT);
     datViDu(viDu);
+    datVot(aVot);
     datCanh('loden', true);
     datSoSanh('thap');
 
@@ -917,9 +1118,42 @@ export default {
       else if (thu === 'thap212') { daKeo.thap = true; cauHinh({ h: H_2NS }); }
       else if (thu === 'vt15') { daKeo.vt = true; cauHinh({ rVT: 1.5 }); }
       else if (thu === 'vtthap') { daKeo.vt = true; cauHinh({ rVT: 1.1 }); }
+      else if (thu === 'vot49') { daKeo.bong = true; cauHinh({ vot: A_TD + 0.05 }); }
+      else if (thu === 'keo-vot') keoGia(app, tayVot.viTri, new THREE.Vector3(nbX(T_BONG / 2), nbY(A_TD), 0));
       else if (thu === 'keo-phg') { const r = 4 / 3; keoGia(app, tayPhg.viTri, new THREE.Vector3(r * cs, mc.y(r) + 0.03, r * sn)); }
       else if (thu === 'keo-thap') keoGia(app, tayThap.viTri, new THREE.Vector3(X_TAY_THAP, (H_2NS / H_THAP) * TH, 0.12));
       else if (thu === 'keo-vt') keoGia(app, tayVT.viTri, huongVT(new THREE.Vector3()).multiplyScalar(1.5 * RE_C).add(TAM_TD));
+    }
+
+    // ----- Nhãn tránh nhau (goNhanDeNhau), mỗi sân khấu một danh sách dựng sẵn -----
+    const nhanLD = [
+      ...dsDongHo.map((d) => ({ nhan: d.nhan, uuTien: 60, tat: false, giu: false })),
+      { nhan: nhanPhg, uuTien: 92, tat: false, giu: true },
+      { nhan: nhanXa, uuTien: 55, tat: false, giu: false },
+      { nhan: nhanCT, uuTien: 45, tat: false, giu: false },
+      { nhan: nhanThu, uuTien: 60, tat: true, giu: false },
+    ];
+    const kThu = nhanLD[nhanLD.length - 1];
+    const nhanTDds = [
+      { nhan: nhanDhThap, uuTien: 92, tat: false, giu: true }, { nhan: nhanDat, uuTien: 70, tat: false, giu: false },
+      { nhan: nhanThap, uuTien: 50, tat: false, giu: false },
+      { nhan: nhanVT, uuTien: 92, tat: true, giu: true }, { nhan: nhanGPS, uuTien: 40, tat: true, giu: false },
+    ];
+    const nhanNBds = [
+      { nhan: nhanTD, uuTien: 92, tat: false, giu: true }, { nhan: nhanVot, uuTien: 85, tat: false, giu: false },
+      { nhan: nhanDung, uuTien: 75, tat: false, giu: false }, { nhan: nhanNem, uuTien: 70, tat: false, giu: false },
+      { nhan: nhanBat, uuTien: 70, tat: false, giu: false }, { nhan: nhanCot, uuTien: 55, tat: false, giu: false },
+      { nhan: nhanTrucT, uuTien: 20, tat: false, giu: false }, { nhan: nhanTrucZ, uuTien: 20, tat: false, giu: false },
+      { nhan: nhanZ5, uuTien: 15, tat: false, giu: false }, { nhan: nhanZ10, uuTien: 15, tat: false, giu: false },
+    ];
+    function xepNhan() {
+      if (canh === 'loden') { kThu.tat = !hienThu; goNhanDeNhau(nhanLD, camera, app.rong, app.cao); }
+      else if (canh === 'traidat') {
+        const thap1 = soSanh === 'thap';
+        for (let i = 0; i < 3; i++) nhanTDds[i].tat = !thap1;
+        nhanTDds[3].tat = nhanTDds[4].tat = thap1;
+        goNhanDeNhau(nhanTDds, camera, app.rong, app.cao);
+      } else goNhanDeNhau(nhanNBds, camera, app.rong, app.cao);
     }
 
     const mauChop = new THREE.Color(), xanhLuc = new THREE.Color(0.35, 1.0, 0.55), doTham = new THREE.Color(1.0, 0.12, 0.05);
@@ -927,10 +1161,12 @@ export default {
       if (thu && ++demKhung === (thu.startsWith('keo') ? 150 : 4)) apDungThu();
       // chuyển sân khấu: thu nhỏ cái cũ, phóng to cái mới
       if (!rLX.xong) datPhg(1 + Math.exp(rLX.buoc(dtThuc)));
-      const a = sLD.buoc(dtThuc), b = sTD.buoc(dtThuc);
+      const a = sLD.buoc(dtThuc), b = sTD.buoc(dtThuc), c3 = sNB.buoc(dtThuc);
       nhomLD.scale.setScalar(Math.max(1e-3, a)); nhomLD.visible = a > 0.01;
       nhomTD.scale.setScalar(Math.max(1e-3, b)); nhomTD.visible = b > 0.01;
       nhomTD.position.set(0, (1 - b) * -1.5, 0);
+      nhomNB.scale.setScalar(Math.max(1e-3, c3)); nhomNB.visible = c3 > 0.01;
+      xepNhan();
       const dT = dt * tocDo;
       const choTieng = dt > 0 && dt < 0.25;
       if (canh === 'loden') {
@@ -986,6 +1222,8 @@ export default {
         nhanPhg.datChu(chuCanh("canh.phi-hanh-gia-cach-tam-r-s", "Phi hành gia: {0}%<small>cách tâm {1} r<sub>s</sub></small>", [so(nhipPhg * 100, nhipPhg < 0.2 ? 1 : 0), so(rPhg, 2)]));
         const lan = 1 / nhipPhg;
         theSS.dat(chuCanh("canh.1-gio-cua-phi-hanh-gia-gio-o", "<b>1 giờ của phi hành gia = {0} giờ ở xa.</b><br>Phát một chớp mỗi {1} giây (đồng hồ phi hành gia). Ở xa nhận một chớp mỗi <b>{2} giây</b>, và ánh sáng có bước sóng dài gấp {3} lần lúc phát (z = {4}).", [lan < 10 ? so(lan, 2) : so(lan, 0), CHU_KY_CHOP, so(CHU_KY_CHOP * lan, 2), so(lan, 2), so(lan - 1, 3)]));
+      } else if (canh === 'nembong') {
+        capNhatNB(dt);
       } else {
         // sân khấu Trái Đất: đồng hồ chân tháp là mốc; hai đồng hồ kia chạy nhanh hơn với độ chênh đã phóng đại
         const t0 = t, a0 = tThap, b0 = tVT;
@@ -1019,15 +1257,24 @@ export default {
           [chuCanh("canh.dong-ho-chan-thap", "Đồng hồ chân tháp"), chuCanh("canh.giay", "{0} giây", [so(t, 1)])],
           [chuCanh("canh.dong-ho-tren-thap", "Đồng hồ trên tháp"), chuCanh("canh.m-nhanh-hon", "{0} m · nhanh hơn {1}", [so(hThap, 0), luyThua(chenhThap(hThap), 2)])],
           [chuCanh("canh.dong-ho-ve-tinh", "Đồng hồ vệ tinh"), chuCanh("canh.r-s-moi-ngay", "{0} R · {1}{2} µs mỗi ngày", [so(rVT, 2), us >= 0 ? '+' : '−', so(Math.abs(us), 1)])],
-          [chuCanh("canh.luu-y", "Lưu ý"), chuCanh("canh.thap-ve-cao-gap-lan-kim-phong-dai", "tháp vẽ cao gấp {0} lần; kim phóng đại chênh lệch (tháp {1}, vệ tinh {2} lần)", [so(PHONG_DAI_THAP, 0), luyThua(K_THAP, 1), luyThua(K_VT, 1)])],
+          // Độ phóng đại của tháp và của kim đã nói ở hộp «Lưu ý» trong lời giảng bước 4 và 6.
+          [chuCanh("canh.luu-y", "Lưu ý"), chuCanh("canh.hinh-va-kim-phong-dai-so-ghi-la-so-that", "hình và kim đã phóng đại; số ghi là số thật")],
+        ];
+      }
+      if (canh === 'nembong') {
+        return [
+          [chuCanh("canh.duong-trac-dia", "Đường trắc địa"), chuCanh("canh.them-s-dinh-m", "thêm {0} s · đỉnh {1} m", [soThem(A_TD), so(A_TD, 1)])],
+          [chuCanh("canh.loi-do-cao-thiet-do-toc-do", "Lợi do cao · thiệt do tốc độ"), chuCanh("canh.loi-thiet-s", "+{0} · −{1} s", [luyThua(loiDoCao(A_TD), 2), luyThua(thietTocDo(A_TD), 2)])],
+          [chuCanh("canh.duong-hong", "Đường hồng"), chuCanh("canh.them-s-dinh-m", "thêm {0} s · đỉnh {1} m", [soThem(aVot), so(aVot, 2)])],
+          [chuCanh("canh.dung-yen-o-tay", "Đứng yên ở tay"), chuCanh("canh.moc-de-so", "mốc để so")],
         ];
       }
       const n = mc.nhip(rPhg);
       return [
         [chuCanh("canh.dong-ho-o-xa", "Đồng hồ ở xa"), chuCanh("canh.giay", "{0} giây", [so(t, 1)])],
         [chuCanh("canh.dong-ho-phi-hanh-gia", "Đồng hồ phi hành gia"), chuCanh("canh.giay-nhip", "{0} giây (nhịp {1}%)", [so(tau, 1), so(n * 100, 1)])],
-        [chuCanh("canh.chop-sang-toi-tram-thu", "Chớp sáng tới trạm thu"), khoangNhan ? chuCanh("canh.cach-nhau-giay-phat-cach-nhau-giay", "cách nhau {0} giây (phát cách nhau {1} giây)", [so(khoangNhan, 2), CHU_KY_CHOP]) : chuCanh("canh.dang-cho", "đang chờ…")],
-        [chuCanh("canh.luu-y", "Lưu ý"), chuCanh("canh.mat-luoi-la-lat-cat-khong-gian-bai", "mặt lưới là lát cắt không gian (Bài 11); ở bài này chỉ cần nhìn kim và màu")],
+        [chuCanh("canh.chop-toi-tram-thu", "Chớp tới trạm thu"), khoangNhan ? chuCanh("canh.cach-nhau-giay-phat-moi-giay", "cách nhau {0} giây (phát mỗi {1} giây)", [so(khoangNhan, 2), CHU_KY_CHOP]) : chuCanh("canh.dang-cho", "đang chờ…")],
+        // Lời dặn về mặt lưới nằm ở hộp «Lưu ý» của bước 1, không lặp ở đây.
       ];
     }
 
@@ -1038,6 +1285,7 @@ export default {
       khoangNhanLyThuyet: () => (canh === 'loden' ? CHU_KY_CHOP / mc.nhip(rPhg) : NaN),
       nsNgayThap: () => (canh === 'traidat' ? chenhThap(hThap) * NGAY_GIAY * 1e9 : NaN),
       usNgayVT: () => (canh === 'traidat' ? usHapDan(rVT) - usTocDo(rVT) : NaN),
+      lechDinhHong: () => (canh === 'nembong' && daKeo.bong ? Math.abs(aVot - A_TD) : NaN),
       huy() { am.dungHet?.(0.2); },
     };
   },
