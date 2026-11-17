@@ -122,7 +122,8 @@ async function thu(ten, { rong, cao, dien = false, ngonNgu, mang = null }) {
     kq.tieuDe = tt.tieuDe;
     if (tt.lang !== ngonNgu) hong(`thứ tiếng là ${tt.lang}, cần ${ngonNgu}`);
     if (!tt.tieuDe.startsWith(TIEU_DE[ngonNgu])) hong(`tiêu đề «${tt.tieuDe}»`);
-    if (!tt.chanTrang) hong('không thấy chân trang «Trí Lữ soạn · Giấy phép · Mã nguồn»');
+    if (!tt.chanTrang) hong('không thấy chân trang «Giấy phép · Mã nguồn»');
+    else if (/soạn|Made by|编写|制作/.test(tt.chanTrang)) hong('chân trang còn chữ «soạn», «Made by»: chỉ được có «Giấy phép · Mã nguồn»');
     if (tt.tranNgang) hong('màn hình chào tràn ngang');
     await chup(c, `${ten}-1-chao`);
     if (!(await bam(c, '#nut-bat-dau', dien))) hong('không bấm được «Bắt đầu học»');

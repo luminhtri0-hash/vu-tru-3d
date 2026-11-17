@@ -9,7 +9,7 @@
 //     service worker không giữ tiếng cũ khi tệp được tạo lại mà tên không đổi;
 //   - thẻ <head>: tiêu đề, mô tả, đường dẫn chuẩn, thẻ chia sẻ (og:, twitter:), biểu tượng trang;
 //   - một đoạn mã nhỏ đổi tiêu đề và mô tả theo thứ tiếng người học chọn, và thêm dòng chân trang
-//     «Trí Lữ soạn · Giấy phép · Mã nguồn» ở cuối màn hình chào (kiểu trình bày: lớp .chan-trang-web trong src/style.css).
+//     «Giấy phép · Mã nguồn» ở cuối màn hình chào (kiểu trình bày: lớp .chan-trang-web trong src/style.css).
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
@@ -68,10 +68,10 @@ const MO_TA = {
   ja: { ten: '3D宇宙', tieuDe: '3D宇宙 · 3Dモデルで学ぶ相対性理論と量子物理 · Trí Lữ', moTa: '全28課の無料講座。太陽系、時空、ブラックホール、重力波、膨張する宇宙、量子物理を、ブラウザ上で3Dモデルを回し、物を動かし、実験を繰り返しながら学べます。' },
 };
 const CHAN_TRANG = {
-  vi: ['Trí Lữ soạn', 'Giấy phép', 'Mã nguồn'],
-  en: ['Made by Trí Lữ', 'License', 'Source code'],
-  'zh-CN': ['Trí Lữ 编写', '许可协议', '源代码'],
-  ja: ['制作：Trí Lữ', 'ライセンス', 'ソースコード'],
+  vi: ['Giấy phép', 'Mã nguồn'],
+  en: ['License', 'Source code'],
+  'zh-CN': ['许可协议', '源代码'],
+  ja: ['ライセンス', 'ソースコード'],
 };
 const vi = MO_TA.vi;
 const dau = [
@@ -112,7 +112,7 @@ document.title=m.tieuDe;var d=document.querySelector('meta[name="description"]')
 var k=document.querySelector('#chao .khoi');if(!k||k.querySelector('.chan-trang-web'))return;
 var c=CT[l],p=document.createElement('div');p.className='chan-trang-web';p.lang=l;
 function a(t,h){var e=document.createElement('a');e.textContent=t;e.href=h;e.target='_blank';e.rel='noopener';return e;}
-p.append(c[0],' · ',a(c[1],KHO+'/blob/main/LICENSE-CONTENT.md'),' · ',a(c[2],KHO));k.append(p);}
+p.append(a(c[0],KHO+'/blob/main/LICENSE-CONTENT.md'),' · ',a(c[1],KHO));k.append(p);}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(lam,0);});else setTimeout(lam,0);
 })();`;
 if (!html.includes('</body>')) throw Error('Không thấy </body> trong trang');
