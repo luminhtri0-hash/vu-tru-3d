@@ -288,7 +288,8 @@ export class NgheGiang {
     this._baoHeThong();
     this._chayNhip();
   }
-  _chuChuaCoGiong() { return chu(ngonNgu === 'vi' ? 'xv.chua-co-giong' : 'xv.chua-co-giong-tieng'); }
+  // Bài hay thứ tiếng chưa có giọng: phụ đề vẫn chạy theo nhịp ước tính, không hiện câu giải thích, giao diện gọn.
+  _chuChuaCoGiong() { return ''; }
   // Cho lời của bước đang mở cất lên. baiMoi: đây là bước đầu của một bài vừa đổi (bảng ẩn thì hiện thẻ mở đầu vài giây;
   // chạy thật thì chờ cảnh mới dựng xong).
   _batDauLoi(baiMoi) {

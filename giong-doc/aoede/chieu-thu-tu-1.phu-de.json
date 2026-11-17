@@ -1,0 +1,16 @@
+[
+{"t0": 0.26, "t1": 3.82, "chu": "Trên màn hình là một khối lập phương,\ncạnh màu trắng, xanh lam và hồng."},
+{"t0": 4.59, "t1": 6.78, "chu": "Nó được dựng từ một điểm, bằng ba lần kéo."},
+{"t0": 7.53, "t1": 11.56, "chu": "Số chiều của một không gian là số con số\ncần có để chỉ ra một điểm trong đó."},
+{"t0": 12.46, "t1": 13.48, "chu": "Trên sợi dây cần một số."},
+{"t0": 14.32, "t1": 15.82, "chu": "Trên mặt bàn cần hai số."},
+{"t0": 16.4, "t1": 19.48, "chu": "Trong căn phòng cần ba số: dài, rộng, cao."},
+{"t0": 20.28, "t1": 22.08, "chu": "Mỗi con số như thế gọi là một tọa độ."},
+{"t0": 22.58, "t1": 26.3, "chu": "Mỗi lần thêm một chiều, ta có thêm\nmột hướng mới, vuông góc với mọi hướng cũ."},
+{"t0": 26.97, "t1": 29.96, "chu": "Kéo một điểm theo hướng x,\nta được đoạn thẳng, cạnh màu trắng."},
+{"t0": 30.71, "t1": 34.16, "chu": "Kéo đoạn thẳng theo hướng y,\nta được hình vuông, cạnh mới màu xanh lam."},
+{"t0": 34.68, "t1": 38.06, "chu": "Kéo hình vuông theo hướng z, ta\nđược khối lập phương, cạnh mới màu hồng."},
+{"t0": 38.64, "t1": 41.46, "chu": "Đếm lại: tám đỉnh, mười hai cạnh, sáu mặt."},
+{"t0": 41.9, "t1": 45.18, "chu": "Lưu ý, chiều ở đây là chiều\ncủa không gian, không phải kích thước."},
+{"t0": 45.18, "t1": 47.94, "chu": "Sợi tóc rất mảnh vẫn là vật ba chiều."}
+]

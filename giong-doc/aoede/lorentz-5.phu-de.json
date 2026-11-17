@@ -1,0 +1,17 @@
+[
+{"t0": 0.34, "t1": 1.7, "chu": "Giờ gom tất cả vào một hình."},
+{"t0": 2.46, "t1": 6.14, "chu": "Lưới trắng mờ là tọa độ của phòng\nthí nghiệm, lưới xanh lam là của con tàu."},
+{"t0": 6.59, "t1": 10.98, "chu": "Mỗi ô của tàu là một hình thoi: hai trục\ncủa tàu cùng khép về phía tia sáng."},
+{"t0": 11.66, "t1": 15.64, "chu": "Phép đổi tọa độ từ khung này sang\nkhung kia gọi là phép biến đổi Lorentz."},
+{"t0": 15.88, "t1": 17.92, "chu": "Đường cong tím mờ là các hyperbol."},
+{"t0": 18.45, "t1": 21.48, "chu": "Phép biến đổi giữ nguyên khoảng\nkhông-thời gian, nên mỗi sự kiện"},
+{"t0": 21.75, "t1": 23.44, "chu": "chỉ trượt dọc hyperbol của nó."},
+{"t0": 24.0, "t1": 26.84, "chu": "Ba sự kiện P, Q, R đổi tọa độ liên tục,"},
+{"t0": 27.09, "t1": 28.76, "chu": "nhưng s bình phương ghi bên cạnh\nthì không."},
+{"t0": 29.21, "t1": 30.38, "chu": "Hai tia sáng đứng yên."},
+{"t0": 31.0, "t1": 33.84, "chu": "Các vạch đơn vị của mọi khung\ncũng nằm trên các hyperbol này."},
+{"t0": 34.44, "t1": 38.84, "chu": "Quay thường giữ nguyên tổng hai bình\nphương, và dùng sin, cos của góc quay."},
+{"t0": 39.3, "t1": 41.06, "chu": "Đổi khung giữ nguyên hiệu hai bình phương,"},
+{"t0": 41.5, "t1": 45.24, "chu": "và dùng sin hyperbol,\ncos hyperbol của một góc gọi là độ nhanh."},
+{"t0": 45.71, "t1": 49.22, "chu": "Dấu trừ ấy là thứ làm không-thời gian\nkhác không gian bốn chiều thường."}
+]

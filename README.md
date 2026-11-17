@@ -59,7 +59,8 @@ Sáu phần, 28 bài. Số bài giữ cố định (lời giảng nhắc nhau b�
 
 Mỗi bài có ba thẻ: **Bài giảng** (các bước, có nút «thử ngay» điều khiển mô hình), **Tóm tắt** (ý chính, con số đáng nhớ, điều hay hiểu sai) và **Tự kiểm** (câu hỏi có đáp án giải thích). Số liệu trong bài lấy từ nguồn đo đạc và bài báo được ghi ngay trong bài. Bài 1 đã có giọng đọc lời giảng tiếng Việt; các bài khác đang được thu dần.
 
-## Phím tắt
+<details>
+<summary><b>Phím tắt</b></summary>
 
 | Phím | Việc |
 |---|---|
@@ -79,6 +80,11 @@ Mỗi bài có ba thẻ: **Bài giảng** (các bước, có nút «thử ngay»
 Chuột: kéo để xoay, cuộn để phóng to, giữ ⇧ và kéo để dời; rê chuột vào vật để xem thông tin. Trên điện thoại: một ngón để xoay, hai ngón để phóng to và dời.
 
 Mở thẳng một chỗ bằng đường dẫn: `?bai=15` (theo số bài), `?canh=lo-den&buoc=3` (theo mã bài và số bước), `?lang=en` (thứ tiếng: `vi`, `en`, `zh-CN`, `ja`).
+
+</details>
+
+<details>
+<summary><b>Dành cho người lập trình: dựng từ mã nguồn, cấu trúc thư mục, thêm một bài, giọng đọc</b></summary>
 
 ## Dựng từ mã nguồn
 
@@ -183,7 +189,9 @@ build.mjs       đóng gói mọi thứ thành một tệp HTML
 
 ## Giọng đọc
 
-Lời đọc của từng bước nằm trong `src/noi-dung/loi-doc.js`. Tệp tiếng tạo bằng `cong-cu/tao-giong-doc-google.py` (dịch vụ Google Cloud Text-to-Speech, giọng Chirp 3 HD; cần tài khoản Google Cloud của riêng bạn, `gcloud`, FFmpeg). Công cụ chỉ tạo lại bước nào lời đã đổi và ghi `giong-doc/danh-sach.json`; trang đọc danh sách này lúc dựng.
+Lời đọc của từng bước nằm trong `src/loi-doc/vi/*.json`. Tệp tiếng tạo bằng `cong-cu/tao-giong-doc-google.py` (dịch vụ Google Cloud Text-to-Speech, giọng Chirp 3 HD; cần tài khoản Google Cloud của riêng bạn, `gcloud`, FFmpeg). Công cụ chỉ tạo lại bước nào lời đã đổi và ghi `giong-doc/danh-sach.json`; trang đọc danh sách này lúc dựng.
+
+</details>
 
 ## Báo lỗi, góp ý
 

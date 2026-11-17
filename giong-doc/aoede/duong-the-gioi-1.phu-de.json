@@ -1,0 +1,15 @@
+[
+{"t0": 0.27, "t1": 4.48, "chu": "Hẹn gặp ai đó, bạn phải nói đủ hai điều:\ngặp ở đâu, và gặp lúc nào."},
+{"t0": 5.17, "t1": 10.44, "chu": "Vật lý gọi một cặp nơi và lúc như thế\nlà một sự kiện: một tiếng pháo nổ,"},
+{"t0": 10.88, "t1": 13.06, "chu": "hai con tàu gặp nhau, một hồi chuông cửa."},
+{"t0": 13.63, "t1": 18.54, "chu": "Nơi cần ba con số, lúc cần một con số,\nnên mỗi sự kiện cần bốn con số."},
+{"t0": 19.19, "t1": 21.26, "chu": "Tập hợp mọi sự kiện là không-thời gian."},
+{"t0": 21.9, "t1": 25.08, "chu": "Màn hình chỉ vẽ được ba chiều,\nnên ở đây ta bỏ bớt chiều cao."},
+{"t0": 25.89, "t1": 27.78, "chu": "Mặt sàn có lưới là không gian hai chiều."},
+{"t0": 28.57, "t1": 31.98, "chu": "Trục thẳng đứng màu xanh là thời gian:\ncàng lên cao là càng về sau."},
+{"t0": 32.79, "t1": 35.54, "chu": "Tấm kính xanh lục là bây giờ,\nvà nó đi lên đều đặn."},
+{"t0": 36.36, "t1": 41.02, "chu": "Mỗi chấm sáng là một sự kiện: chuông\ncửa reo, hai tàu gặp nhau, pháo hoa nổ."},
+{"t0": 41.95, "t1": 46.48, "chu": "Sự kiện nằm yên một chỗ trong khối, và chỉ\nxảy ra đúng lúc tấm kính đi ngang qua nó."},
+{"t0": 47.6, "t1": 50.0, "chu": "Nhìn từ trên xuống,\nta mất hẳn thông tin khi nào."},
+{"t0": 50.51, "t1": 53.62, "chu": "Nhìn ngang, ta thấy rõ sự kiện nào trước,\nsự kiện nào sau."}
+]

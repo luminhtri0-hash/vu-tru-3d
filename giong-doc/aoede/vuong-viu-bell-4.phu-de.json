@@ -1,0 +1,15 @@
+[
+{"t0": 0.65, "t1": 1.66, "chu": "Hai trục đang vuông góc."},
+{"t0": 2.22, "t1": 3.26, "chu": "Bây giờ chỉ nhìn một bên."},
+{"t0": 3.73, "t1": 5.62, "chu": "Tỉ lệ dấu cộng của Alice là một nửa,"},
+{"t0": 6.01, "t1": 8.66, "chu": "của Bob cũng là một nửa,\ndù trục bên kia quay về đâu."},
+{"t0": 9.1, "t1": 11.8, "chu": "Mỗi bên chỉ thấy một dãy dấu\nngẫu nhiên như tung đồng xu."},
+{"t0": 11.97, "t1": 14.56, "chu": "Sự đặc biệt chỉ hiện ra\nkhi ghép hai sổ ghi theo từng cặp."},
+{"t0": 14.9, "t1": 16.34, "chu": "Đây là hai loại thông tin khác nhau:"},
+{"t0": 16.69, "t1": 19.18, "chu": "phân bố riêng của mỗi bên,\nvà tương quan giữa hai bên."},
+{"t0": 20.05, "t1": 23.54, "chu": "Dấu từng bên ngẫu nhiên, nhưng hai\ndấu vẫn có thể gần như luôn khớp nhau."},
+{"t0": 23.98, "t1": 27.46, "chu": "Vì Alice không thể nhận ra Bob đã xoay\ntrục hay chưa bằng cách nhìn sổ của mình,"},
+{"t0": 27.78, "t1": 30.0, "chu": "nên không ai dùng\nđược vướng víu để gửi tin tức thời."},
+{"t0": 30.53, "t1": 31.36, "chu": "Muốn thấy tương quan,"},
+{"t0": 31.72, "t1": 34.28, "chu": "hai người phải gửi sổ ghi cho nhau\nbằng kênh liên lạc thông thường."}
+]

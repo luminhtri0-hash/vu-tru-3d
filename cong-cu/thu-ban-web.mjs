@@ -137,13 +137,13 @@ async function thu(ten, { rong, cao, dien = false, ngonNgu, mang = null }) {
       if (!bai.gd) hong('không thấy thanh nghe giảng');
       else {
         await bam(c, '#gd-phat', dien);
-        if (!(await choDen(c, `window.__vt?._gdAm?.currentTime > 0.3`, 20000))) hong('tệp tiếng bước 1 không chạy');
-        kq.tieng1 = await c.doc(`window.__vt._gdAm && { tep: window.__vt._gdAm.src.replace(location.origin, ''), giay: Math.round(window.__vt._gdAm.duration) }`);
+        if (!(await choDen(c, `(window.__vt?.nghe?._am || window.__vt?._gdAm)?.currentTime > 0.3`, 20000))) hong('tệp tiếng bước 1 không chạy');
+        kq.tieng1 = await c.doc(`(window.__vt.nghe?._am || window.__vt._gdAm) && { tep: (window.__vt.nghe?._am || window.__vt._gdAm).src.replace(location.origin, ''), giay: Math.round((window.__vt.nghe?._am || window.__vt._gdAm).duration) }`);
         await chup(c, `${ten}-3-nghe-giang`);
         await c.doc(`window.__vt.buocSau()`); await cho(800);
         await bam(c, '#gd-phat', dien);
-        if (!(await choDen(c, `window.__vt?._gdAm?.currentTime > 0.3 && /-2\\.mp3/.test(window.__vt._gdAm.src)`, 20000))) hong('tệp tiếng bước 2 không chạy');
-        await c.doc(`window.__vt._gdAm?.pause()`);
+        if (!(await choDen(c, `(window.__vt?.nghe?._am || window.__vt?._gdAm)?.currentTime > 0.3 && /-2\\.mp3/.test((window.__vt.nghe?._am || window.__vt._gdAm).src)`, 20000))) hong('tệp tiếng bước 2 không chạy');
+        await c.doc(`(window.__vt.nghe?._am || window.__vt._gdAm)?.pause()`);
       }
     }
     if (c.loiTrang) hong('lỗi mã trong trang: ' + c.loiTrang);

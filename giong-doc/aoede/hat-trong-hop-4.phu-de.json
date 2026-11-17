@@ -1,0 +1,15 @@
+[
+{"t0": 0.3, "t1": 3.24, "chu": "Thanh đồng trên bàn tô một đoạn,\ntừ vách trái tới đầu đọc."},
+{"t0": 3.81, "t1": 5.58, "chu": "Xác suất tìm thấy electron trong đoạn đó"},
+{"t0": 5.58, "t1": 7.74, "chu": "bằng diện tích dưới đường\nmật độ vàng trên đoạn ấy."},
+{"t0": 8.36, "t1": 10.38, "chu": "Chỉ đọc mật độ tại một điểm\nthì chưa biết diện tích."},
+{"t0": 10.99, "t1": 12.72, "chu": "Cho đầu đọc đi từ trái sang phải."},
+{"t0": 13.46, "t1": 16.28, "chu": "Con số xác suất chỉ tăng hoặc đứng yên,\nkhông bao giờ giảm."},
+{"t0": 17.41, "t1": 19.94, "chu": "Qua vùng bụng, cùng một bước\ndời lấy thêm nhiều diện tích."},
+{"t0": 20.76, "t1": 22.78, "chu": "Qua vùng gần nút, nó lấy thêm rất ít."},
+{"t0": 23.41, "t1": 25.74, "chu": "Đi thật chậm qua cả hai vùng\nsẽ thấy rõ điều đó."},
+{"t0": 26.55, "t1": 28.44, "chu": "Mật độ có đơn vị là một trên độ dài."},
+{"t0": 29.07, "t1": 33.24, "chu": "Nhân với từng đoạn độ dài nhỏ rồi cộng\nlại, ta được xác suất, không có đơn vị."},
+{"t0": 34.01, "t1": 35.44, "chu": "Cộng trên cả hộp thì được đúng một."},
+{"t0": 35.9, "t1": 38.63, "chu": "Đặt đầu đọc ở khoảng nửa hộp\nrồi đọc con số xác suất."}
+]

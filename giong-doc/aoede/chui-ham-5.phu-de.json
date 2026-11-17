@@ -1,0 +1,14 @@
+[
+{"t0": 0.28, "t1": 2.54, "chu": "Giờ giữ nguyên bề rộng\nvà nâng đỉnh rào lên."},
+{"t0": 3.15, "t1": 5.06, "chu": "Khoảng chênh giữa đỉnh rào\nvà năng lượng tới tăng,"},
+{"t0": 5.41, "t1": 8.46, "chu": "nên sóng trong rào tắt nhanh hơn,\nchiều dài suy giảm ngắn lại."},
+{"t0": 8.91, "t1": 10.1, "chu": "Đường xanh phía sau thấp hẳn."},
+{"t0": 10.61, "t1": 11.74, "chu": "Khi hệ số truyền đã rất nhỏ,"},
+{"t0": 12.06, "t1": 14.3, "chu": "trong một nhóm ít hạt có thể\nchưa thấy lần nào truyền qua."},
+{"t0": 14.85, "t1": 16.7, "chu": "Khay phải trống không có\nnghĩa là không thể truyền."},
+{"t0": 17.35, "t1": 20.44, "chu": "Hãy đọc con số lý thuyết, rồi để mô hình\nchạy lâu hơn với cùng điều kiện."},
+{"t0": 20.92, "t1": 24.56, "chu": "Có hai cách làm hệ số truyền nhỏ đi:\ntăng bề rộng hoặc tăng chiều cao."},
+{"t0": 25.02, "t1": 28.6, "chu": "Nhưng nếu giữ nguyên năng lượng tới,\nchỉ tăng chiều cao mới đổi tốc độ tắt"},
+{"t0": 28.64, "t1": 29.62, "chu": "của sóng bên trong rào."},
+{"t0": 30.1, "t1": 34.06, "chu": "Tăng bề rộng thì sóng tắt cùng tốc độ\nnhư cũ, chỉ là phải đi một quãng dài hơn."}
+]

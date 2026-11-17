@@ -1,0 +1,17 @@
+[
+{"t0": 0.26, "t1": 2.16, "chu": "Cuối cùng, ta đọc ngược một phép đo."},
+{"t0": 2.5, "t1": 3.28, "chu": "Trong phòng thí nghiệm,"},
+{"t0": 3.51, "t1": 7.34, "chu": "người ta chỉnh điện áp hãm tới khi dòng\nquang điện vừa tắt, rồi ghi lại thế hãm."},
+{"t0": 8.04, "t1": 10.92, "chu": "Lặp lại ở nhiều tần số,\ncác điểm đo nằm trên một đường thẳng."},
+{"t0": 12.05, "t1": 13.94, "chu": "Độ dốc của đường thẳng cho hằng số Planck."},
+{"t0": 14.71, "t1": 17.98, "chu": "Kéo dài đường thẳng về bên trái,\nnó cắt trục đứng tại âm công thoát."},
+{"t0": 18.75, "t1": 19.98, "chu": "Bên dưới ngưỡng thì không có dòng."},
+{"t0": 20.8, "t1": 24.3, "chu": "Lấy catốt ban đầu,\nđo ở sáu trăm và tám trăm tê-ra-héc."},
+{"t0": 24.3, "t1": 27.8, "chu": "Hai động năng lớn nhất chênh nhau\nkhoảng không phẩy tám ba electron-vôn."},
+{"t0": 28.56, "t1": 30.68, "chu": "Lấy hiệu như vậy\nthì công thoát tự triệt tiêu."},
+{"t0": 31.56, "t1": 33.74, "chu": "Cách này cần ít nhất\nhai phép đo trên ngưỡng."},
+{"t0": 34.15, "t1": 37.38, "chu": "Khi ghi kết quả,\nhãy ghi cả tần số, chất làm catốt,"},
+{"t0": 37.7, "t1": 39.24, "chu": "và cách xác định lúc dòng vừa tắt."},
+{"t0": 39.5, "t1": 41.06, "chu": "Ở đây ta giả sử bề mặt sạch,"},
+{"t0": 41.34, "t1": 44.63, "chu": "ánh sáng đơn sắc,\nvà mỗi electron chỉ hấp thụ một photon."}
+]

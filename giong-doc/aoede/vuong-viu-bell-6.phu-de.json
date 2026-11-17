@@ -1,0 +1,13 @@
+[
+{"t0": 0.29, "t1": 4.08, "chu": "Giả sử mỗi hạt mang sẵn câu trả lời\ncộng một hoặc trừ một cho mỗi trục,"},
+{"t0": 4.51, "t1": 7.2, "chu": "và câu trả lời không phụ thuộc trục\nmà trạm xa chọn."},
+{"t0": 7.75, "t1": 11.97, "chu": "Khi đó, trong mỗi lượt, một trong hai\nngoặc của biểu thức CHSH bằng không,"},
+{"t0": 12.11, "t1": 14.4, "chu": "ngoặc kia bằng cộng hai hoặc trừ hai."},
+{"t0": 14.66, "t1": 18.08, "chu": "Lấy trung bình bao nhiêu lượt cũng không\nra ngoài khoảng từ trừ hai tới cộng hai."},
+{"t0": 18.19, "t1": 19.8, "chu": "Mô hình đang chạy đúng một nguồn như vậy."},
+{"t0": 20.33, "t1": 23.04, "chu": "Mỗi cặp mang sẵn một hướng ẩn,\nvẽ bằng màu của cặp."},
+{"t0": 23.43, "t1": 27.12, "chu": "Alice ghi cộng khi hướng ẩn lệch trục\ncủa cô dưới chín mươi độ, Bob ghi"},
+{"t0": 27.12, "t1": 28.82, "chu": "theo cách ngược lại với trục của anh."},
+{"t0": 29.37, "t1": 31.88, "chu": "Trên đồ thị,\ntương quan thành đường gấp khúc màu hồng."},
+{"t0": 32.67, "t1": 36.1, "chu": "Đếm đủ lâu, độ lớn của S tiến\ntới hai nhưng không vượt qua."}
+]

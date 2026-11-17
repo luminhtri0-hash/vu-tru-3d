@@ -1,0 +1,14 @@
+[
+{"t0": 0.0, "t1": 1.48, "chu": "Một phép thử thật cần nhiều cặp,"},
+{"t0": 1.78, "t1": 5.58, "chu": "hai trục mỗi bên, sai số thống kê,\nvà cách ghép sổ không thiên lệch."},
+{"t0": 5.85, "t1": 9.36, "chu": "Hai trạm phải đủ xa để không kịp báo\ncho nhau trục đã chọn trong lúc đo."},
+{"t0": 9.77, "t1": 12.36, "chu": "Cũng không được chỉ giữ những lượt\nhai bên trùng dấu rồi mới tính."},
+{"t0": 12.95, "t1": 16.42, "chu": "Nhìn con số S đếm được:\nsai số của nó nhỏ dần khi số cặp tăng."},
+{"t0": 16.92, "t1": 20.72, "chu": "Bell công bố bất đẳng thức\nnăm một nghìn chín trăm sáu mươi tư."},
+{"t0": 20.72, "t1": 23.88, "chu": "Năm một nghìn chín trăm tám mươi hai,\nnhóm Alain Aspect đo được S"},
+{"t0": 23.94, "t1": 26.84, "chu": "bằng hai phẩy sáu chín bảy,\nrất gần dự đoán lượng tử."},
+{"t0": 27.3, "t1": 28.98, "chu": "Năm hai nghìn không trăm mười lăm,"},
+{"t0": 29.07, "t1": 32.96, "chu": "ba nhóm ở Delft,\nVienna và NIST cùng đóng các kẽ hở chính."},
+{"t0": 33.49, "t1": 36.78, "chu": "Giải Nobel Vật lý\nnăm hai nghìn không trăm hai mươi hai trao"},
+{"t0": 36.78, "t1": 39.63, "chu": "cho Aspect, Clauser và Zeilinger."}
+]

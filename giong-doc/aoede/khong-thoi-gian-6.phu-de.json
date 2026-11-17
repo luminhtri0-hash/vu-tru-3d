@@ -1,0 +1,18 @@
+[
+{"t0": 0.23, "t1": 1.8, "chu": "Mặt Flamm chỉ đúng bên ngoài khối lượng."},
+{"t0": 2.29, "t1": 5.32, "chu": "Bên trong ngôi sao,\ncàng vào sâu thì phần khối lượng nằm bên"},
+{"t0": 5.32, "t1": 7.66, "chu": "trong vòng tròn càng ít,\nnên độ cong khác đi."},
+{"t0": 8.02, "t1": 9.56, "chu": "Với một ngôi sao có mật độ đều,"},
+{"t0": 9.88, "t1": 13.74, "chu": "một mô hình mà Schwarzschild cũng\ngiải năm một nghìn chín trăm mười sáu,"},
+{"t0": 13.86, "t1": 17.92, "chu": "lát cắt bên trong là một chỏm cầu,\nnối trơn với mặt Flamm ở bề mặt sao."},
+{"t0": 18.29, "t1": 20.44, "chu": "Phần sáng ở đáy phễu là chỏm cầu đó."},
+{"t0": 21.05, "t1": 24.22, "chu": "Giờ nén ngôi sao: cùng một khối lượng\nbị ép vào bán kính nhỏ dần,"},
+{"t0": 24.6, "t1": 26.72, "chu": "chỏm cầu sâu dần, mép sao dốc dần."},
+{"t0": 27.34, "t1": 28.22, "chu": "Nhưng có một giới hạn."},
+{"t0": 28.61, "t1": 31.82, "chu": "Khi bán kính sao nhỏ hơn chín\nphần tám bán kính Schwarzschild,"},
+{"t0": 31.84, "t1": 33.34, "chu": "không ngôi sao tĩnh nào đứng vững được,"},
+{"t0": 33.71, "t1": 36.46, "chu": "vì áp suất ở tâm phải lớn\nvô hạn mới chống nổi sức nén."},
+{"t0": 36.8, "t1": 38.38, "chu": "Ngôi sao ấy phải sụp thành lỗ đen."},
+{"t0": 38.92, "t1": 43.62, "chu": "Sao neutron thật không có mật độ đều, nên\nchỏm cầu ở đây chỉ là mô hình minh hoạ."},
+{"t0": 43.89, "t1": 46.1, "chu": "Phần bên ngoài thì đúng\ncho mọi ngôi sao cầu không quay."}
+]

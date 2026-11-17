@@ -1,0 +1,14 @@
+[
+{"t0": 0.27, "t1": 3.32, "chu": "Giả định chân trời phát photon\nnhư một vật đen hoàn hảo."},
+{"t0": 3.89, "t1": 5.64, "chu": "Khi đó công suất bằng diện tích chân trời,"},
+{"t0": 5.88, "t1": 9.6, "chu": "nhân hằng số Stefan Boltzmann,\nnhân nhiệt độ mũ bốn."},
+{"t0": 9.83, "t1": 11.44, "chu": "Diện tích tỉ lệ\nvới bình phương khối lượng."},
+{"t0": 12.17, "t1": 15.4, "chu": "Nhiệt độ mũ bốn tỉ lệ nghịch\nvới khối lượng mũ bốn."},
+{"t0": 15.46, "t1": 17.8, "chu": "Gộp lại, công suất tỉ lệ nghịch\nvới bình phương khối lượng."},
+{"t0": 18.26, "t1": 20.68, "chu": "Tăng khối lượng lên hai lần:\ndiện tích tăng bốn lần,"},
+{"t0": 21.04, "t1": 24.62, "chu": "nhiệt độ mũ bốn giảm mười sáu lần,\ncông suất còn một phần tư."},
+{"t0": 24.74, "t1": 28.74, "chu": "Đây là một ước lượng có chủ ý, nên con số\nnày được gọi rõ là công suất lý tưởng."},
+{"t0": 29.47, "t1": 32.78, "chu": "Trong bài toán thật, trường hấp dẫn\nquanh lỗ đen chắn bớt một phần bức xạ,"},
+{"t0": 33.2, "t1": 34.96, "chu": "theo một hệ số gọi là hệ số vật xám."},
+{"t0": 35.49, "t1": 37.91, "chu": "Ngoài ra còn phải tính\ncác loại hạt khác ngoài photon."}
+]

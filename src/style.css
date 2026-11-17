@@ -546,6 +546,8 @@ html[data-chu="vuong"] #chao .lo-trinh .phan-dau i { font-size: 12px; letter-spa
   #ngon-ngu-tren option { color: #eceae4; background: #181a22; }
   #nut-phai { flex: none; padding: 0; }
   #muc-luc, #bang-tieng { max-width: calc(100vw - 24px); }
+  /* Điện thoại: bảng nổi đè lên bảng bài học nên nền đặc hẳn, chữ phía sau không lẫn vào (rà 17/11/2026). */
+  #muc-luc, #bang-tieng, #thuat-ngu { background: rgb(8, 9, 16); }
   #chao { display: block; background: linear-gradient(180deg,rgba(4,7,15,.86),rgba(4,7,15,.96)); }
   .dang-chao #thanh-tren, .dang-chao #bai-hoc, .dang-chao #hud, .dang-chao #lop-nhan { visibility: hidden; }
   #chao .khoi { width: 100%; padding: calc(60px + var(--an-tren)) calc(16px + var(--an-phai)) calc(24px + var(--an-duoi)) calc(16px + var(--an-trai)); text-align: left; text-shadow: none; }

@@ -1,0 +1,15 @@
+[
+{"t0": 0.29, "t1": 3.54, "chu": "Mỗi nguyên tử vẫn đi vào\nmột trong hai cửa, cửa cộng hoặc cửa trừ."},
+{"t0": 4.22, "t1": 5.7, "chu": "Không có nguyên tử nào dừng lại ở giữa."},
+{"t0": 5.97, "t1": 8.98, "chu": "Nhưng nếu lấy giá trị của từng cửa nhân\nvới xác suất của nó rồi cộng lại,"},
+{"t0": 9.32, "t1": 11.1, "chu": "ta được giá trị trung bình\ncủa thành phần spin."},
+{"t0": 11.46, "t1": 13.72, "chu": "Đại lượng này thay đổi liên tục\nkhi xoay nam châm."},
+{"t0": 13.9, "t1": 17.62, "chu": "Nó bằng một nửa hằng số Planck rút gọn,\nnhân cosin của góc theta."},
+{"t0": 17.67, "t1": 20.44, "chu": "Ví dụ ở sáu mươi độ,\nba phần tư nguyên tử vào cửa cộng,"},
+{"t0": 20.75, "t1": 21.98, "chu": "một phần tư vào cửa trừ."},
+{"t0": 22.38, "t1": 23.62, "chu": "Hiệu hai xác suất là một nửa,"},
+{"t0": 24.0, "t1": 26.7, "chu": "nên trung bình\nbằng một phần tư hằng số Planck rút gọn."},
+{"t0": 27.2, "t1": 29.06, "chu": "Con số ấy chỉ có nghĩa với nhiều lần đo."},
+{"t0": 29.37, "t1": 31.66, "chu": "Một nguyên tử riêng lẻ không bao giờ\ncho một phần tư."},
+{"t0": 32.33, "t1": 35.04, "chu": "Nó chỉ cho một trong hai giá trị,\ncộng hoặc trừ một nửa."}
+]

@@ -1,0 +1,19 @@
+[
+{"t0": 0.3, "t1": 2.14, "chu": "Lúc một giây, ngôi nhà bật đèn."},
+{"t0": 2.63, "t1": 5.56, "chu": "Tia sáng màu vàng đi\nđược một giây ánh sáng sau mỗi giây,"},
+{"t0": 5.86, "t1": 8.24, "chu": "nên đường thế giới\ncủa nó nghiêng đúng bốn mươi lăm độ."},
+{"t0": 8.87, "t1": 10.46, "chu": "Không vật nào đi nhanh hơn ánh sáng."},
+{"t0": 11.1, "t1": 15.02, "chu": "Nói bằng hình: không đường thế giới nào\nđược nghiêng quá bốn mươi lăm độ so"},
+{"t0": 15.02, "t1": 15.86, "chu": "với trục thời gian."},
+{"t0": 16.41, "t1": 20.5, "chu": "Đẩy tốc độ con tàu lên cao nhất,\nđường của nó tiến sát góc bốn mươi lăm độ,"},
+{"t0": 20.85, "t1": 22.1, "chu": "nhưng không bao giờ chạm tới."},
+{"t0": 22.74, "t1": 24.7, "chu": "Giới hạn ấy chia không-thời gian quanh"},
+{"t0": 24.7, "t1": 27.06, "chu": "mỗi sự kiện thành vùng\ntới được và vùng không tới được."},
+{"t0": 27.81, "t1": 29.76, "chu": "Bài sau sẽ dựng nó thành nón ánh sáng."},
+{"t0": 30.29, "t1": 33.34, "chu": "Tấm bây giờ ở đâu thì khoảng cách\ntừ đầu tia sáng tới ngôi nhà,"},
+{"t0": 33.69, "t1": 36.88, "chu": "tính bằng giây ánh sáng,\ncũng đúng bằng số giây kể từ khi bật đèn."},
+{"t0": 37.44, "t1": 39.9, "chu": "Vì sao chọn đơn vị\nđể ánh sáng nghiêng bốn mươi lăm độ?"},
+{"t0": 40.58, "t1": 44.2, "chu": "Nếu đo thời gian bằng giây và độ dài\nbằng mét, tia sáng gần như nằm ngang,"},
+{"t0": 44.56, "t1": 45.8, "chu": "còn mọi vật khác thì dựng đứng."},
+{"t0": 46.48, "t1": 47.66, "chu": "Hình vẽ như thế vô dụng."}
+]

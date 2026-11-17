@@ -1,0 +1,13 @@
+[
+{"t0": 0.16, "t1": 2.06, "chu": "Rào trong mô hình đứng yên\nvà không hấp thụ gì."},
+{"t0": 2.51, "t1": 5.88, "chu": "Vì vậy dòng tới chỉ chia làm hai phần:\nphần dội lại và phần truyền qua."},
+{"t0": 6.27, "t1": 8.8, "chu": "Xác suất phản xạ cộng\nxác suất truyền luôn bằng một."},
+{"t0": 8.99, "t1": 11.26, "chu": "Nhìn đường xanh bên trái: nó gợn sóng."},
+{"t0": 12.03, "t1": 16.42, "chu": "Đó là vì bên trái có cả sóng tới lẫn\nsóng dội, chúng giao thoa với nhau."},
+{"t0": 17.02, "t1": 20.5, "chu": "Một đỉnh gợn có thể cao hơn một,\nnhưng đó là mật độ so với sóng tới,"},
+{"t0": 20.9, "t1": 21.84, "chu": "không phải xác suất."},
+{"t0": 22.09, "t1": 25.82, "chu": "Hệ số truyền và phản xạ là tỉ số\ncủa các dòng, trả lời một câu hỏi khác."},
+{"t0": 26.33, "t1": 30.4, "chu": "Để tự kiểm, cộng số đếm hai khay rồi\nso tỉ lệ bên phải với hệ số truyền."},
+{"t0": 30.87, "t1": 34.46, "chu": "Ghi thêm nhiều lần, số tuyệt đối tăng lên\ncòn tỉ lệ dao động ít dần."},
+{"t0": 34.98, "t1": 38.48, "chu": "Định luật bảo toàn chỉ ràng buộc tổng,\nkhông định trước kết quả của từng lượt."}
+]

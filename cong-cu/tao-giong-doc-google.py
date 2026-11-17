@@ -101,8 +101,55 @@ def ghi_so(them):
     SO_KY_TU_THANG.write_text(json.dumps(so, ensure_ascii=False, indent=1) + '\n', 'utf-8')
 
 
+_BAN = {}   # số lần đã đọc cùng một câu trong lượt chạy này: lần đọc lại lấy bản thu khác như cũ
+
+
+def tim_tram():
+    """Trạm giọng đọc dùng chung (lệnh `tram-giong` trên PATH, trỏ tới tram_giong.py): có thì mọi lần gọi đi qua trạm
+    (trạm giữ kho đệm, sổ ký tự và trần tháng). Không có thì trả None và công cụ tự gọi Google bằng gcloud như trước."""
+    import shutil
+    lenh_tram = shutil.which('tram-giong')
+    if not lenh_tram:
+        return None
+    thu_muc = Path(lenh_tram).resolve().parent
+    if not (thu_muc / 'tram_giong.py').exists():
+        return None
+    sys.path.insert(0, str(thu_muc))
+    import tram_giong
+    return tram_giong
+
+
+TRAM = tim_tram()
+
+
 def goi_google(loi):
-    """Một lần gọi: trả về các khung âm thanh PCM 16 bit, 48 kHz, một kênh."""
+    """Một lần gọi: trả về khung PCM 16 bit, 48 kHz, một kênh. Qua trạm giọng đọc chung nếu máy có, không thì gọi thẳng Google."""
+    global SO_KY_TU
+    if TRAM is None:
+        return goi_thang(loi)
+    tram_giong = TRAM
+    _BAN[loi] = _BAN.get(loi, 0) + 1
+    loi_cuoi = ''
+    for lan in range(5):
+        try:
+            kq = tram_giong.doc(loi, TEN_MAY, TOC_DO, ma_hoa='LINEAR16', tan_so=48000, ban=_BAN[loi])
+            if kq['ky_tu']:
+                SO_KY_TU += kq['ky_tu']
+                ghi_so(kq['ky_tu'])
+            with wave.open(kq['tep']) as w: return w.readframes(w.getnframes())
+        except tram_giong.HetNganSach as e:
+            raise ChamTran(str(e))
+        except RuntimeError as e:
+            loi_cuoi = str(e)[:200]
+            if 'HTTP 400' in loi_cuoi: raise ValueError(loi_cuoi)
+        except Exception as e:
+            loi_cuoi = str(e)[:160]
+        time.sleep(3 + 3 * lan)
+    raise RuntimeError('Google không trả lời: ' + loi_cuoi)
+
+
+def goi_thang(loi):
+    """Gọi thẳng Google Cloud Text-to-Speech bằng đăng nhập gcloud của máy; trần ký tự tháng ghi ở giong-doc/so-ky-tu.json."""
     global TK, PRJ, SO_KY_TU
     da_dung = doc_so().get(thang_nay(), 0)
     if da_dung + len(loi) > TRAN:
@@ -177,7 +224,10 @@ def main():
     tham = ap.parse_args()
     global TRAN
     TRAN = tham.tran
-    print(f'Tháng {thang_nay()}: đã gửi {doc_so().get(thang_nay(), 0)} ký tự, trần {TRAN}.', flush=True)
+    if TRAM is None:
+        print(f'Tháng {thang_nay()}: đã gửi {doc_so().get(thang_nay(), 0)} ký tự, trần {TRAN}.', flush=True)
+    else:
+        print(f'Tháng {thang_nay()}: app đã gửi {doc_so().get(thang_nay(), 0)} ký tự; trần tháng do trạm giọng đọc chung giữ (tram-giong --so).', flush=True)
     vua_tao = []        # (lời, tệp mp3) vừa tạo, để làm mốc phụ đề
     try:
         _chay(tham, vua_tao)

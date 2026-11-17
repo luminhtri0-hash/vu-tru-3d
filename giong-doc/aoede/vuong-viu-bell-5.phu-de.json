@@ -1,0 +1,14 @@
+[
+{"t0": 0.31, "t1": 3.24, "chu": "Phép thử CHSH dùng hai trục cho mỗi bên."},
+{"t0": 4.1, "t1": 8.26, "chu": "Alice chọn a hoặc a phẩy,\nBob chọn b hoặc b phẩy."},
+{"t0": 8.75, "t1": 12.4, "chu": "Ở đây a là không độ,\na phẩy là chín mươi độ,"},
+{"t0": 12.94, "t1": 16.76, "chu": "b là bốn mươi lăm độ,\nb phẩy là trừ bốn mươi lăm độ."},
+{"t0": 17.15, "t1": 20.08, "chu": "Ứng với mỗi trong bốn tổ hợp,\nta lấy trung bình tích hai dấu."},
+{"t0": 20.65, "t1": 24.38, "chu": "Rồi lập tổng S: cộng ba tương quan đầu,\ntrừ đi tương quan cuối."},
+{"t0": 25.02, "t1": 27.46, "chu": "Chỉ khi có đủ cả bốn trung\nbình mới tính được S."},
+{"t0": 27.98, "t1": 30.46, "chu": "Một cặp hạt thật chỉ gặp một cách đặt máy."},
+{"t0": 30.99, "t1": 33.72, "chu": "Không thể lấy một cặp đã đo\nrồi gán nó vào cả bốn nhóm."},
+{"t0": 34.58, "t1": 38.2, "chu": "Khi chạy bốn cách đặt máy, mỗi trạm\ntự chọn ngẫu nhiên trục cho từng cặp."},
+{"t0": 38.49, "t1": 42.02, "chu": "Hai nam châm lật qua lật lại liên tục,\nsổ ghi cho thấy trục của từng dòng,"},
+{"t0": 42.38, "t1": 43.54, "chu": "và đồ thị hiện bốn chấm đỏ."}
+]

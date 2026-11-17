@@ -26,7 +26,8 @@ Six parts, 28 lessons. Lesson numbers never change (lectures refer to each other
 
 Each lesson has three tabs: **Lesson** (the steps, with "Try it" buttons that drive the model), **Summary** (key ideas, numbers worth remembering, common misconceptions) and **Self-check** (questions with worked answers). Numbers come from measurements and papers cited in the lesson itself. Lesson 1 already has Vietnamese narration; the other lessons are being recorded. A few lessons (currently 10–14, 16, 18 and 19) are still being translated and show Vietnamese text for now.
 
-## Keyboard shortcuts
+<details>
+<summary><b>Keyboard shortcuts</b></summary>
 
 | Key | Action |
 |---|---|
@@ -46,6 +47,11 @@ Each lesson has three tabs: **Lesson** (the steps, with "Try it" buttons that dr
 Mouse: drag to rotate, scroll to zoom, hold ⇧ and drag to pan, hover an object for details. On a phone: one finger rotates, two fingers zoom and pan.
 
 Deep links: `?bai=15` (by lesson number), `?canh=lo-den&buoc=3` (by lesson id and step), `?lang=en` (`vi`, `en`, `zh-CN`, `ja`).
+
+</details>
+
+<details>
+<summary><b>For developers: building from source, project layout, adding a lesson, narration</b></summary>
 
 ## Building from source
 
@@ -125,7 +131,9 @@ build.mjs       bundles everything into one HTML file
 
 ## Narration
 
-Narration scripts live in `src/noi-dung/loi-doc.js`. The audio is generated with `cong-cu/tao-giong-doc-google.py` (Google Cloud Text-to-Speech, Chirp 3 HD voices; you need your own Google Cloud project, `gcloud` and FFmpeg). Only steps whose text changed are regenerated, and `giong-doc/danh-sach.json` is rewritten; the page reads that index at build time.
+Narration scripts live in `src/loi-doc/vi/*.json`. The audio is generated with `cong-cu/tao-giong-doc-google.py` (Google Cloud Text-to-Speech, Chirp 3 HD voices; you need your own Google Cloud project, `gcloud` and FFmpeg). Only steps whose text changed are regenerated, and `giong-doc/danh-sach.json` is rewritten; the page reads that index at build time.
+
+</details>
 
 ## Bugs and suggestions
 

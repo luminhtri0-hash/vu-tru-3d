@@ -35,7 +35,6 @@ export const PT_AM = {
     b.congTac({ nhan: chu("gd.bat-tieng"), giaTri: this.am.bat, khiDoi: (v) => this.batTatTieng(v) });
     b.thanhTruot({ nhan: chu("gd.muc-am"), min: 0, max: 1, buoc: 0.01, giaTri: this.am.mucAm, hienThi: (v) => `${Math.round(v * 100)}%`, khiDoi: (v) => { this.am.datMucAm(v); this.nghe.datMucAm(); } });
     b.congTac({ nhan: chu("gd.nhac-nen"), giaTri: this.am.batNen, khiDoi: (v) => { this.am.datBatNen(v); if (v) this._datNen(); } });
-    b.chuThich(chu("gd.tieng-trong-mo-hinh-deu-mang-nghia-nhip-dong-ho-tin-"));
     // Giọng đọc lời giảng: chỉ hiện các giọng đã có tiếng (danh sách ở ung-dung-giong-doc.js).
     const dsGiong = this._gdDsGiong();
     if (dsGiong.length) {
@@ -43,7 +42,7 @@ export const PT_AM = {
       hG.textContent = chu("gd.giong-doc");
       el.append(hG);
       b.chon({ luaChon: dsGiong.map((ma) => ({ giaTri: ma, nhan: this._gdTenGiong(ma) })), giaTri: this._gdGiong, khiDoi: (v) => this.datGiongDoc(v) });
-      b.chuThich(chu("gd.giong-doc-chu-thich"));
+      // Không thêm câu giải thích dưới các ô âm thanh, giọng, hình để giao diện gọn.
     }
     const h = document.createElement('h3');
     h.textContent = chu("gd.hinh");
@@ -57,7 +56,6 @@ export const PT_AM = {
       giaTri: this.cheDoHinh,
       khiDoi: (v) => this.datCheDoHinh(v),
     });
-    b.chuThich(chu("gd.thay-hinh-giat-vi-du-khi-dang-day-qua-meet-thi-chon-"));
     // Công tắc nhật ký: chỉ có trong app Mac (trình duyệt không có chỗ ghi, các lượt kiểm không ghi).
     if (this.nhatKy.coCongTac) {
       const hNk = document.createElement('h3');

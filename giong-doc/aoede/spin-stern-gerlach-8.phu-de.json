@@ -1,0 +1,14 @@
+[
+{"t0": 0.25, "t1": 2.78, "chu": "Nam châm đặt ở tám mươi lăm độ,\nnguồn cộng z."},
+{"t0": 3.3, "t1": 6.06, "chu": "Hãy nhìn các vết tích dần trên màn\nvà hai cột bên phải."},
+{"t0": 6.58, "t1": 9.64, "chu": "Cột màu là tỉ lệ đếm được,\nvạch vàng là xác suất lý thuyết."},
+{"t0": 9.98, "t1": 13.84, "chu": "Lúc đầu, khi mới có vài chục nguyên tử,\ncột có thể lệch khá xa vạch vàng."},
+{"t0": 14.29, "t1": 16.18, "chu": "Đếm càng nhiều, cột càng sát vạch."},
+{"t0": 16.57, "t1": 19.82, "chu": "Sai số chuẩn bằng căn bậc hai\ncủa tỉ lệ nhân với một trừ tỉ lệ,"},
+{"t0": 20.1, "t1": 21.06, "chu": "chia cho số lần đếm."},
+{"t0": 21.48, "t1": 25.6, "chu": "Với một trăm nguyên tử và tỉ lệ một nửa,\nsai số khoảng năm phần trăm."},
+{"t0": 25.81, "t1": 28.04, "chu": "Muốn sai số giảm một nửa,\nphải đếm gấp bốn."},
+{"t0": 28.54, "t1": 31.5, "chu": "Mỗi khi đổi góc,\nbộ đếm bắt đầu lại, vì phân bố đã khác."},
+{"t0": 32.05, "t1": 33.52, "chu": "Chỉ gộp những lần đo cùng điều kiện."},
+{"t0": 33.93, "t1": 37.44, "chu": "Gộp nhiều góc sẽ che mất chính quy\nluật cosin bình phương mà ta đang tìm."}
+]

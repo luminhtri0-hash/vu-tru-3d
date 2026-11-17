@@ -1,0 +1,17 @@
+[
+{"t0": 0.35, "t1": 2.48, "chu": "Giờ ta kéo khối lập phương\ntheo một hướng thứ tư,"},
+{"t0": 2.71, "t1": 5.2, "chu": "gọi là w, vuông góc với cả x, y và z."},
+{"t0": 5.8, "t1": 7.64, "chu": "Không gian\ncủa ta không có chỗ cho hướng ấy,"},
+{"t0": 7.97, "t1": 10.8, "chu": "nhưng toán học thì không ngại:\nmỗi điểm chỉ cần thêm một tọa độ."},
+{"t0": 11.19, "t1": 12.38, "chu": "Kết quả là siêu lập phương."},
+{"t0": 12.74, "t1": 16.62, "chu": "Cái bạn thấy là một khối nhỏ nằm trong một\nkhối lớn, nối với nhau bằng tám cạnh vàng."},
+{"t0": 17.21, "t1": 19.7, "chu": "Các cạnh vàng là vết kéo theo hướng w."},
+{"t0": 19.78, "t1": 22.62, "chu": "Chúng dài bằng mọi cạnh khác,\nchỉ trông ngắn đi vì bị chiếu."},
+{"t0": 23.09, "t1": 23.6, "chu": "Giờ đếm."},
+{"t0": 24.01, "t1": 26.14, "chu": "Mỗi lần kéo, mọi thứ cũ có hai bản,"},
+{"t0": 26.45, "t1": 30.36, "chu": "bản đầu và bản cuối, và mỗi phần\ntử thấp hơn một bậc để lại một vết kéo."},
+{"t0": 30.78, "t1": 34.64, "chu": "Vậy siêu lập phương có mười sáu đỉnh,\nba mươi hai cạnh, hai mươi bốn mặt,"},
+{"t0": 34.97, "t1": 37.38, "chu": "và tám ô, mỗi ô là một khối lập phương."},
+{"t0": 37.86, "t1": 41.1, "chu": "Đây chỉ là hình chiếu,\nnhư bóng của khối lập phương in lên tường."},
+{"t0": 41.67, "t1": 44.96, "chu": "Bóng làm sai độ dài và góc,\nnhưng giữ đúng cái gì nối với cái gì."}
+]

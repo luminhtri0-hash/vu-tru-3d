@@ -34,8 +34,8 @@ export const PT_BANG = {
       dn.hieuDung ? `<h2>${chu("gd.hieu-cho-dung")}</h2><div class="hieu-dung">${trongDong(dn.hieuDung)}</div>` : '',
       bg.buoc?.length && dn.giaiThich ? `<h2>${chu("gd.tom-tat-nhanh")}</h2><div class="bg">${dinhDang(dn.giaiThich)}</div>` : '',
       bg.docThem?.length ? `<h2>${chu("gd.doc-them")}</h2><ul class="doc-them">${bg.docThem.map(li).join('')}</ul>` : '',
-      dn.nguon ? `<div class="nguon">${chu("gd.nguon-so-lieu")}${dn.nguon}</div>` : '',
-      `<div class="nguon">${chu("gd.loi-giang-va-mo-hinh-do-tri-lu-soan-cho-nao-hinh-duo")}</div>`,
+      // Nguồn số liệu (dn.nguon) vẫn giữ trong dữ liệu bài, không hiện cho người học để
+      // giao diện gọn. Sách nên đọc vẫn hiện ở mục «Đọc thêm».
     ].join('');
     this.el.bang.innerHTML = `
       <div class="phan">${dn.phan || ''} · ${chu("gd.bai-so", [dn.so ?? i + 1])}</div>
@@ -91,8 +91,8 @@ export const PT_BANG = {
       const tt = tongTT ? `<span class="so-tt${datTT === tongTT ? ' du' : ''}" title="${chu("gd.thu-thach-da-dat")}">◆ ${datTT}/${tongTT}</span>` : '';
       html += `<button data-i="${i}" data-id="${c.id}" class="${this.daHoc.has(c.id) ? 'xong' : ''}"><span class="so">${c.so ?? i + 1}</span><span>${c.ten}<span class="mo-ta">${c.moTa || ''}</span></span>${tt}<span class="dau-xong" title="${chu("gd.da-hoc-het-cac-buoc")}">✓</span></button>`;
     });
-    html += `<div class="chan">${chu("gd.phim-tat-kbd-kbd-kbd-kbd-buoc-truoc-buoc-sau-kbd-kbd")}</div>
-      <div class="chan">${chu("gd.mo-hinh-va-loi-giang-do-tri-lu-soan-thang-11-2026-ng")}</div>`;
+    // Không còn dòng «do Trí Lữ soạn…» ở chân mục lục để giao diện gọn.
+    html += `<div class="chan">${chu("gd.phim-tat-kbd-kbd-kbd-kbd-buoc-truoc-buoc-sau-kbd-kbd")}</div>`;
     this.el.mucLuc.innerHTML = html;
     for (const b of this.el.mucLuc.querySelectorAll('button[data-i]')) {
       b.addEventListener('click', () => { this.chuyenBai(Number(b.dataset.i)); this.el.mucLuc.hidden = true; });

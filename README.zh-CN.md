@@ -26,7 +26,8 @@
 
 每课有三个页签：**课程讲解**（分步讲解，“动手试试”按钮会直接操作模型）、**小结**（要点、值得记住的数字、常见误解）和**自测**（附详细解答的题目）。课中的数据都来自课里注明的观测和论文。第1课已有越南语配音，其他课正在陆续录制。有几课（目前是第10–14、16、18、19课）还在翻译中，暂时显示越南语原文。
 
-## 快捷键
+<details>
+<summary><b>快捷键</b></summary>
 
 | 按键 | 作用 |
 |---|---|
@@ -46,6 +47,11 @@
 鼠标：拖动旋转，滚轮缩放，按住 ⇧ 拖动平移，把鼠标移到物体上可查看信息。手机上：单指旋转，双指缩放和平移。
 
 链接参数：`?bai=15`（按课号）、`?canh=lo-den&buoc=3`（按课程代号和步数）、`?lang=zh-CN`（可选 `vi`、`en`、`zh-CN`、`ja`）。
+
+</details>
+
+<details>
+<summary><b>开发者：从源码构建、目录结构、添加一课、配音</b></summary>
 
 ## 从源码构建
 
@@ -123,7 +129,9 @@ build.mjs       把一切打包成一个 HTML 文件
 
 ## 配音
 
-每一步的配音稿在 `src/noi-dung/loi-doc.js`。音频用 `cong-cu/tao-giong-doc-google.py` 生成（Google Cloud Text-to-Speech 的 Chirp 3 HD 语音；需要你自己的 Google Cloud 项目、`gcloud` 和 FFmpeg）。只会重新生成文字改过的步骤，并更新 `giong-doc/danh-sach.json`；构建页面时会读取这个索引。
+每一步的配音稿在 `src/loi-doc/vi/*.json`。音频用 `cong-cu/tao-giong-doc-google.py` 生成（Google Cloud Text-to-Speech 的 Chirp 3 HD 语音；需要你自己的 Google Cloud 项目、`gcloud` 和 FFmpeg）。只会重新生成文字改过的步骤，并更新 `giong-doc/danh-sach.json`；构建页面时会读取这个索引。
+
+</details>
 
 ## 报告问题与建议
 

@@ -1,0 +1,14 @@
+[
+{"t0": 0.26, "t1": 1.82, "chu": "Vậy có hai thao tác chuẩn bị khác nhau."},
+{"t0": 2.16, "t1": 5.14, "chu": "Thay độ rộng thì cả hai dải cùng đổi,\ntích giữ ở giới hạn."},
+{"t0": 5.53, "t1": 8.8, "chu": "Thêm pha bậc hai thì chỉ dải vàng rộng ra,\ntích lớn hơn giới hạn."},
+{"t0": 9.24, "t1": 12.9, "chu": "Chỉ nhìn đường xanh sẽ bỏ sót pha, phải\nđọc cả phổ động lượng mới phân biệt được."},
+{"t0": 13.33, "t1": 17.4, "chu": "Làm theo trình tự: đưa C về không,\nchỉnh dải xanh tới độ rộng mong muốn,"},
+{"t0": 17.72, "t1": 18.82, "chu": "ghi lại cả hai độ rộng."},
+{"t0": 19.23, "t1": 20.8, "chu": "Sau đó giữ dải xanh và chỉnh C."},
+{"t0": 21.26, "t1": 24.14, "chu": "Chỉ một độ rộng tăng,\nđiều đó hoàn toàn phù hợp với nguyên lý."},
+{"t0": 24.6, "t1": 26.34, "chu": "Bất đẳng thức chỉ đặt một cận dưới."},
+{"t0": 26.97, "t1": 29.06, "chu": "Nó không buộc mọi trạng\nthái phải chạm cận đó."},
+{"t0": 29.6, "t1": 33.24, "chu": "Hiểu sai thường gặp là nghĩ tích luôn\nbằng một nửa hằng số Planck rút gọn."},
+{"t0": 33.72, "t1": 36.88, "chu": "Thật ra chỉ gói cực tiểu mới bằng,\nmọi gói khác đều lớn hơn."}
+]

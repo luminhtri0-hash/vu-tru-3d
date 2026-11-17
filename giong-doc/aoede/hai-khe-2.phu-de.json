@@ -1,0 +1,15 @@
+[
+{"t0": 0.33, "t1": 2.5, "chu": "Để cả hai khe mở\nvà cho nguồn phát liên tục."},
+{"t0": 3.03, "t1": 5.36, "chu": "Lúc đầu,\ncác chấm xanh rải lộn xộn khắp màn."},
+{"t0": 5.93, "t1": 10.9, "chu": "Sau vài trăm lượt, những dải dày chấm hiện\nra, xen giữa là những dải gần như trống."},
+{"t0": 11.07, "t1": 12.3, "chu": "Đó là giao thoa lượng tử."},
+{"t0": 12.83, "t1": 15.92, "chu": "Điều đáng chú ý là vân vẫn hình thành\nngay cả khi các electron đi qua thiết"},
+{"t0": 15.92, "t1": 17.26, "chu": "bị lần lượt, từng hạt một."},
+{"t0": 17.7, "t1": 18.76, "chu": "Vì sao phải chờ nhiều hạt?"},
+{"t0": 19.17, "t1": 20.6, "chu": "Vì sai số đếm giảm chậm."},
+{"t0": 21.11, "t1": 24.26, "chu": "Nếu xác suất rơi vào một ô là p,\nđộ lệch chuẩn của tần suất"},
+{"t0": 24.33, "t1": 27.3, "chu": "bằng căn bậc hai của p nhân một trừ p,\nchia cho số lượt."},
+{"t0": 27.78, "t1": 30.94, "chu": "Muốn độ dao động giảm còn một nửa,\nphải tăng số lượt lên bốn lần."},
+{"t0": 31.5, "t1": 34.12, "chu": "Khi màn đã đầy,\nmô hình chỉ giữ những dấu mới nhất."},
+{"t0": 34.56, "t1": 38.74, "chu": "Có thể ghi thật nhanh, nhìn các khoảng\ntối, rồi xóa màn và tích lại từ đầu."}
+]
